@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CHECK-IN | Registro</title>
+
+
+<style>
+:root{
+  --bg:#eef3f8;
+  --bg-soft:#f7fafc;
+  --card:#ffffff;
+  --text:#172033;
+  --text-soft:#5b6475;
+  --border:#d7e0ea;
+  --border-strong:#c4d0dd;
+  --primary:#0f5c52;
+  --primary-strong:#1f2937;
+  --primary-soft:#e8f4f1;
+  --accent:#f59e0b;
+  --danger:#b42318;
+  --success-bg:#ecfdf3;
+  --success-border:#abefc6;
+  --success-text:#067647;
+  --error-bg:#fef3f2;
+  --error-border:#fecdca;
+  --error-text:#b42318;
+  --note-bg:#fffaeb;
+  --note-border:#fedf89;
+  --shadow:0 18px 40px rgba(16,24,40,.08);
+  --radius:18px;
+  --radius-sm:12px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  min-height:100vh;
+  padding:28px 16px 40px;
+  font-family:Arial,sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(31,122,140,.08), transparent 28%),
+    linear-gradient(180deg,#f7fafc 0%, #eef3f8 100%);
+  color:var(--text);
+}
+.page-shell{
+  max-width:900px;
+  margin:0 auto;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin:0 auto 18px;
+  max-width:760px;
+  padding:0 4px;
+}
+.brand-block{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  font-weight:700;
+}
+.topbar-title{
+  font-size:14px;
+  color:var(--text-soft);
+}
+.badge{
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(55,65,81,.10);
+  color:var(--primary);
+  font-size:12px;
+  font-weight:700;
+  border:1px solid rgba(55,65,81,.18);
+  white-space:nowrap;
+}
+.container{
+  width:100%;
+  max-width:760px;
+  margin:auto;
+  background:var(--card);
+  padding:26px;
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.7);
+}
+.hero{
+  margin-bottom:20px;
+  padding:18px 18px 16px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:linear-gradient(135deg,#f8fbfd 0%, #f0f7f6 100%);
+}
+h1{
+  margin:0 0 8px 0;
+  font-size:30px;
+  line-height:1.1;
+  color:var(--text);
+}
+.hero p{
+  margin:0;
+  color:var(--text-soft);
+  line-height:1.5;
+  font-size:14px;
+}
+.section{
+  margin-top:18px;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--bg-soft);
+}
+.section-title{
+  margin:0 0 6px;
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
+}
+.section-subtitle{
+  margin:0 0 14px;
+  font-size:13px;
+  color:var(--text-soft);
+  line-height:1.45;
+}
+label{
+  font-weight:700;
+  display:block;
+  margin-top:15px;
+  margin-bottom:7px;
+  line-height:1.35;
+  color:#243041;
+}
+select,input,textarea{
+  width:100%;
+  padding:14px 15px;
+  border-radius:14px;
+  border:1px solid var(--border-strong);
+  font-size:16px;
+  background:#fff;
+  color:var(--text);
+  transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+select::placeholder,input::placeholder,textarea::placeholder{ color:#97a3b6; }
+select:focus,input:focus,textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 4px rgba(55,65,81,.18);
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.grid-vertical{
+  display:grid;
+  gap:14px;
+}
+.phone-group,.money-group{
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:10px;
+}
+.huesped-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+  align-items:flex-start;
+}
+button{
+  margin-top:12px;
+  padding:14px 16px;
+  background:linear-gradient(180deg,var(--primary) 0%, var(--primary) 100%);
+  color:#fff;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.01em;
+  box-shadow:0 10px 20px rgba(55,65,81,.22);
+  transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+button:hover{
+  filter:brightness(1.02);
+  transform:translateY(-1px);
+  box-shadow:0 12px 24px rgba(55,65,81,.28);
+}
+button:disabled{
+  opacity:.72;
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
+}
+.btn-remove{
+  background:linear-gradient(180deg,#c9372c 0%, #a61b16 100%);
+  white-space:nowrap;
+  min-width:52px;
+  box-shadow:none;
+}
+.hidden{display:none !important;}
+.note{
+  background:var(--note-bg);
+  border:1px solid var(--note-border);
+  padding:13px;
+  border-radius:14px;
+  margin-top:10px;
+  font-size:13px;
+  line-height:1.5;
+  color:#7a5300;
+}
+.hint{
+  font-size:12px;
+  color:var(--text-soft);
+  margin-top:6px;
+  line-height:1.45;
+}
+.upload-box{
+  border:1px dashed var(--border-strong);
+  border-radius:14px;
+  padding:12px;
+  background:#fff;
+}
+.upload-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.preview-text{
+  font-size:12px;
+  color:var(--text-soft);
+  margin-top:7px;
+  word-break:break-all;
+  line-height:1.35;
+}
+.status{
+  margin-top:14px;
+  padding:13px 14px;
+  border-radius:14px;
+  font-size:14px;
+  display:none;
+}
+.status.success{
+  display:block;
+  background:var(--success-bg);
+  border:1px solid var(--success-border);
+  color:var(--success-text);
+}
+.status.error{
+  display:block;
+  background:var(--error-bg);
+  border:1px solid var(--error-border);
+  color:var(--error-text);
+}
+.popup-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(10,22,39,.38);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:16px;
+}
+.popup-card{
+  background:#fff;
+  padding:28px 24px;
+  border-radius:20px;
+  text-align:center;
+  max-width:340px;
+  width:100%;
+  box-shadow:0 24px 50px rgba(16,24,40,.18);
+}
+.popup-card h3{
+  margin:0 0 8px 0;
+  color:var(--text);
+  font-size:24px;
+}
+.popup-card .hint{
+  font-size:14px;
+  margin:0 0 14px 0;
+}
+.submit-wrap{
+  position:sticky;
+  bottom:0;
+  margin-top:18px;
+  padding-top:12px;
+  background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.88) 35%, rgba(255,255,255,1) 100%);
+  backdrop-filter:blur(3px);
+}
+.submit-wrap button{
+  width:100%;
+}
+@media (max-width: 700px){
+  body{ padding:14px 10px 28px; }
+  .container{
+    padding:18px;
+    border-radius:18px;
+  }
+  .hero,.section{ padding:14px; border-radius:16px; }
+  h1{ font-size:25px; }
+  .grid,.phone-group,.money-group,.upload-grid{
+    grid-template-columns:1fr;
+  }
+  .huesped-row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .btn-remove, button{ width:100%; }
+  label{ margin-top:14px; }
+  select,input,textarea{
+    font-size:16px;
+    padding:14px;
+  }
+  .topbar{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+}
+</style>
+
+</head>
+<body>
+<div class="page-shell">
+  
+    </div>
+    <div class="badge"></div>
+  </div>
+
+<div class="container">
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+  
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:14px; align-items:center; gap:10px;">
+  <span style="font-size:12px; color:#6b7280;">Selecciona el idioma</span>
+  <div id="langSwitch" style="
+    position:relative;
+    width:90px;
+    height:32px;
+    background:#e5e7eb;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    font-size:12px;
+    cursor:pointer;
+  ">
+    <div id="switchSlider" style="
+      position:absolute;
+      width:45px;
+      height:28px;
+      background:#f59e0b;
+      border-radius:999px;
+      top:2px;
+      left:2px;
+      transition:all 0.25s ease;
+    "></div>
+    <div style="flex:1; text-align:center; z-index:1;">ES</div>
+    <div style="flex:1; text-align:center; z-index:1;">EN</div>
+  </div>
+</div>
+
+
+</div>
+
+  <h1>Registro de huéspedes</h1>
+
+<form id="form">
+
+<div class="section"><h2 class="section-title">Datos de la reservación</h2><p class="section-subtitle">Información general de la estancia y de la persona que realizó la reservación.</p><label>Medio de reservación</label>
+<select name="medio">
+  <option value="">Selecciona</option>
+  <option value="Airbnb">Airbnb</option>
+  <option value="Check-inn-Saltillo.com">Check-inn-Saltillo.com</option>
+  <option value="Trato directo">Trato directo</option>
+</select>
+
+<label>Nombre de la persona que hizo la reservación</label>
+<input type="text" name="nombre">
+
+<div class="grid-vertical">
+  <div>
+    <label>Fecha de ingreso</label>
+    <input type="date" name="ingreso">
+
+    <label>Hora estimada de llegada (a partir de las 2 P.M.)</label>
+    <input type="time" name="hora_llegada_estimada" min="14:00" step="1800" list="hora_llegada_sugerencias">
+    <datalist id="hora_llegada_sugerencias">
+      <option value="14:00"></option>
+      <option value="14:30"></option>
+      <option value="15:00"></option>
+      <option value="15:30"></option>
+      <option value="16:00"></option>
+      <option value="16:30"></option>
+      <option value="17:00"></option>
+      <option value="17:30"></option>
+      <option value="18:00"></option>
+      <option value="18:30"></option>
+      <option value="19:00"></option>
+      <option value="19:30"></option>
+      <option value="20:00"></option>
+      <option value="20:30"></option>
+      <option value="21:00"></option>
+      <option value="21:30"></option>
+      <option value="22:00"></option>
+      <option value="22:30"></option>
+      <option value="23:00"></option>
+      <option value="23:30"></option>
+    </datalist>
+  </div>
+  <div>
+    <label>Fecha de salida</label>
+    <input type="date" name="salida">
+
+    <label>Hora estimada de salida (máximo 10 A.M.)</label>
+    <input type="time" name="hora_salida_estimada" max="10:00" step="1800" list="hora_salida_sugerencias">
+    <datalist id="hora_salida_sugerencias">
+      <option value="01:00"></option>
+      <option value="01:30"></option>
+      <option value="02:00"></option>
+      <option value="02:30"></option>
+      <option value="03:00"></option>
+      <option value="03:30"></option>
+      <option value="04:00"></option>
+      <option value="04:30"></option>
+      <option value="05:00"></option>
+      <option value="05:30"></option>
+      <option value="06:00"></option>
+      <option value="06:30"></option>
+      <option value="07:00"></option>
+      <option value="07:30"></option>
+      <option value="08:00"></option>
+      <option value="08:30"></option>
+      <option value="09:00"></option>
+      <option value="09:30"></option>
+      <option value="10:00"></option>
+      <option value="10:30"></option>
+    </datalist>
+  </div>
+</div>
+
+</div><div class="section"><h2 class="section-title">Identificación y estancia</h2><p class="section-subtitle">Capture la identificación, motivo de viaje, fechas, horarios y personas hospedadas.</p><label>Identificación personal</label>
+<select id="identificacion_tipo" name="identificacion_tipo">
+  <option value="">Selecciona</option>
+  <option value="INE">INE</option>
+  <option value="Pasaporte">Pasaporte</option>
+  <option value="Otro">Otro</option>
+</select>
+
+<input type="text" id="identificacion_otro" name="identificacion_otro" class="hidden" placeholder="Especifica la identificación">
+
+<div id="identificacion_ine_fields" class="hidden">
+  <div class="upload-grid">
+    <div class="upload-box">
+      <label>Lado frontal</label>
+      <input type="file" id="ine_frontal" name="ine_frontal" accept="image/*" capture="environment">
+      <div class="preview-text" id="ine_frontal_name"></div>
+    </div>
+    <div class="upload-box">
+      <label>Lado trasero</label>
+      <input type="file" id="ine_trasero" name="ine_trasero" accept="image/*" capture="environment">
+      <div class="preview-text" id="ine_trasero_name"></div>
+    </div>
+  </div>
+</div>
+
+<div id="identificacion_unica_fields" class="hidden">
+  <div class="upload-box">
+    <label>Imagen de identificación</label>
+    <input type="file" id="identificacion_unica" name="identificacion_unica" accept="image/*" capture="environment">
+    <div class="preview-text" id="identificacion_unica_name"></div>
+  </div>
+</div>
+
+<label>Motivo</label>
+<select name="motivo" id="motivo">
+  <option value="">Selecciona</option>
+  <option value="Laboral">Laboral</option>
+  <option value="Estudio">Estudio</option>
+  <option value="Vacacional">Vacacional</option>
+  <option value="Otro">Otro</option>
+</select>
+<input type="text" id="motivo_otro" name="motivo_otro" class="hidden" placeholder="Especifica">
+
+<label>Propiedad</label>
+<select name="propiedad" id="propiedad">
+  <option value="">Selecciona</option>
+  <option value="Cumbres">Cumbres</option>
+  <option value="Baja California">Baja California</option>
+  <option value="Oaxaca">Oaxaca</option>
+  <option value="José Cárdenas">José Cárdenas</option>
+  <option value="Matamoros">Matamoros</option>
+  <option value="Torreón">Torreón</option>
+  <option value="Otra">Otra</option>
+</select>
+<input type="text" id="propiedad_otra" name="propiedad_otra" class="hidden" placeholder="Especifica">
+
+<div class="grid-vertical">
+  <div>
+    <label># Departamento</label>
+    <select name="depto">
+      <option value="">Selecciona</option>
+      <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+      <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+      <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+      <option value="13">13</option><option value="14">14</option>
+    </select>
+  </div>
+
+  <div>
+    <label># Huéspedes</label>
+    <select name="num_huespedes" id="num_huespedes">
+      <option value="">Selecciona</option>
+      <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+      <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+    </select>
+  </div>
+</div>
+
+
+
+<label>Nombres de los huéspedes</label>
+<div class="hint">Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.</div>
+<div id="huespedes-container">
+  <div class="huesped-row">
+    <div style="flex:1;">
+      <input type="text" name="huesped[]" placeholder="Huésped 1">
+      <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
+        <input type="checkbox" class="copiar-reservante" style="width:auto;" onchange="toggleCopiarReservante(this)">
+        Es la misma persona que realizó la reservación
+      </label>
+    </div>
+  </div>
+</div>
+
+<button type="button" onclick="addGuest()">➕ Agregar huésped</button>
+
+</div><div class="section"><h2 class="section-title">Contacto del huésped</h2><p class="section-subtitle">Datos de contacto del huésped y de emergencia.</p><label>Celular del huésped</label>
+<div class="phone-group">
+  <select id="lada1" name="lada1"></select>
+  <input type="tel" name="cel">
+</div>
+
+<label>Contacto emergencia</label>
+<div class="phone-group">
+  <select id="lada2" name="lada2"></select>
+  <input type="tel" name="emergencia">
+</div>
+
+</div><div class="section"><h2 class="section-title">Facturación</h2><p class="section-subtitle">Información fiscal para emisión de factura.</p><label>¿Requieres factura?</label>
+<select id="factura" name="factura">
+  <option value="">Selecciona</option>
+  <option value="si">Sí</option>
+  <option value="no">No</option>
+</select>
+
+<div id="factura_fields" class="hidden">
+  <label>Razón social</label>
+  <input type="text" id="razon_social" name="razon_social">
+
+  <label>Régimen fiscal</label>
+  <select id="regimen" name="regimen">
+    <option value="">Selecciona</option>
+    <option value="General de Ley Personas Morales">General de Ley Personas Morales</option>
+    <option value="Régimen Simplificado de Confianza (RESICO)">Régimen Simplificado de Confianza (RESICO)</option>
+    <option value="Persona Física con Actividades Empresariales y Profesionales">Persona Física con Actividades Empresariales y Profesionales</option>
+    <option value="Otro">Otro</option>
+  </select>
+
+  <input type="text" id="regimen_otro" name="regimen_otro" class="hidden" placeholder="Especifica el régimen fiscal">
+
+  <label>Medio de pago</label>
+  <select id="medio_pago" name="medio_pago">
+    <option value="">Selecciona</option>
+    <option value="Transferencia directa a la cuenta del anfitrión">Transferencia directa a la cuenta del anfitrión</option>
+    <option value="Airbnb">Airbnb</option>
+    <option value="Página web (www.check-inn-saltillo.com)">Página web (www.check-inn-saltillo.com)</option>
+    <option value="Liga de Whatsapp">Liga de Whatsapp</option>
+  </select>
+
+  <div id="nota_airbnb" class="note hidden">
+    La factura emitimos corresponde al monto que Airbnb deposita a nuestra cuenta ($ Monto pagado - $ Comisión Airbnb). En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.
+  </div>
+
+  <label>$ Monto pagado</label>
+  <div class="money-group">
+    <select id="divisa_monto" name="divisa_monto">
+      <option value="">Selecciona divisa</option>
+      <option value="MXN" selected>Peso mexicano (MXN)</option>
+      <option value="USD">Dólar estadounidense (USD)</option>
+      <option value="BRL">Real brasileño (BRL)</option>
+      <option value="EUR">Euro (EUR)</option>
+      <option value="GBP">Libra esterlina (GBP)</option>
+    </select>
+    <input type="number" id="monto_pagado" name="monto_pagado" min="0" step="0.01" placeholder="0.00" inputmode="decimal">
+  </div>
+  <div class="hint" id="monto_preview">Monto capturado: MXN 0.00</div>
+
+  <label>Correo electrónico (principal)</label>
+  <input type="email" id="correo1" name="correo1">
+
+  <label>Correo electrónico (copia)</label>
+  <input type="email" id="correo2" name="correo2">
+</div>
+
+</div><div class="section"><h2 class="section-title">Registro de vehículo</h2><label>¿Cuentas con vehículo?</label>
+<select id="tiene_vehiculo" name="tiene_vehiculo">
+  <option value="">Selecciona</option>
+  <option value="si">Sí</option>
+  <option value="no">No</option>
+</select>
+
+<div id="vehiculo_fields" class="hidden">
+  <label>Marca</label>
+  <select id="vehiculo_marca" name="vehiculo_marca">
+    <option value="">Selecciona</option>
+    <option value="Nissan">Nissan</option>
+    <option value="Chevrolet">Chevrolet</option>
+    <option value="Volkswagen">Volkswagen</option>
+    <option value="Toyota">Toyota</option>
+    <option value="Honda">Honda</option>
+    <option value="Ford">Ford</option>
+    <option value="Kia">Kia</option>
+    <option value="Hyundai">Hyundai</option>
+    <option value="Mazda">Mazda</option>
+    <option value="Renault">Renault</option>
+    <option value="SEAT">SEAT</option>
+    <option value="Suzuki">Suzuki</option>
+    <option value="Mitsubishi">Mitsubishi</option>
+    <option value="Jeep">Jeep</option>
+    <option value="BMW">BMW</option>
+    <option value="Mercedes-Benz">Mercedes-Benz</option>
+    <option value="Audi">Audi</option>
+    <option value="Tesla">Tesla</option>
+    <option value="Peugeot">Peugeot</option>
+    <option value="Chirey">Chirey</option>
+    <option value="Subaru">Subaru</option>
+    <option value="Volvo">Volvo</option>
+    <option value="Lexus">Lexus</option>
+    <option value="Acura">Acura</option>
+    <option value="GMC">GMC</option>
+    <option value="Cadillac">Cadillac</option>
+    <option value="Infiniti">Infiniti</option>
+    <option value="Lincoln">Lincoln</option>
+    <option value="RAM">RAM</option>
+    <option value="Mini">Mini</option>
+    <option value="Otro">Otro</option>
+  </select>
+
+  <input type="text" id="vehiculo_marca_otro" name="vehiculo_marca_otro" class="hidden" placeholder="Especifica la marca">
+
+  <label>Modelo</label>
+  <input type="text" id="vehiculo_modelo" name="vehiculo_modelo" placeholder="Especifica el modelo">
+
+  <label>Color (opcional)</label>
+  <input type="text" id="vehiculo_color" name="vehiculo_color" placeholder="Ejemplo: Blanco, gris, rojo">
+
+  <label>Agregar foto (opcional)</label>
+  <div class="upload-box">
+    <input type="file" id="vehiculo_foto" name="vehiculo_foto" accept="image/*" capture="environment">
+    <div class="preview-text" id="vehiculo_foto_name"></div>
+  </div>
+
+  <label>Hora habitual de salida (opcional)</label>
+  <input type="time" id="vehiculo_hora_salida" name="vehiculo_hora_salida">
+
+  <label># Placas (opcional)</label>
+  <input type="text" id="vehiculo_placas" name="vehiculo_placas" placeholder="Escribe las placas">
+</div>
+
+
+
+</div><div class="section"><h2 class="section-title">Comentarios</h2><p class="section-subtitle">Información adicional relevante.</p>
+<textarea name="comentarios"></textarea></div>
+<div class="submit-wrap"><button type="submit" id="submitBtn">Enviar</button><div id="statusMessage" class="status"></div></div>
+
+</form>
+</div>
+</div>
+
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwNEEdUtxZsNIQS7FxI7Xn2TgARpmFnMgMTJr_iVApPDcaWlgOOZ-9V2XKdth4QwoXWMw/exec";
+
+const ladas = [
+  {c:"México",code:"52",p:1},
+  {c:"Estados Unidos",code:"1",p:1},
+  {c:"Canadá",code:"1",p:1},
+  {c:"Brasil",code:"55",p:1},
+  {c:"España",code:"34",p:1},
+  {c:"Argentina",code:"54"},
+  {c:"Chile",code:"56"},
+  {c:"Colombia",code:"57"},
+  {c:"Perú",code:"51"},
+  {c:"Reino Unido",code:"44"}
+];
+
+function loadLadas(id){
+  const s = document.getElementById(id);
+  s.innerHTML = '<option value="">Lada</option>';
+  ladas.filter(x => x.p).forEach(x => {
+    s.innerHTML += `<option value="${x.code}">${x.c} (+${x.code})</option>`;
+  });
+  s.innerHTML += '<option disabled>────</option>';
+  ladas.filter(x => !x.p).forEach(x => {
+    s.innerHTML += `<option value="${x.code}">${x.c} (+${x.code})</option>`;
+  });
+  s.value = "52";
+}
+loadLadas("lada1");
+loadLadas("lada2");
+
+function renumerarHuespedes(){
+  const rows = document.querySelectorAll('#huespedes-container .huesped-row');
+  rows.forEach((row, index) => {
+    const input = row.querySelector('input[name="huesped[]"]');
+    const checkboxWrap = row.querySelector('.copiar-reservante-wrap');
+    const checkbox = row.querySelector('.copiar-reservante');
+    if (input) {
+      input.placeholder = `Huésped ${index + 1}`;
+      input.setAttribute("aria-label", `Huésped ${index + 1}`);
+    }
+    if (index === 0) {
+      if (checkboxWrap) checkboxWrap.style.display = "flex";
+      if (checkbox && checkbox.checked && input) {
+        copiarNombreReservanteEnInput(input);
+        input.readOnly = true;
+      } else if (input) {
+        input.readOnly = false;
+      }
+    } else {
+      if (checkbox) checkbox.checked = false;
+      if (checkboxWrap) checkboxWrap.style.display = "none";
+      if (input) input.readOnly = false;
+    }
+
+    const removeBtn = row.querySelector(".btn-remove");
+    if (removeBtn) {
+      removeBtn.style.display = rows.length === 1 ? "none" : "";
+    }
+  });
+}
+
+function copiarNombreReservanteEnInput(input){
+  const nombreReservante = (document.querySelector('input[name="nombre"]')?.value || "").trim();
+  input.value = nombreReservante;
+}
+
+function toggleCopiarReservante(checkbox){
+  const row = checkbox.closest(".huesped-row");
+  const allRows = Array.from(document.querySelectorAll('#huespedes-container .huesped-row'));
+  const rowIndex = allRows.indexOf(row);
+  const input = row?.querySelector('input[name="huesped[]"]');
+  if (!input || rowIndex !== 0) return;
+
+  if (checkbox.checked) {
+    copiarNombreReservanteEnInput(input);
+    input.readOnly = true;
+  } else {
+    input.readOnly = false;
+  }
+}
+
+function addGuest(){
+  const d = document.createElement("div");
+  d.className = "huesped-row";
+  d.innerHTML = `
+    <div style="flex:1;">
+      <input type="text" name="huesped[]" placeholder="">
+      <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:none; align-items:center; gap:8px;">
+        <input type="checkbox" class="copiar-reservante" style="width:auto;" onchange="toggleCopiarReservante(this)">
+        Es la misma persona que realizó la reservación
+      </label>
+    </div>
+    <button type="button" class="btn-remove">✖</button>
+  `;
+  d.querySelector(".btn-remove").addEventListener("click", function(){
+    d.remove();
+    renumerarHuespedes();
+  });
+  document.getElementById("huespedes-container").appendChild(d);
+  renumerarHuespedes();
+  if (window.currentLang) applyTranslations(window.currentLang);
+}
+renumerarHuespedes();
+
+const motivo = document.getElementById("motivo");
+const motivo_otro = document.getElementById("motivo_otro");
+const propiedad = document.getElementById("propiedad");
+const propiedad_otra = document.getElementById("propiedad_otra");
+const factura = document.getElementById("factura");
+const facturaFields = document.getElementById("factura_fields");
+const medio_pago = document.getElementById("medio_pago");
+const nota_airbnb = document.getElementById("nota_airbnb");
+const monto_pagado = document.getElementById("monto_pagado");
+const divisa_monto = document.getElementById("divisa_monto");
+const monto_preview = document.getElementById("monto_preview");
+const regimen = document.getElementById("regimen");
+const regimen_otro = document.getElementById("regimen_otro");
+const numHuespedes = document.getElementById("num_huespedes");
+const identificacionTipo = document.getElementById("identificacion_tipo");
+const identificacionOtro = document.getElementById("identificacion_otro");
+const identificacionIneFields = document.getElementById("identificacion_ine_fields");
+const identificacionUnicaFields = document.getElementById("identificacion_unica_fields");
+const ineFrontal = document.getElementById("ine_frontal");
+const ineTrasero = document.getElementById("ine_trasero");
+const identificacionUnica = document.getElementById("identificacion_unica");
+const tieneVehiculo = document.getElementById("tiene_vehiculo");
+const vehiculoFields = document.getElementById("vehiculo_fields");
+const vehiculoMarca = document.getElementById("vehiculo_marca");
+const vehiculoMarcaOtro = document.getElementById("vehiculo_marca_otro");
+const vehiculoModelo = document.getElementById("vehiculo_modelo");
+const vehiculoColor = document.getElementById("vehiculo_color");
+const vehiculoFoto = document.getElementById("vehiculo_foto");
+const vehiculoHoraSalida = document.getElementById("vehiculo_hora_salida");
+const vehiculoPlacas = document.getElementById("vehiculo_placas");
+
+document.querySelector('input[name="nombre"]').addEventListener("input", () => {
+  const firstRow = document.querySelector('#huespedes-container .huesped-row');
+  const chk = firstRow?.querySelector('.copiar-reservante:checked');
+  const input = firstRow?.querySelector('input[name="huesped[]"]');
+  if (chk && input) copiarNombreReservanteEnInput(input);
+});
+
+
+function sincronizarNumeroHuespedes(){
+  const valor = parseInt(numHuespedes.value || "0", 10);
+  const container = document.getElementById("huespedes-container");
+  let actuales = container.querySelectorAll('input[name="huesped[]"]').length;
+  if (!valor) return;
+
+  while (actuales < valor) {
+    addGuest();
+    actuales = container.querySelectorAll('input[name="huesped[]"]').length;
+  }
+  while (actuales > valor) {
+    container.lastElementChild.remove();
+    actuales = container.querySelectorAll('input[name="huesped[]"]').length;
+  }
+  renumerarHuespedes();
+  if (window.currentLang) applyTranslations(window.currentLang);
+}
+numHuespedes.addEventListener("change", sincronizarNumeroHuespedes);
+
+motivo.addEventListener("change", () => {
+  const show = motivo.value === "Otro";
+  motivo_otro.classList.toggle("hidden", !show);
+  if (!show) motivo_otro.value = "";
+});
+
+propiedad.addEventListener("change", () => {
+  const show = propiedad.value === "Otra";
+  propiedad_otra.classList.toggle("hidden", !show);
+  if (!show) propiedad_otra.value = "";
+});
+
+function toggleRegimenOtro(){
+  const show = regimen.value === "Otro";
+  regimen_otro.classList.toggle("hidden", !show);
+  if (!show) regimen_otro.value = "";
+}
+regimen.addEventListener("change", toggleRegimenOtro);
+
+factura.addEventListener("change", () => {
+  const show = factura.value === "si";
+  facturaFields.classList.toggle("hidden", !show);
+
+  if (!show) {
+    nota_airbnb.classList.add("hidden");
+    regimen_otro.classList.add("hidden");
+    regimen_otro.value = "";
+    medio_pago.value = "";
+  } else {
+    toggleRegimenOtro();
+    nota_airbnb.classList.toggle("hidden", medio_pago.value !== "Airbnb");
+  }
+});
+
+medio_pago.addEventListener("change", () => {
+  nota_airbnb.classList.toggle("hidden", medio_pago.value !== "Airbnb");
+});
+
+function formatCurrencyPreview(){
+  const currency = divisa_monto.value || "MXN";
+  const amount = parseFloat(monto_pagado.value || "0");
+  try {
+    const formatted = new Intl.NumberFormat("es-MX", {
+      style: "currency",
+      currency: currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(amount);
+    monto_preview.textContent = `Monto capturado: ${formatted}`;
+  } catch {
+    monto_preview.textContent = `Monto capturado: ${currency} ${amount.toFixed(2)}`;
+  }
+}
+monto_pagado.addEventListener("input", formatCurrencyPreview);
+divisa_monto.addEventListener("change", formatCurrencyPreview);
+formatCurrencyPreview();
+
+function updateFileName(inputId, outputId){
+  const input = document.getElementById(inputId);
+  const output = document.getElementById(outputId);
+  input.addEventListener("change", () => {
+    output.textContent = input.files && input.files[0] ? input.files[0].name : "";
+  });
+}
+updateFileName("ine_frontal", "ine_frontal_name");
+updateFileName("ine_trasero", "ine_trasero_name");
+updateFileName("identificacion_unica", "identificacion_unica_name");
+updateFileName("vehiculo_foto", "vehiculo_foto_name");
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      resolve(null);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || "");
+      const base64 = result.includes(",") ? result.split(",")[1] : "";
+      resolve({
+        fileName: file.name || "",
+        mimeType: file.type || "application/octet-stream",
+        base64: base64
+      });
+    };
+    reader.onerror = () => reject(new Error("No se pudo leer el archivo " + (file.name || "")));
+    reader.readAsDataURL(file);
+  });
+}
+
+
+function toggleIdentificacion(){
+  const value = identificacionTipo.value;
+  const esINE = value === "INE";
+  const esOtro = value === "Otro";
+  const esUnica = value === "Pasaporte" || value === "Otro";
+
+  identificacionOtro.classList.toggle("hidden", !esOtro);
+  if (!esOtro) identificacionOtro.value = "";
+
+  identificacionIneFields.classList.toggle("hidden", !esINE);
+  identificacionUnicaFields.classList.toggle("hidden", !esUnica);
+
+
+  if (!esINE) {
+    ineFrontal.value = "";
+    ineTrasero.value = "";
+    document.getElementById("ine_frontal_name").textContent = "";
+    document.getElementById("ine_trasero_name").textContent = "";
+  }
+  if (!esUnica) {
+    identificacionUnica.value = "";
+    document.getElementById("identificacion_unica_name").textContent = "";
+  }
+}
+identificacionTipo.addEventListener("change", toggleIdentificacion);
+
+
+function toggleMarcaOtro(){
+  const show = vehiculoMarca.value === "Otro" && tieneVehiculo.value === "si";
+  vehiculoMarcaOtro.classList.toggle("hidden", !show);
+
+  if (!show) {
+    vehiculoMarcaOtro.value = "";
+  }
+}
+vehiculoMarca.addEventListener("change", toggleMarcaOtro);
+
+tieneVehiculo.addEventListener("change", () => {
+  const show = tieneVehiculo.value === "si";
+  vehiculoFields.classList.toggle("hidden", !show);
+
+
+  if (!show) {
+    vehiculoMarca.value = "";
+    vehiculoMarcaOtro.value = "";
+    vehiculoModelo.value = "";
+    vehiculoColor.value = "";
+    vehiculoFoto.value = "";
+    vehiculoHoraSalida.value = "";
+    vehiculoPlacas.value = "";
+    document.getElementById("vehiculo_foto_name").textContent = "";
+    vehiculoMarcaOtro.classList.add("hidden");
+  } else {
+    toggleMarcaOtro();
+  }
+});
+
+
+const MAX_FILE_SIZE_MB = 12;
+
+function limpiarHuespedesVacios(arr){
+  return (arr || []).map(x => String(x || "").trim()).filter(Boolean);
+}
+
+function validarArchivosAntesDeEnviar(){
+  const archivos = [
+    { inputId: "ine_frontal", etiqueta: "INE frontal" },
+    { inputId: "ine_trasero", etiqueta: "INE trasero" },
+    { inputId: "identificacion_unica", etiqueta: "Identificación" },
+    { inputId: "vehiculo_foto", etiqueta: "Foto de vehículo" }
+  ];
+
+  for (const item of archivos) {
+    const input = document.getElementById(item.inputId);
+    const file = input && input.files ? input.files[0] : null;
+    if (!file) continue;
+
+    const sizeMb = file.size / (1024 * 1024);
+    if (sizeMb > MAX_FILE_SIZE_MB) {
+      throw new Error(`${item.etiqueta}: el archivo excede ${MAX_FILE_SIZE_MB} MB.`);
+    }
+  }
+}
+
+document.getElementById("form").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const status = document.getElementById("statusMessage");
+  const submitBtn = document.getElementById("submitBtn");
+  status.className = "status";
+  status.style.display = "none";
+  status.textContent = "";
+
+  if (!WEB_APP_URL || WEB_APP_URL.includes("PEGA_AQUI")) {
+    status.textContent = "Falta pegar la URL del Web App de Apps Script.";
+    status.classList.add("error");
+    return;
+  }
+
+  const f = new FormData(this);
+
+  validarArchivosAntesDeEnviar();
+
+  const ineFrontalBase64 = await fileToBase64(document.getElementById("ine_frontal").files[0]);
+  const ineTraseroBase64 = await fileToBase64(document.getElementById("ine_trasero").files[0]);
+  const identificacionUnicaBase64 = await fileToBase64(document.getElementById("identificacion_unica").files[0]);
+  const vehiculoFotoBase64 = await fileToBase64(document.getElementById("vehiculo_foto").files[0]);
+
+  const payload = {
+    medio: f.get("medio"),
+    nombre: f.get("nombre"),
+    hora_llegada_estimada: f.get("hora_llegada_estimada"),
+    hora_salida_estimada: f.get("hora_salida_estimada"),
+    identificacion_tipo: f.get("identificacion_tipo") === "Otro" ? f.get("identificacion_otro") : f.get("identificacion_tipo"),
+    identificacion_otro: f.get("identificacion_otro"),
+    ine_frontal: ineFrontalBase64,
+    ine_trasero: ineTraseroBase64,
+    identificacion_unica: identificacionUnicaBase64,
+    motivo: f.get("motivo"),
+    motivo_otro: f.get("motivo_otro"),
+    propiedad: f.get("propiedad"),
+    propiedad_otra: f.get("propiedad_otra"),
+    depto: f.get("depto"),
+    num_huespedes: f.get("num_huespedes"),
+    ingreso: f.get("ingreso"),
+    salida: f.get("salida"),
+    huespedes: limpiarHuespedesVacios(f.getAll("huesped[]")),
+    lada1: f.get("lada1"),
+    celular_principal: `'${(f.get("lada1") || "").trim()} ${(f.get("cel") || "").trim()}`.trim(),
+    lada2: f.get("lada2"),
+    celular_emergencia: `'${(f.get("lada2") || "").trim()} ${(f.get("emergencia") || "").trim()}`.trim(),
+    factura: f.get("factura"),
+    razon_social: f.get("razon_social"),
+    regimen: f.get("regimen") === "Otro" ? f.get("regimen_otro") : f.get("regimen"),
+    regimen_otro: f.get("regimen_otro"),
+    medio_pago: f.get("medio_pago"),
+    divisa_monto: f.get("divisa_monto"),
+    monto_pagado: f.get("monto_pagado"),
+    correo1: f.get("correo1"),
+    correo2: f.get("correo2"),
+    tiene_vehiculo: f.get("tiene_vehiculo"),
+    vehiculo_marca: f.get("vehiculo_marca") === "Otro" ? f.get("vehiculo_marca_otro") : f.get("vehiculo_marca"),
+    vehiculo_marca_otro: f.get("vehiculo_marca_otro"),
+    vehiculo_modelo: f.get("vehiculo_modelo"),
+    vehiculo_color: f.get("vehiculo_color"),
+    vehiculo_foto: vehiculoFotoBase64,
+    vehiculo_hora_salida: f.get("vehiculo_hora_salida"),
+    vehiculo_placas: f.get("vehiculo_placas"),
+    comentarios: f.get("comentarios")
+  };
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+    status.textContent = "Enviando registro...";
+    status.classList.add("success");
+
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const text = await res.text();
+    let json = {};
+    try {
+      json = JSON.parse(text);
+    } catch (parseErr) {
+      throw new Error("La respuesta del Apps Script no fue JSON válido: " + text);
+    }
+
+    if (json.ok) {
+      mostrarPopup();
+      status.textContent = "Envío exitoso. Registro guardado correctamente.";
+      status.classList.add("success");
+      this.reset();
+
+      facturaFields.classList.add("hidden");
+      nota_airbnb.classList.add("hidden");
+      regimen_otro.classList.add("hidden");
+      identificacionOtro.classList.add("hidden");
+      identificacionIneFields.classList.add("hidden");
+      identificacionUnicaFields.classList.add("hidden");
+      vehiculoFields.classList.add("hidden");
+      vehiculoMarcaOtro.classList.add("hidden");
+
+      const container = document.getElementById("huespedes-container");
+      container.innerHTML = `<div class="huesped-row">
+        <div style="flex:1;">
+          <input type="text" name="huesped[]" placeholder="Huésped 1">
+          <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" class="copiar-reservante" style="width:auto;" onchange="toggleCopiarReservante(this)">
+            Es la misma persona que realizó la reservación
+          </label>
+        </div>
+      </div>`;
+      renumerarHuespedes();
+
+      document.getElementById("ine_frontal_name").textContent = "";
+      document.getElementById("ine_trasero_name").textContent = "";
+      document.getElementById("identificacion_unica_name").textContent = "";
+      document.getElementById("vehiculo_foto_name").textContent = "";
+
+      formatCurrencyPreview();
+      loadLadas("lada1");
+      loadLadas("lada2");
+      cerrarPopup();
+    } else {
+      status.textContent = "Error al guardar: " + (json.message || json.error || "desconocido");
+      status.classList.add("error");
+    }
+  } catch (err) {
+    status.textContent = "Error al conectar con Apps Script: " + err.message;
+    status.classList.add("error");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Enviar";
+  }
+});
+
+function mostrarPopup(){
+  document.getElementById("popupExito").style.display = "flex";
+}
+
+function cerrarPopup(){
+  document.getElementById("popupExito").style.display = "none";
+}
+
+function salirPopup(){
+  cerrarPopup();
+  window.location.href = "about:blank";
+}
+
+</script>
+
+
+
+<div id="popupExito" class="popup-backdrop" onclick="if(event.target === this) cerrarPopup()">
+  <div class="popup-card">
+    <h3>Registro exitoso</h3>
+    <div class="hint" style="font-size:14px; margin:8px 0 14px 0; color:#374151;">
+      El formulario se envió correctamente.
+    </div>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <button type="button" onclick="cerrarPopup()">Cerrar</button>
+      <button type="button" onclick="salirPopup()" style="background:linear-gradient(180deg,#475467 0%, #344054 100%); box-shadow:none;">Salir</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+const I18N = {
+  es: {
+    title: "Registro de huéspedes",
+    sec1Title: "Datos de la reservación",
+    sec1Sub: "Información general de la estancia y de la persona que realizó la reservación.",
+    sec2Title: "Identificación y estancia",
+    sec2Sub: "Capture la identificación, motivo de viaje, fechas, horarios y personas hospedadas.",
+    sec3Title: "Contacto",
+    sec3Sub: "Datos de contacto del huésped y, si aplica, información fiscal para emisión de factura.",
+    sec4Title: "Registro de vehículo",
+    sec4Sub: "Complete esta sección solo si el huésped cuenta con vehículo o desea agregar comentarios adicionales.",
+    bookingSource: "Medio de reservación",
+    bookingName: "Nombre de la persona que hizo la reservación",
+    checkinDate: "Fecha de ingreso",
+    arrivalTime: "Hora estimada de llegada (a partir de las 2 P.M.)",
+    checkoutDate: "Fecha de salida",
+    departureTime: "Hora estimada de salida (máximo 10 A.M.)",
+    idType: "Identificación personal",
+    specifyId: "Especifica la identificación",
+    frontSide: "Lado frontal",
+    backSide: "Lado trasero",
+    idImage: "Imagen de identificación",
+    reason: "Motivo",
+    specify: "Especifica",
+    property: "Propiedad",
+    department: "# Departamento",
+    guestsCount: "# Huéspedes",
+    guestNames: "Nombres de los huéspedes",
+    guestHint: "Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.",
+    sameAsBooker: "Es la misma persona que realizó la reservación",
+    addGuest: "➕ Agregar huésped",
+    guestPhone: "Celular del huésped",
+    emergencyContact: "Contacto emergencia",
+    invoice: "¿Requieres factura?",
+    businessName: "Razón social",
+    taxRegime: "Régimen fiscal",
+    specifyTaxRegime: "Especifica el régimen fiscal",
+    paymentMethod: "Medio de pago",
+    airbnbNote: "La factura emitimos corresponde al monto que Airbnb deposita a nuestra cuenta ($ Monto pagado - $ Comisión Airbnb). En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.",
+    amountPaid: "$ Monto pagado",
+    currencyHintPrefix: "Monto capturado:",
+    emailPrimary: "Correo electrónico (principal)",
+    emailCopy: "Correo electrónico (copia)",
+    vehicle: "¿Cuentas con vehículo?",
+    registerVehicle: "Registro de vehículo",
+    commentsTitle: "Comentarios",
+    make: "Marca",
+    specifyMake: "Especifica la marca",
+    model: "Modelo",
+    specifyModel: "Especifica el modelo",
+    color: "Color (opcional)",
+    colorPlaceholder: "Ejemplo: Blanco, gris, rojo",
+    addPhoto: "Agregar foto (opcional)",
+    usualDepartureTime: "Hora habitual de salida (opcional)",
+    plates: "# Placas (opcional)",
+    platesPlaceholder: "Escribe las placas",
+    comments: "Comentarios (opcional)",
+    send: "Enviar",
+    successTitle: "Registro exitoso",
+    successText: "El formulario se envió correctamente.",
+    close: "Cerrar",
+    statusSending: "Enviando registro...",
+    statusSuccess: "Envío exitoso. Registro guardado correctamente.",
+    placeholderSelect: "Selecciona",
+    placeholderCurrency: "Selecciona divisa",
+    placeholderLada: "Lada",
+    placeholderHour1: "Huésped 1",
+    placeholderGuestBase: "Huésped",
+    placeholderModel: "Especifica el modelo",
+    bookerMediumOptions: ["Selecciona","Airbnb","Check-inn-Saltillo.com","Trato directo"],
+    idTypeOptions: ["Selecciona","INE","Pasaporte","Otro"],
+    reasonOptions: ["Selecciona","Laboral","Estudio","Vacacional","Otro"],
+    propertyOptions: ["Selecciona","Cumbres","Baja California","Oaxaca","José Cárdenas","Matamoros","Torreón","Otra"],
+    invoiceOptions: ["Selecciona","Sí","No"],
+    vehicleOptions: ["Selecciona","Sí","No"],
+    paymentOptions: ["Selecciona","Transferencia directa a la cuenta del anfitrión","Airbnb","Página web (www.check-inn-saltillo.com)","Liga de Whatsapp"],
+    currencyOptions: ["Selecciona divisa","Peso mexicano (MXN)","Dólar estadounidense (USD)","Real brasileño (BRL)","Euro (EUR)","Libra esterlina (GBP)"],
+    taxRegimeOptions: ["Selecciona","General de Ley Personas Morales","Régimen Simplificado de Confianza (RESICO)","Persona Física con Actividades Empresariales y Profesionales","Otro"],
+    vehicleMakeOther: "Otro",
+    selectFirstBrand: "Selecciona primero una marca"
+  },
+  en: {
+    title: "Guest registration",
+    sec1Title: "Reservation details",
+    sec1Sub: "General stay information and details of the person who made the reservation.",
+    sec2Title: "Identification and stay",
+    sec2Sub: "Provide identification, trip purpose, dates, times and guest names.",
+    sec3Title: "Contact and invoicing",
+    sec3Sub: "Guest contact information and, if applicable, tax information for invoicing.",
+    sec4Title: "Vehicle and notes",
+    sec4Sub: "Complete this section only if the guest has a vehicle or wants to add comments.",
+    bookingSource: "Booking source",
+    bookingName: "Name of the person who made the reservation",
+    checkinDate: "Check-in date",
+    arrivalTime: "Estimated arrival time (from 2 P.M.)",
+    checkoutDate: "Check-out date",
+    departureTime: "Estimated departure time (max 10 A.M.)",
+    idType: "Personal identification",
+    specifyId: "Specify the identification",
+    frontSide: "Front side",
+    backSide: "Back side",
+    idImage: "Identification image",
+    reason: "Purpose",
+    specify: "Specify",
+    property: "Property",
+    department: "Apartment #",
+    guestsCount: "Guests #",
+    guestNames: "Guest names",
+    guestHint: "You can check the first guest box to copy the name of the person who made the reservation.",
+    sameAsBooker: "Same person who made the reservation",
+    addGuest: "➕ Add guest",
+    guestPhone: "Guest phone",
+    emergencyContact: "Emergency contact",
+    invoice: "Do you need an invoice?",
+    businessName: "Business name",
+    taxRegime: "Tax regime",
+    specifyTaxRegime: "Specify the tax regime",
+    paymentMethod: "Payment method",
+    airbnbNote: "The invoice we issue corresponds to the amount Airbnb deposits into our account ($ Amount paid - $ Airbnb commission). If you need to cover the full amount, you must download the invoice for the platform commission directly from the Airbnb app.",
+    amountPaid: "$ Amount paid",
+    currencyHintPrefix: "Captured amount:",
+    emailPrimary: "Email (primary)",
+    emailCopy: "Email (copy)",
+    vehicle: "Do you have a vehicle?",
+    registerVehicle: "Register your vehicle",
+    commentsTitle: "Comments",
+    make: "Make",
+    specifyMake: "Specify the make",
+    model: "Model",
+    specifyModel: "Specify the model",
+    color: "Color (optional)",
+    colorPlaceholder: "Example: White, gray, red",
+    addPhoto: "Add photo (optional)",
+    usualDepartureTime: "Usual departure time (optional)",
+    plates: "License plates (optional)",
+    platesPlaceholder: "Enter the license plates",
+    comments: "Comments (optional)",
+    send: "Submit",
+    successTitle: "Registration successful",
+    successText: "The form was submitted successfully.",
+    close: "Close",
+    statusSending: "Submitting registration...",
+    statusSuccess: "Successful submission. Registration saved correctly.",
+    placeholderSelect: "Select",
+    placeholderCurrency: "Select currency",
+    placeholderLada: "Country code",
+    placeholderHour1: "Guest 1",
+    placeholderGuestBase: "Guest",
+    placeholderModel: "Specify the model",
+    bookerMediumOptions: ["Select","Airbnb","Check-inn-Saltillo.com","Direct booking"],
+    idTypeOptions: ["Select","ID card","Passport","Other"],
+    reasonOptions: ["Select","Work","Study","Vacation","Other"],
+    propertyOptions: ["Select","Cumbres","Baja California","Oaxaca","José Cárdenas","Matamoros","Torreón","Other"],
+    invoiceOptions: ["Select","Yes","No"],
+    vehicleOptions: ["Select","Yes","No"],
+    paymentOptions: ["Select","Direct transfer to host account","Airbnb","Website (www.check-inn-saltillo.com)","WhatsApp link"],
+    currencyOptions: ["Select currency","Mexican peso (MXN)","US dollar (USD)","Brazilian real (BRL)","Euro (EUR)","British pound (GBP)"],
+    taxRegimeOptions: ["Select","General Corporate Tax Regime","Simplified Trust Regime (RESICO)","Individual with Business and Professional Activities","Other"],
+    vehicleMakeOther: "Other",
+    selectFirstBrand: "Select a make first"
+  }
+};
+
+function setSelectTexts(selectEl, labels) {
+  if (!selectEl || !labels) return;
+  const options = Array.from(selectEl.options);
+  options.forEach((opt, idx) => {
+    if (labels[idx] !== undefined) opt.textContent = labels[idx];
+  });
+}
+
+function refreshGuestTexts(lang){
+  const t = I18N[lang];
+  const guestInputList = document.querySelectorAll('#huespedes-container input[name="huesped[]"]');
+  guestInputList.forEach((input, idx) => {
+    input.placeholder = `${t.placeholderGuestBase} ${idx + 1}`;
+    input.setAttribute("aria-label", `${t.placeholderGuestBase} ${idx + 1}`);
+  });
+  const checkLabel = document.querySelector('.copiar-reservante-wrap');
+  if (checkLabel) {
+    const txtNodes = Array.from(checkLabel.childNodes).filter(n => n.nodeType === 3);
+    if (txtNodes.length) txtNodes[txtNodes.length - 1].textContent = " " + t.sameAsBooker;
+  }
+  document.querySelectorAll('.copiar-reservante-wrap').forEach(lbl => {
+    const txtNodes = Array.from(lbl.childNodes).filter(n => n.nodeType === 3);
+    if (txtNodes.length) txtNodes[txtNodes.length - 1].textContent = " " + t.sameAsBooker;
+  });
+}
+
+function applyTranslations(lang){
+  const t = I18N[lang] || I18N.es;
+
+  const h1 = document.querySelector("h1");
+  if (h1) h1.textContent = t.title;
+
+  const sectionTitles = document.querySelectorAll(".section-title");
+  if (sectionTitles[0]) sectionTitles[0].textContent = t.sec1Title;
+  if (sectionTitles[1]) sectionTitles[1].textContent = t.sec2Title;
+  if (sectionTitles[2]) sectionTitles[2].textContent = t.sec3Title;
+  if (sectionTitles[3]) sectionTitles[3].textContent = t.registerVehicle;
+
+  const sectionSubs = document.querySelectorAll(".section-subtitle");
+  if (sectionSubs[0]) sectionSubs[0].textContent = t.sec1Sub;
+  if (sectionSubs[1]) sectionSubs[1].textContent = t.sec2Sub;
+  if (sectionSubs[2]) sectionSubs[2].textContent = t.sec3Sub;
+  if (sectionSubs[3]) sectionSubs[3].textContent = t.sec4Sub;
+
+  const labels = Array.from(document.querySelectorAll("label"));
+  labels.forEach(label => {
+    const text = label.textContent.trim();
+    if (text === "Medio de reservación" || text === "Booking source") label.textContent = t.bookingSource;
+    else if (text === "Nombre de la persona que hizo la reservación" || text === "Name of the person who made the reservation") label.textContent = t.bookingName;
+    else if (text === "Fecha de ingreso" || text === "Check-in date") label.textContent = t.checkinDate;
+    else if (text.includes("Hora estimada de llegada") || text.includes("Estimated arrival time")) label.textContent = t.arrivalTime;
+    else if (text === "Fecha de salida" || text === "Check-out date") label.textContent = t.checkoutDate;
+    else if (text.includes("Hora estimada de salida") || text.includes("Estimated departure time")) label.textContent = t.departureTime;
+    else if (text === "Identificación personal" || text === "Personal identification") label.textContent = t.idType;
+    else if (text === "Lado frontal" || text === "Front side") label.textContent = t.frontSide;
+    else if (text === "Lado trasero" || text === "Back side") label.textContent = t.backSide;
+    else if (text === "Imagen de identificación" || text === "Identification image") label.textContent = t.idImage;
+    else if (text === "Motivo" || text === "Purpose") label.textContent = t.reason;
+    else if (text === "Propiedad" || text === "Property") label.textContent = t.property;
+    else if (text === "# Departamento" || text === "Apartment #") label.textContent = t.department;
+    else if (text === "# Huéspedes" || text === "Guests #") label.textContent = t.guestsCount;
+    else if (text === "Nombres de los huéspedes" || text === "Guest names") label.textContent = t.guestNames;
+    else if (text === "Celular del huésped" || text === "Guest phone") label.textContent = t.guestPhone;
+    else if (text === "Contacto emergencia" || text === "Emergency contact") label.textContent = t.emergencyContact;
+    else if (text.includes("Requieres factura") || text.includes("Do you need an invoice")) label.textContent = t.invoice;
+    else if (text === "Razón social" || text === "Business name") label.textContent = t.businessName;
+    else if (text === "Régimen fiscal" || text === "Tax regime") label.textContent = t.taxRegime;
+    else if (text === "Medio de pago" || text === "Payment method") label.textContent = t.paymentMethod;
+    else if (text.includes("$ Monto pagado") || text.includes("$ Amount paid")) label.textContent = t.amountPaid;
+    else if (text === "Correo electrónico (principal)" || text === "Email (primary)") label.textContent = t.emailPrimary;
+    else if (text === "Correo electrónico (copia)" || text === "Email (copy)") label.textContent = t.emailCopy;
+    else if (text.includes("Cuentas con vehículo") || text.includes("Do you have a vehicle")) label.textContent = t.vehicle;
+    else if (text === "Marca" || text === "Make") label.textContent = t.make;
+    else if (text === "Modelo" || text === "Model") label.textContent = t.model;
+    else if (text === "Color (opcional)" || text === "Color (optional)") label.textContent = t.color;
+    else if (text === "Agregar foto (opcional)" || text === "Add photo (optional)") label.textContent = t.addPhoto;
+    else if (text === "Hora habitual de salida (opcional)" || text === "Usual departure time (optional)") label.textContent = t.usualDepartureTime;
+    else if (text.includes("Placas") || text.includes("License plates")) label.textContent = t.plates;
+    else if (text.includes("Comentarios") || text.includes("Comments")) label.textContent = t.comments;
+  });
+
+  const hints = document.querySelectorAll(".hint");
+  if (hints[0]) hints[0].textContent = t.guestHint;
+  if (document.getElementById("monto_preview")) {
+    const amountText = document.getElementById("monto_preview").textContent.split(":").slice(1).join(":").trim() || "MXN 0.00";
+    document.getElementById("monto_preview").textContent = `${t.currencyHintPrefix} ${amountText}`;
+  }
+  const popupTitle = document.querySelector("#popupExito h3");
+  if (popupTitle) popupTitle.textContent = t.successTitle;
+  const popupHint = document.querySelector("#popupExito .hint");
+  if (popupHint) popupHint.textContent = t.successText;
+  const popupBtn = document.querySelector('#popupExito button');
+  if (popupBtn) popupBtn.textContent = t.close;
+
+  const submitBtn = document.getElementById("submitBtn");
+  if (submitBtn && submitBtn.textContent !== "Enviando..." && submitBtn.textContent !== "Submitting registration...") submitBtn.textContent = t.send;
+
+  const addGuestBtn = document.querySelector('button[onclick="addGuest()"]');
+  if (addGuestBtn) addGuestBtn.textContent = t.addGuest;
+
+  const placeholders = {
+    identificacion_otro: t.specifyId,
+    motivo_otro: t.specify,
+    propiedad_otra: t.specify,
+    regimen_otro: t.specifyTaxRegime,
+    vehiculo_marca_otro: t.specifyMake,
+    vehiculo_modelo: t.placeholderModel,
+    vehiculo_color: t.colorPlaceholder,
+    vehiculo_placas: t.platesPlaceholder
+  };
+  Object.entries(placeholders).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = value;
+  });
+
+  setSelectTexts(document.querySelector('select[name="medio"]'), t.bookerMediumOptions);
+  setSelectTexts(document.getElementById("identificacion_tipo"), t.idTypeOptions);
+  setSelectTexts(document.getElementById("motivo"), t.reasonOptions);
+  setSelectTexts(document.getElementById("propiedad"), t.propertyOptions);
+  setSelectTexts(document.getElementById("factura"), t.invoiceOptions);
+  setSelectTexts(document.getElementById("medio_pago"), t.paymentOptions);
+  setSelectTexts(document.getElementById("divisa_monto"), t.currencyOptions);
+  setSelectTexts(document.getElementById("regimen"), t.taxRegimeOptions);
+  setSelectTexts(document.getElementById("tiene_vehiculo"), t.vehicleOptions);
+
+  const lada1 = document.getElementById("lada1");
+  const lada2 = document.getElementById("lada2");
+  if (lada1 && lada1.options[0]) lada1.options[0].textContent = t.placeholderLada;
+  if (lada2 && lada2.options[0]) lada2.options[0].textContent = t.placeholderLada;
+
+  refreshGuestTexts(lang);
+
+  
+  const commentSection = Array.from(document.querySelectorAll(".section-title"))
+    .find(el => el.textContent.trim() === "Comentarios" || el.textContent.trim() === "Comments");
+  if (commentSection) commentSection.textContent = t.commentsTitle;
+
+  document.documentElement.lang = lang;
+  window.currentLang = lang;
+}
+
+document.getElementById("langSelect").addEventListener("change", function(){
+  applyTranslations(this.value);
+});
+
+window.currentLang = 
+applyTranslations(window.currentLang);
+</script>
+
+
+<script>
+let currentLang = "es";
+
+function updateSwitchUI(){
+  const slider = document.getElementById("switchSlider");
+  if(currentLang === "es"){
+    slider.style.left = "2px";
+  } else {
+    slider.style.left = "43px";
+  }
+}
+
+document.getElementById("langSwitch").addEventListener("click", ()=>{
+  currentLang = currentLang === "es" ? "en" : "es";
+  applyTranslations(currentLang);
+  updateSwitchUI();
+});
+
+// Init
+updateSwitchUI();
+</script>
+
+</body>
+</html>
