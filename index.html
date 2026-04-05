@@ -397,7 +397,28 @@ button:disabled{
     <input type="date" name="ingreso">
 
     <label>Hora estimada de llegada (a partir de las 2 P.M.)</label>
-    <input type="time" name="hora_llegada_estimada" min="14:00" step="1800" list="hora_llegada_sugerencias">
+    <select name="hora_llegada_estimada" id="hora_llegada_estimada">
+      <option value="">Selecciona</option>
+<option value="2:00 p.m.">2:00 p.m.</option>
+<option value="2:30 p.m.">2:30 p.m.</option>
+<option value="3:00 p.m.">3:00 p.m.</option>
+<option value="3:30 p.m.">3:30 p.m.</option>
+<option value="4:00 p.m.">4:00 p.m.</option>
+<option value="4:30 p.m.">4:30 p.m.</option>
+<option value="5:00 p.m.">5:00 p.m.</option>
+<option value="5:30 p.m.">5:30 p.m.</option>
+<option value="6:00 p.m.">6:00 p.m.</option>
+<option value="6:30 p.m.">6:30 p.m.</option>
+<option value="7:00 p.m.">7:00 p.m.</option>
+<option value="7:30 p.m.">7:30 p.m.</option>
+<option value="8:00 p.m.">8:00 p.m.</option>
+<option value="8:30 p.m.">8:30 p.m.</option>
+<option value="9:00 p.m.">9:00 p.m.</option>
+<option value="9:30 p.m.">9:30 p.m.</option>
+<option value="10:00 p.m.">10:00 p.m.</option>
+<option value="10:30 p.m.">10:30 p.m.</option>
+<option value="11:00 p.m.">11:00 p.m.</option>
+    </select>
     <datalist id="hora_llegada_sugerencias">
       <option value="14:00"></option>
       <option value="14:30"></option>
@@ -426,7 +447,30 @@ button:disabled{
     <input type="date" name="salida">
 
     <label>Hora estimada de salida (máximo 10 A.M.)</label>
-    <input type="time" name="hora_salida_estimada" max="10:00" step="1800" list="hora_salida_sugerencias">
+    <select name="hora_salida_estimada" id="hora_salida_estimada">
+      <option value="">Selecciona</option>
+<option value="12:00 a.m.">12:00 a.m.</option>
+<option value="12:30 a.m.">12:30 a.m.</option>
+<option value="1:00 a.m.">1:00 a.m.</option>
+<option value="1:30 a.m.">1:30 a.m.</option>
+<option value="2:00 a.m.">2:00 a.m.</option>
+<option value="2:30 a.m.">2:30 a.m.</option>
+<option value="3:00 a.m.">3:00 a.m.</option>
+<option value="3:30 a.m.">3:30 a.m.</option>
+<option value="4:00 a.m.">4:00 a.m.</option>
+<option value="4:30 a.m.">4:30 a.m.</option>
+<option value="5:00 a.m.">5:00 a.m.</option>
+<option value="5:30 a.m.">5:30 a.m.</option>
+<option value="6:00 a.m.">6:00 a.m.</option>
+<option value="6:30 a.m.">6:30 a.m.</option>
+<option value="7:00 a.m.">7:00 a.m.</option>
+<option value="7:30 a.m.">7:30 a.m.</option>
+<option value="8:00 a.m.">8:00 a.m.</option>
+<option value="8:30 a.m.">8:30 a.m.</option>
+<option value="9:00 a.m.">9:00 a.m.</option>
+<option value="9:30 a.m.">9:30 a.m.</option>
+<option value="10:00 a.m.">10:00 a.m.</option>
+    </select>
     <datalist id="hora_salida_sugerencias">
       <option value="01:00"></option>
       <option value="01:30"></option>
@@ -518,6 +562,7 @@ button:disabled{
       <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
       <option value="13">13</option><option value="14">14</option>
     </select>
+    <div class="hint">Selecciona una hora en intervalos de 30 minutos.</div>
   </div>
 
   <div>
