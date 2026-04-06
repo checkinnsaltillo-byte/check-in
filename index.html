@@ -1,12 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>CHECK-IN | Registro</title>
-
-
-
 <style>
 :root{
   --bg:#fff8ee;
@@ -394,45 +392,102 @@ button:disabled{
   }
 }
 @keyframes spinPopup{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+.initial-choice{
+  margin-top:14px;
+}
+.choice-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.choice-card{
+  border:1px solid var(--border-strong);
+  border-radius:18px;
+  background:#fffdf8;
+  padding:18px;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.choice-card:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 24px rgba(217,119,6,.12);
+  border-color:var(--accent);
+}
+.choice-card.active{
+  border-color:var(--primary-strong);
+  box-shadow:0 0 0 4px rgba(245,158,11,.12);
+  background:#fff7ed;
+}
+.choice-card-title{
+  font-size:17px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:6px;
+}
+.choice-card-text{
+  font-size:13px;
+  color:var(--text-soft);
+  line-height:1.45;
+}
+.form-hidden-until-choice{
+  display:none;
+}
+.form-hidden-until-choice.visible{
+  display:block;
+}
+@media (max-width: 700px){
+  .choice-grid{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
-
-
 </head>
 <body>
 <div class="page-shell">
-  <div class="container">
-    <div class="lang-bar">
-      <span class="lang-note" data-i18n="chooseLanguage">Selecciona el idioma</span>
-      <div id="langSwitch" class="lang-switch">
-        <div id="switchSlider" class="lang-slider"></div>
-        <div class="lang-switch-label">ES</div>
-        <div class="lang-switch-label">EN</div>
-      </div>
-    </div>
-
-    <h1 data-i18n="title">Registro de huéspedes</h1>
-
+<div class="container">
+<div class="lang-bar">
+<span class="lang-note" data-i18n="chooseLanguage">Selecciona el idioma</span>
+<div class="lang-switch" id="langSwitch">
+<div class="lang-slider" id="switchSlider"></div>
+<div class="lang-switch-label">ES</div>
+<div class="lang-switch-label">EN</div>
+</div>
+</div>
+<h1 data-i18n="title">Registro de huéspedes</h1>
 <form id="form">
-
-<div class="section"><h2 class="section-title" data-i18n="sec1Title">Datos de la reservación</h2><p class="section-subtitle" data-i18n="sec1Sub">Información general de la estancia y de la persona que realizó la reservación.</p><label data-i18n="bookingSource">Medio de reservación</label>
+<div class="section initial-choice">
+<h2 class="section-title" data-i18n="preFormTitle">Tipo de registro</h2>
+<p class="section-subtitle" data-i18n="preFormSub">Antes de continuar, selecciona si se trata de un registro nuevo o de un huésped ya registrado.</p>
+<input id="tipo_registro" name="tipo_registro" type="hidden" value=""/>
+<div class="choice-grid">
+<div class="choice-card" id="choice_nuevo" onclick="seleccionarTipoRegistro('nuevo')">
+<div class="choice-card-title" data-i18n="optionNewTitle">Registro nuevo</div>
+<div class="choice-card-text" data-i18n="optionNewText">Muestra el formulario completo para capturar todos los datos del huésped.</div>
+</div>
+<div class="choice-card" id="choice_registrado" onclick="seleccionarTipoRegistro('registrado')">
+<div class="choice-card-title" data-i18n="optionRegisteredTitle">Huésped ya registrado</div>
+<div class="choice-card-text" data-i18n="optionRegisteredText">Oculta los campos que ya existen en registros previos y muestra únicamente los necesarios para una nueva estancia.</div>
+</div>
+</div>
+</div>
+<div class="form-hidden-until-choice" id="formulario_principal"><div class="section"><h2 class="section-title" data-i18n="sec1Title">Datos de la reservación</h2><p class="section-subtitle" data-i18n="sec1Sub">Información general de la estancia y de la persona que realizó la reservación.</p><label data-i18n="bookingSource">Medio de reservación</label>
 <select name="medio">
-  <option value="">Selecciona</option>
-  <option value="Airbnb">Airbnb</option>
-  <option value="Check-inn-Saltillo.com">Check-inn-Saltillo.com</option>
-  <option value="Trato directo">Trato directo</option>
+<option value="">Selecciona</option>
+<option value="Airbnb">Airbnb</option>
+<option value="Check-inn-Saltillo.com">Check-inn-Saltillo.com (website / link de whatsapp)</option>
+<option value="Trato directo">Trato directo</option>
 </select>
-
 <label data-i18n="bookingName">Nombre de la persona que hizo la reservación</label>
-<input type="text" name="nombre">
-
+<input name="nombre" type="text"/>
 <div class="grid-vertical">
-  <div>
-    <label data-i18n="checkinDate">Fecha de ingreso</label>
-    <input type="date" name="ingreso">
-
-    <label data-i18n="arrivalTime">Hora estimada de llegada (a partir de las 2 P.M.)</label>
-    <select name="hora_llegada_estimada" id="hora_llegada_estimada">
-      <option value="">Selecciona</option>
+<div>
+<label data-i18n="checkinDate">Fecha de ingreso</label>
+<input name="ingreso" type="date"/>
+<label data-i18n="arrivalTime">Hora estimada de llegada (a partir de las 2 P.M.)</label>
+<select id="hora_llegada_estimada" name="hora_llegada_estimada">
+<option value="">Selecciona</option>
 <option value="2:00 p.m.">2:00 p.m.</option>
 <option value="2:30 p.m.">2:30 p.m.</option>
 <option value="3:00 p.m.">3:00 p.m.</option>
@@ -452,37 +507,36 @@ button:disabled{
 <option value="10:00 p.m.">10:00 p.m.</option>
 <option value="10:30 p.m.">10:30 p.m.</option>
 <option value="11:00 p.m.">11:00 p.m.</option>
-    </select>
-    <datalist id="hora_llegada_sugerencias">
-      <option value="14:00"></option>
-      <option value="14:30"></option>
-      <option value="15:00"></option>
-      <option value="15:30"></option>
-      <option value="16:00"></option>
-      <option value="16:30"></option>
-      <option value="17:00"></option>
-      <option value="17:30"></option>
-      <option value="18:00"></option>
-      <option value="18:30"></option>
-      <option value="19:00"></option>
-      <option value="19:30"></option>
-      <option value="20:00"></option>
-      <option value="20:30"></option>
-      <option value="21:00"></option>
-      <option value="21:30"></option>
-      <option value="22:00"></option>
-      <option value="22:30"></option>
-      <option value="23:00"></option>
-      <option value="23:30"></option>
-    </datalist>
-  </div>
-  <div>
-    <label data-i18n="checkoutDate">Fecha de salida</label>
-    <input type="date" name="salida">
-
-    <label data-i18n="departureTime">Hora estimada de salida (máximo 10 A.M.)</label>
-    <select name="hora_salida_estimada" id="hora_salida_estimada">
-      <option value="">Selecciona</option>
+</select>
+<datalist id="hora_llegada_sugerencias">
+<option value="14:00"></option>
+<option value="14:30"></option>
+<option value="15:00"></option>
+<option value="15:30"></option>
+<option value="16:00"></option>
+<option value="16:30"></option>
+<option value="17:00"></option>
+<option value="17:30"></option>
+<option value="18:00"></option>
+<option value="18:30"></option>
+<option value="19:00"></option>
+<option value="19:30"></option>
+<option value="20:00"></option>
+<option value="20:30"></option>
+<option value="21:00"></option>
+<option value="21:30"></option>
+<option value="22:00"></option>
+<option value="22:30"></option>
+<option value="23:00"></option>
+<option value="23:30"></option>
+</datalist>
+</div>
+<div>
+<label data-i18n="checkoutDate">Fecha de salida</label>
+<input name="salida" type="date"/>
+<label data-i18n="departureTime">Hora estimada de salida (máximo 10 A.M.)</label>
+<select id="hora_salida_estimada" name="hora_salida_estimada">
+<option value="">Selecciona</option>
 <option value="12:00 a.m.">12:00 a.m.</option>
 <option value="12:30 a.m.">12:30 a.m.</option>
 <option value="1:00 a.m.">1:00 a.m.</option>
@@ -504,350 +558,324 @@ button:disabled{
 <option value="9:00 a.m.">9:00 a.m.</option>
 <option value="9:30 a.m.">9:30 a.m.</option>
 <option value="10:00 a.m.">10:00 a.m.</option>
-    </select>
-    <datalist id="hora_salida_sugerencias">
-      <option value="01:00"></option>
-      <option value="01:30"></option>
-      <option value="02:00"></option>
-      <option value="02:30"></option>
-      <option value="03:00"></option>
-      <option value="03:30"></option>
-      <option value="04:00"></option>
-      <option value="04:30"></option>
-      <option value="05:00"></option>
-      <option value="05:30"></option>
-      <option value="06:00"></option>
-      <option value="06:30"></option>
-      <option value="07:00"></option>
-      <option value="07:30"></option>
-      <option value="08:00"></option>
-      <option value="08:30"></option>
-      <option value="09:00"></option>
-      <option value="09:30"></option>
-      <option value="10:00"></option>
-      <option value="10:30"></option>
-    </datalist>
-  </div>
+</select>
+<datalist id="hora_salida_sugerencias">
+<option value="01:00"></option>
+<option value="01:30"></option>
+<option value="02:00"></option>
+<option value="02:30"></option>
+<option value="03:00"></option>
+<option value="03:30"></option>
+<option value="04:00"></option>
+<option value="04:30"></option>
+<option value="05:00"></option>
+<option value="05:30"></option>
+<option value="06:00"></option>
+<option value="06:30"></option>
+<option value="07:00"></option>
+<option value="07:30"></option>
+<option value="08:00"></option>
+<option value="08:30"></option>
+<option value="09:00"></option>
+<option value="09:30"></option>
+<option value="10:00"></option>
+<option value="10:30"></option>
+</datalist>
+</div>
+</div>
 </div>
 
-</div><div class="section"><h2 class="section-title" data-i18n="sec2Title">Identificación y estancia</h2><p class="section-subtitle" data-i18n="sec2Sub">Capture la identificación, motivo de viaje, fechas, horarios y personas hospedadas.</p><label data-i18n="idType">Identificación personal</label>
+<div class="section"><h2 class="section-title" data-i18n="sec2Title">Identificación y estancia</h2><p class="section-subtitle" data-i18n="sec2Sub">Capture la identificación, motivo de viaje, fechas, horarios y personas hospedadas.</p><div id="field_identificacion"><label data-i18n="idType">Identificación personal</label>
 <select id="identificacion_tipo" name="identificacion_tipo">
-  <option value="">Selecciona</option>
-  <option value="INE">INE</option>
-  <option value="Pasaporte">Pasaporte</option>
-  <option value="Otro">Otro</option>
+<option value="">Selecciona</option>
+<option value="INE">INE</option>
+<option value="Pasaporte">Pasaporte</option>
+<option value="Otro">Otro</option>
 </select>
-
-<input type="text" id="identificacion_otro" name="identificacion_otro" class="hidden" placeholder="Especifica la identificación">
-
-<div id="identificacion_ine_fields" class="hidden">
-  <div class="upload-grid">
-    <div class="upload-box">
-      <label data-i18n="frontSide">Lado frontal</label>
-      <label class="custom-upload">
-      <input type="file" id="ine_frontal" name="ine_frontal" accept="image/*">
-      <span class="upload-drop">
-        <span class="upload-copy">
-          <span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
-          <span class="upload-subtitle">JPG o PNG optimizado</span>
-        </span>
-        <span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
-      </span>
-    </label>
-    <div class="preview-wrapper"><img id="ine_frontal_preview" class="preview-img hidden" alt=""><div class="preview-text" id="ine_frontal_name">Ninguna imagen seleccionada</div></div>
-    </div>
-    <div class="upload-box">
-      <label data-i18n="backSide">Lado trasero</label>
-      <label class="custom-upload">
-      <input type="file" id="ine_trasero" name="ine_trasero" accept="image/*">
-      <span class="upload-drop">
-        <span class="upload-copy">
-          <span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
-          <span class="upload-subtitle">JPG o PNG optimizado</span>
-        </span>
-        <span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
-      </span>
-    </label>
-    <div class="preview-wrapper"><img id="ine_trasero_preview" class="preview-img hidden" alt=""><div class="preview-text" id="ine_trasero_name">Ninguna imagen seleccionada</div></div>
-    </div>
-  </div>
+<input class="hidden" id="identificacion_otro" name="identificacion_otro" placeholder="Especifica la identificación" type="text"/>
+<div class="hidden" id="identificacion_ine_fields">
+<div class="upload-grid">
+<div class="upload-box">
+<label data-i18n="frontSide">Lado frontal</label>
+<label class="custom-upload">
+<input accept="image/*" id="ine_frontal" name="ine_frontal" type="file"/>
+<span class="upload-drop">
+<span class="upload-copy">
+<span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
+<span class="upload-subtitle">JPG o PNG optimizado</span>
+</span>
+<span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
+</span>
+</label>
+<div class="preview-wrapper"><img alt="" class="preview-img hidden" id="ine_frontal_preview"/><div class="preview-text" id="ine_frontal_name">Ninguna imagen seleccionada</div></div>
 </div>
-
-<div id="identificacion_unica_fields" class="hidden">
-  <div class="upload-box">
-    <label data-i18n="idImage">Imagen de identificación</label>
-    <label class="custom-upload">
-      <input type="file" id="identificacion_unica" name="identificacion_unica" accept="image/*">
-      <span class="upload-drop">
-        <span class="upload-copy">
-          <span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
-          <span class="upload-subtitle">JPG o PNG optimizado</span>
-        </span>
-        <span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
-      </span>
-    </label>
-    <div class="preview-wrapper"><img id="identificacion_unica_preview" class="preview-img hidden" alt=""><div class="preview-text" id="identificacion_unica_name">Ninguna imagen seleccionada</div></div>
-  </div>
+<div class="upload-box">
+<label data-i18n="backSide">Lado trasero</label>
+<label class="custom-upload">
+<input accept="image/*" id="ine_trasero" name="ine_trasero" type="file"/>
+<span class="upload-drop">
+<span class="upload-copy">
+<span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
+<span class="upload-subtitle">JPG o PNG optimizado</span>
+</span>
+<span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
+</span>
+</label>
+<div class="preview-wrapper"><img alt="" class="preview-img hidden" id="ine_trasero_preview"/><div class="preview-text" id="ine_trasero_name">Ninguna imagen seleccionada</div></div>
 </div>
-
-<label data-i18n="reason">Motivo</label>
-<select name="motivo" id="motivo">
-  <option value="">Selecciona</option>
-  <option value="Laboral">Laboral</option>
-  <option value="Estudio">Estudio</option>
-  <option value="Vacacional">Vacacional</option>
-  <option value="Otro">Otro</option>
+</div>
+</div>
+<div class="hidden" id="identificacion_unica_fields">
+<div class="upload-box">
+<label data-i18n="idImage">Imagen de identificación</label>
+<label class="custom-upload">
+<input accept="image/*" id="identificacion_unica" name="identificacion_unica" type="file"/>
+<span class="upload-drop">
+<span class="upload-copy">
+<span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
+<span class="upload-subtitle">JPG o PNG optimizado</span>
+</span>
+<span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
+</span>
+</label>
+<div class="preview-wrapper"><img alt="" class="preview-img hidden" id="identificacion_unica_preview"/><div class="preview-text" id="identificacion_unica_name">Ninguna imagen seleccionada</div></div>
+</div>
+</div>
+</div><div id="field_motivo"><label data-i18n="reason">Motivo</label>
+<select id="motivo" name="motivo">
+<option value="">Selecciona</option>
+<option value="Laboral">Laboral</option>
+<option value="Estudio">Estudio</option>
+<option value="Vacacional">Vacacional</option>
+<option value="Otro">Otro</option>
 </select>
-<input type="text" id="motivo_otro" name="motivo_otro" class="hidden" placeholder="Especifica">
-
-<label data-i18n="property">Propiedad</label>
-<select name="propiedad" id="propiedad">
-  <option value="">Selecciona</option>
-  <option value="Cumbres">Cumbres</option>
-  <option value="Baja California">Baja California</option>
-  <option value="Oaxaca">Oaxaca</option>
-  <option value="José Cárdenas">José Cárdenas</option>
-  <option value="Matamoros">Matamoros</option>
-  <option value="Torreón">Torreón</option>
-  <option value="Otra">Otra</option>
+<input class="hidden" id="motivo_otro" name="motivo_otro" placeholder="Especifica" type="text"/>
+</div><div id="field_propiedad_departamento"><label data-i18n="property">Propiedad</label>
+<select id="propiedad" name="propiedad">
+<option value="">Selecciona</option>
+<option value="Cumbres">Cumbres</option>
+<option value="Baja California">Baja California</option>
+<option value="Oaxaca">Oaxaca</option>
+<option value="José Cárdenas">José Cárdenas</option>
+<option value="Matamoros">Matamoros</option>
+<option value="Torreón">Torreón</option>
+<option value="Otra">Otra</option>
 </select>
-<input type="text" id="propiedad_otra" name="propiedad_otra" class="hidden" placeholder="Especifica">
-
+<input class="hidden" id="propiedad_otra" name="propiedad_otra" placeholder="Especifica" type="text"/>
 <div class="grid-vertical">
-  <div>
-    <label data-i18n="department"># Departamento</label>
-    <select name="depto">
-      <option value="">Selecciona</option>
-      <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-      <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
-      <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
-      <option value="13">13</option><option value="14">14</option>
-    </select>
-    <div class="hint">Selecciona una hora en intervalos de 30 minutos.</div>
-  </div>
-
-  <div>
-    <label data-i18n="guestsCount"># Huéspedes</label>
-    <select name="num_huespedes" id="num_huespedes">
-      <option value="">Selecciona</option>
-      <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-      <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-    </select>
-  </div>
+<div>
+<label data-i18n="department"># Departamento</label>
+<select name="depto">
+<option value="">Selecciona</option>
+<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+<option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+<option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+<option value="13">13</option><option value="14">14</option>
+</select>
+<div class="hint">Selecciona una hora en intervalos de 30 minutos.</div>
 </div>
-
-
-
-<label data-i18n="guestNames">Nombres de los huéspedes</label>
+<div id="field_num_huespedes">
+<label data-i18n="guestsCount"># Huéspedes</label>
+<select id="num_huespedes" name="num_huespedes">
+<option value="">Selecciona</option>
+<option value="1">1</option><option value="2">2</option><option value="3">3</option>
+<option value="4">4</option><option value="5">5</option><option value="6">6</option>
+</select>
+</div></div>
+<div id="field_huespedes_nombres"><label data-i18n="guestNames">Nombres de los huéspedes</label>
 <div class="hint" data-i18n="guestHint">Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.</div>
 <div id="huespedes-container">
-  <div class="huesped-row">
-    <div style="flex:1;">
-      <input type="text" name="huesped[]" placeholder="Huésped 1">
-      <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
-        <input type="checkbox" class="copiar-reservante" style="width:auto;" onchange="toggleCopiarReservante(this)">
+<div class="huesped-row">
+<div style="flex:1;">
+<input name="huesped[]" placeholder="Huésped 1" type="text"/>
+<label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
+<input class="copiar-reservante" onchange="toggleCopiarReservante(this)" style="width:auto;" type="checkbox"/>
         Es la misma persona que realizó la reservación
       </label>
-    </div>
-  </div>
+</div>
+</div>
+</div>
+<button onclick="addGuest()" type="button">➕ Agregar huésped</button>
+</div>
 </div>
 
-<button type="button" onclick="addGuest()">➕ Agregar huésped</button>
 
-</div><div class="section"><h2 class="section-title" data-i18n="sec3Title">Contacto del huésped</h2><p class="section-subtitle" data-i18n="sec3Sub">Datos de contacto del huésped y de emergencia.</p><label data-i18n="guestPhone">Celular del huésped</label>
+
+</div>
+
+<div class="section" id="section_contacto_huesped"><h2 class="section-title" data-i18n="sec3Title">Contacto del huésped</h2><p class="section-subtitle" data-i18n="sec3Sub">Datos de contacto del huésped y de emergencia.</p><label data-i18n="guestPhone">Celular del huésped</label>
 <div class="phone-group">
-  <select id="lada1" name="lada1"></select>
-  <input type="tel" name="cel">
+<select id="lada1" name="lada1"></select>
+<input name="cel" type="tel"/>
 </div>
-
 <label data-i18n="emergencyContact">Contacto emergencia</label>
 <div class="phone-group">
-  <select id="lada2" name="lada2"></select>
-  <input type="tel" name="emergencia">
+<select id="lada2" name="lada2"></select>
+<input name="emergencia" type="tel"/>
+</div>
 </div>
 
-</div><div class="section"><h2 class="section-title" data-i18n="sec4Title">Facturación</h2><p class="section-subtitle" data-i18n="sec4Sub">Información fiscal para emisión de factura.</p><label data-i18n="invoice">¿Requieres factura?</label>
+<div class="section"><h2 class="section-title" data-i18n="sec4Title">Facturación</h2><p class="section-subtitle" data-i18n="sec4Sub">Información fiscal para emisión de factura.</p><label data-i18n="invoice">¿Requieres factura?</label>
 <select id="factura" name="factura">
-  <option value="">Selecciona</option>
-  <option value="si">Sí</option>
-  <option value="no">No</option>
+<option value="">Selecciona</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
 </select>
-
-<div id="factura_notas" class="note hidden">
-  <div data-i18n="invoiceNotePeriod">Se emitirá una factura para cada periodo registrado.</div>
-  <div data-i18n="invoiceNoteExtension" style="margin-top:6px;">Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.</div>
+<div class="note hidden" id="factura_notas">
+<div data-i18n="invoiceNotePeriod">Se emitirá UNA FACTURA/PERIODO registrado.</div>
+<div data-i18n="invoiceNoteExtension" style="margin-top:6px;">Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.</div>
 </div>
-
-<div id="factura_fields" class="hidden">
-  <label data-i18n="businessName">Razón social</label>
-  <input type="text" id="razon_social" name="razon_social">
-
-  <label data-i18n="taxRegime">Régimen fiscal</label>
-  <select id="regimen" name="regimen">
-    <option value="">Selecciona</option>
-    <option value="General de Ley Personas Morales">General de Ley Personas Morales</option>
-    <option value="Régimen Simplificado de Confianza (RESICO)">Régimen Simplificado de Confianza (RESICO)</option>
-    <option value="Persona Física con Actividades Empresariales y Profesionales">Persona Física con Actividades Empresariales y Profesionales</option>
-    <option value="Otro">Otro</option>
-  </select>
-
-  <input type="text" id="regimen_otro" name="regimen_otro" class="hidden" placeholder="Especifica el régimen fiscal">
-
-  <label data-i18n="paymentMethod">Medio de pago</label>
-  <select id="medio_pago" name="medio_pago">
-    <option value="">Selecciona</option>
-    <option value="Transferencia directa a la cuenta del anfitrión">Transferencia directa a la cuenta del anfitrión</option>
-    <option value="Airbnb">Airbnb</option>
-    <option value="Página web (www.check-inn-saltillo.com)">Página web (www.check-inn-saltillo.com)</option>
-    <option value="Liga de Whatsapp">Liga de Whatsapp</option>
-  </select>
-
-  <div id="comprobante_transferencia_wrap" class="hidden">
-    <label data-i18n="transferReceipt">Sube el comprobante de transferencia</label>
-    <div class="upload-box">
-      <label class="custom-upload">
-        <input type="file" id="comprobante_transferencia" name="comprobante_transferencia" accept="image/*">
-        <span class="upload-drop">
-          <span class="upload-copy">
-            <span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
-            <span class="upload-subtitle">JPG o PNG optimizado</span>
-          </span>
-          <span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
-        </span>
-      </label>
-      <div class="preview-wrapper"><img id="comprobante_transferencia_preview" class="preview-img hidden" alt=""><div class="preview-text" id="comprobante_transferencia_name">Ninguna imagen seleccionada</div></div>
-    </div>
-  </div>
-
-  <div id="nota_airbnb" class="note hidden">
+<div class="hidden" id="factura_fields">
+<div id="field_razon_social"><label data-i18n="businessName">Razón social</label>
+<input id="razon_social" name="razon_social" type="text"/>
+</div><div id="field_regimen_fiscal"><label data-i18n="taxRegime">Régimen fiscal</label>
+<select id="regimen" name="regimen">
+<option value="">Selecciona</option>
+<option value="General de Ley Personas Morales">General de Ley Personas Morales</option>
+<option value="Régimen Simplificado de Confianza (RESICO)">Régimen Simplificado de Confianza (RESICO)</option>
+<option value="Persona Física con Actividades Empresariales y Profesionales">Persona Física con Actividades Empresariales y Profesionales</option>
+<option value="Otro">Otro</option>
+</select>
+<input class="hidden" id="regimen_otro" name="regimen_otro" placeholder="Especifica el régimen fiscal" type="text"/>
+</div><label data-i18n="paymentMethod">Medio de pago</label>
+<select id="medio_pago" name="medio_pago">
+<option value="">Selecciona</option>
+<option value="Transferencia directa a la cuenta del anfitrión">Transferencia directa a la cuenta del anfitrión</option>
+<option value="Airbnb">Airbnb</option>
+<option value="Página web (www.check-inn-saltillo.com)">Página web (www.check-inn-saltillo.com)</option>
+<option value="Liga de Whatsapp">Liga de Whatsapp</option>
+</select>
+<div class="hidden" id="comprobante_transferencia_wrap">
+<label data-i18n="transferReceipt">Sube el comprobante de transferencia</label>
+<div class="upload-box">
+<label class="custom-upload">
+<input accept="image/*" id="comprobante_transferencia" name="comprobante_transferencia" type="file"/>
+<span class="upload-drop">
+<span class="upload-copy">
+<span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
+<span class="upload-subtitle">JPG o PNG optimizado</span>
+</span>
+<span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
+</span>
+</label>
+<div class="preview-wrapper"><img alt="" class="preview-img hidden" id="comprobante_transferencia_preview"/><div class="preview-text" id="comprobante_transferencia_name">Ninguna imagen seleccionada</div></div>
+</div>
+</div>
+<div class="note hidden" id="nota_airbnb">
     La factura emitimos corresponde al monto que Airbnb deposita a nuestra cuenta ($ Monto pagado - $ Comisión Airbnb). En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.
   </div>
-
-  <label data-i18n="amountPaid">$ Monto pagado</label>
-  <div class="money-group">
-    <select id="divisa_monto" name="divisa_monto">
-      <option value="">Selecciona divisa</option>
-      <option value="MXN" selected>Peso mexicano (MXN)</option>
-      <option value="USD">Dólar estadounidense (USD)</option>
-      <option value="BRL">Real brasileño (BRL)</option>
-      <option value="EUR">Euro (EUR)</option>
-      <option value="GBP">Libra esterlina (GBP)</option>
-    </select>
-    <input type="number" id="monto_pagado" name="monto_pagado" min="0" step="0.01" placeholder="0.00" inputmode="decimal">
-  </div>
-  <div class="hint" id="monto_preview">Monto capturado: MXN 0.00</div>
-
-  <label data-i18n="emailPrimary">Correo electrónico (principal)</label>
-  <input type="email" id="correo1" name="correo1">
-
-  <label data-i18n="emailCopy">Correo electrónico (copia)</label>
-  <input type="email" id="correo2" name="correo2">
-</div>
-
-</div><div class="section hidden" id="vehicle_section_hidden_backend"><h2 class="section-title" data-i18n="sec5Title">Registro de vehículo</h2><label data-i18n="vehicle">¿Cuentas con vehículo?</label>
-<select id="tiene_vehiculo" name="tiene_vehiculo">
-  <option value="">Selecciona</option>
-  <option value="si">Sí</option>
-  <option value="no">No</option>
+<label data-i18n="amountPaid">$ Monto pagado</label>
+<div class="money-group">
+<select id="divisa_monto" name="divisa_monto">
+<option value="">Selecciona divisa</option>
+<option selected="" value="MXN">Peso mexicano (MXN)</option>
+<option value="USD">Dólar estadounidense (USD)</option>
+<option value="BRL">Real brasileño (BRL)</option>
+<option value="EUR">Euro (EUR)</option>
+<option value="GBP">Libra esterlina (GBP)</option>
 </select>
-
-<div id="vehiculo_fields" class="hidden">
-  <label data-i18n="make">Marca</label>
-  <select id="vehiculo_marca" name="vehiculo_marca">
-    <option value="">Selecciona</option>
-    <option value="Nissan">Nissan</option>
-    <option value="Chevrolet">Chevrolet</option>
-    <option value="Volkswagen">Volkswagen</option>
-    <option value="Toyota">Toyota</option>
-    <option value="Honda">Honda</option>
-    <option value="Ford">Ford</option>
-    <option value="Kia">Kia</option>
-    <option value="Hyundai">Hyundai</option>
-    <option value="Mazda">Mazda</option>
-    <option value="Renault">Renault</option>
-    <option value="SEAT">SEAT</option>
-    <option value="Suzuki">Suzuki</option>
-    <option value="Mitsubishi">Mitsubishi</option>
-    <option value="Jeep">Jeep</option>
-    <option value="BMW">BMW</option>
-    <option value="Mercedes-Benz">Mercedes-Benz</option>
-    <option value="Audi">Audi</option>
-    <option value="Tesla">Tesla</option>
-    <option value="Peugeot">Peugeot</option>
-    <option value="Chirey">Chirey</option>
-    <option value="Subaru">Subaru</option>
-    <option value="Volvo">Volvo</option>
-    <option value="Lexus">Lexus</option>
-    <option value="Acura">Acura</option>
-    <option value="GMC">GMC</option>
-    <option value="Cadillac">Cadillac</option>
-    <option value="Infiniti">Infiniti</option>
-    <option value="Lincoln">Lincoln</option>
-    <option value="RAM">RAM</option>
-    <option value="Mini">Mini</option>
-    <option value="Otro">Otro</option>
-  </select>
-
-  <input type="text" id="vehiculo_marca_otro" name="vehiculo_marca_otro" class="hidden" placeholder="Especifica la marca">
-
-  <label data-i18n="model">Modelo</label>
-  <input type="text" id="vehiculo_modelo" name="vehiculo_modelo" placeholder="Especifica el modelo">
-
-  <label data-i18n="color">Color (opcional)</label>
-  <input type="text" id="vehiculo_color" name="vehiculo_color" placeholder="Ejemplo: Blanco, gris, rojo">
-
-  <label data-i18n="addPhoto">Agregar foto (opcional)</label>
-  <div class="upload-box">
-    <label class="custom-upload">
-      <input type="file" id="vehiculo_foto" name="vehiculo_foto" accept="image/*">
-      <span class="upload-drop">
-        <span class="upload-copy">
-          <span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
-          <span class="upload-subtitle">JPG o PNG optimizado</span>
-        </span>
-        <span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
-      </span>
-    </label>
-    <div class="preview-wrapper"><img id="vehiculo_foto_preview" class="preview-img hidden" alt=""><div class="preview-text" id="vehiculo_foto_name">Ninguna imagen seleccionada</div></div>
-  </div>
-
-  <label data-i18n="usualDepartureTime">Hora habitual de salida (opcional)</label>
-  <input type="time" id="vehiculo_hora_salida" name="vehiculo_hora_salida">
-
-  <label data-i18n="plates"># Placas (opcional)</label>
-  <input type="text" id="vehiculo_placas" name="vehiculo_placas" placeholder="Escribe las placas">
+<input id="monto_pagado" inputmode="decimal" min="0" name="monto_pagado" placeholder="0.00" step="0.01" type="number"/>
+</div>
+<div class="hint" id="monto_preview">Monto capturado: MXN 0.00</div>
+<label data-i18n="emailPrimary">Correo electrónico (principal)</label>
+<input id="correo1" name="correo1" type="email"/>
+<label data-i18n="emailCopy">Correo electrónico (copia)</label>
+<input id="correo2" name="correo2" type="email"/>
+</div>
 </div>
 
+<div class="section hidden" id="vehicle_section_hidden_backend"><h2 class="section-title" data-i18n="sec5Title">Registro de vehículo</h2><label data-i18n="vehicle">¿Cuentas con vehículo?</label>
+<select id="tiene_vehiculo" name="tiene_vehiculo">
+<option value="">Selecciona</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
+</select>
+<div class="hidden" id="vehiculo_fields">
+<label data-i18n="make">Marca</label>
+<select id="vehiculo_marca" name="vehiculo_marca">
+<option value="">Selecciona</option>
+<option value="Nissan">Nissan</option>
+<option value="Chevrolet">Chevrolet</option>
+<option value="Volkswagen">Volkswagen</option>
+<option value="Toyota">Toyota</option>
+<option value="Honda">Honda</option>
+<option value="Ford">Ford</option>
+<option value="Kia">Kia</option>
+<option value="Hyundai">Hyundai</option>
+<option value="Mazda">Mazda</option>
+<option value="Renault">Renault</option>
+<option value="SEAT">SEAT</option>
+<option value="Suzuki">Suzuki</option>
+<option value="Mitsubishi">Mitsubishi</option>
+<option value="Jeep">Jeep</option>
+<option value="BMW">BMW</option>
+<option value="Mercedes-Benz">Mercedes-Benz</option>
+<option value="Audi">Audi</option>
+<option value="Tesla">Tesla</option>
+<option value="Peugeot">Peugeot</option>
+<option value="Chirey">Chirey</option>
+<option value="Subaru">Subaru</option>
+<option value="Volvo">Volvo</option>
+<option value="Lexus">Lexus</option>
+<option value="Acura">Acura</option>
+<option value="GMC">GMC</option>
+<option value="Cadillac">Cadillac</option>
+<option value="Infiniti">Infiniti</option>
+<option value="Lincoln">Lincoln</option>
+<option value="RAM">RAM</option>
+<option value="Mini">Mini</option>
+<option value="Otro">Otro</option>
+</select>
+<input class="hidden" id="vehiculo_marca_otro" name="vehiculo_marca_otro" placeholder="Especifica la marca" type="text"/>
+<label data-i18n="model">Modelo</label>
+<input id="vehiculo_modelo" name="vehiculo_modelo" placeholder="Especifica el modelo" type="text"/>
+<label data-i18n="color">Color (opcional)</label>
+<input id="vehiculo_color" name="vehiculo_color" placeholder="Ejemplo: Blanco, gris, rojo" type="text"/>
+<label data-i18n="addPhoto">Agregar foto (opcional)</label>
+<div class="upload-box">
+<label class="custom-upload">
+<input accept="image/*" id="vehiculo_foto" name="vehiculo_foto" type="file"/>
+<span class="upload-drop">
+<span class="upload-copy">
+<span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
+<span class="upload-subtitle">JPG o PNG optimizado</span>
+</span>
+<span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
+</span>
+</label>
+<div class="preview-wrapper"><img alt="" class="preview-img hidden" id="vehiculo_foto_preview"/><div class="preview-text" id="vehiculo_foto_name">Ninguna imagen seleccionada</div></div>
+</div>
+<label data-i18n="usualDepartureTime">Hora habitual de salida (opcional)</label>
+<input id="vehiculo_hora_salida" name="vehiculo_hora_salida" type="time"/>
+<label data-i18n="plates"># Placas (opcional)</label>
+<input id="vehiculo_placas" name="vehiculo_placas" placeholder="Escribe las placas" type="text"/>
+</div>
+</div>
 
-
-</div><div class="section"><h2 class="section-title" data-i18n="sec6Title">Comentarios</h2><p class="section-subtitle" data-i18n="sec6Sub">Información adicional relevante.</p>
+<div class="section"><h2 class="section-title" data-i18n="sec6Title">Comentarios</h2><p class="section-subtitle" data-i18n="sec6Sub">Información adicional relevante.</p>
 <textarea name="comentarios"></textarea></div>
-<div class="submit-wrap"><button type="submit" id="submitBtn" data-i18n="send">Enviar</button><div id="statusMessage" class="status"></div></div>
 
-</form>
-
-<div id="popupEnvio" class="popup-backdrop" style="display:none; position:fixed; inset:0; z-index:999999; align-items:center; justify-content:center; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);">
-  <div class="popup-card" style="max-width:340px;">
-    <div id="popupLoadingState">
-      <div style="width:48px;height:48px;border:4px solid rgba(245,158,11,.25);border-top-color:#f59e0b;border-radius:50%;margin:0 auto 16px;animation:spinPopup 0.9s linear infinite;"></div>
-      <h3 id="popupTituloEnvio">Procesando registro...</h3>
-      <div class="hint" id="popupTextoEnvio" style="font-size:14px; margin:8px 0 0 0; color:#374151;">
+<div class="submit-wrap"><button data-i18n="send" id="submitBtn" type="submit">Enviar</button><div class="status" id="statusMessage"></div></div></div></form>
+<div class="popup-backdrop" id="popupEnvio" style="display:none; position:fixed; inset:0; z-index:999999; align-items:center; justify-content:center; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);">
+<div class="popup-card" style="max-width:340px;">
+<div id="popupLoadingState">
+<div style="width:48px;height:48px;border:4px solid rgba(245,158,11,.25);border-top-color:#f59e0b;border-radius:50%;margin:0 auto 16px;animation:spinPopup 0.9s linear infinite;"></div>
+<h3 id="popupTituloEnvio">Procesando registro...</h3>
+<div class="hint" id="popupTextoEnvio" style="font-size:14px; margin:8px 0 0 0; color:#374151;">
         Por favor espera unos segundos.
       </div>
-    </div>
-    <div id="popupSuccessState" style="display:none;">
-      <h3 id="popupTituloExito">Registro exitoso</h3>
-      <div class="hint" id="popupTextoExito" style="font-size:14px; margin:8px 0 16px 0; color:#374151;">
+</div>
+<div id="popupSuccessState" style="display:none;">
+<h3 id="popupTituloExito">Registro exitoso</h3>
+<div class="hint" id="popupTextoExito" style="font-size:14px; margin:8px 0 16px 0; color:#374151;">
         El formulario se envió correctamente.
       </div>
-      <button type="button" onclick="cerrarVentanaEnvio()">Cerrar</button>
-    </div>
-  </div>
-</div>
-
+<button onclick="cerrarVentanaEnvio()" type="button">Cerrar</button>
 </div>
 </div>
-
+</div>
+</div>
+</div>
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqrKPeePHdJPH08iM95shZkMRAso68IryR-Ol42kKtQq6PzqzakneFojDG_9WGrhdAUg/exec";
 
@@ -987,6 +1015,80 @@ const vehiculoPlacas = document.getElementById("vehiculo_placas");
 const comprobanteTransferenciaWrap = document.getElementById("comprobante_transferencia_wrap");
 const comprobanteTransferencia = document.getElementById("comprobante_transferencia");
 
+const formularioPrincipal = document.getElementById("formulario_principal");
+const tipoRegistroInput = document.getElementById("tipo_registro");
+const campoIdentificacion = document.getElementById("field_identificacion");
+const campoMotivo = document.getElementById("field_motivo");
+const campoPropiedadDepartamento = document.getElementById("field_propiedad_departamento");
+const campoNumHuespedes = document.getElementById("field_num_huespedes");
+const campoHuespedesNombres = document.getElementById("field_huespedes_nombres");
+const seccionContactoHuesped = document.getElementById("section_contacto_huesped");
+const campoRazonSocial = document.getElementById("field_razon_social");
+const campoRegimenFiscal = document.getElementById("field_regimen_fiscal");
+
+function seleccionarTipoRegistro(tipo){
+  tipoRegistroInput.value = tipo;
+  formularioPrincipal.classList.add("visible");
+  document.getElementById("choice_nuevo").classList.toggle("active", tipo === "nuevo");
+  document.getElementById("choice_registrado").classList.toggle("active", tipo === "registrado");
+
+  const esRegistrado = tipo === "registrado";
+  campoIdentificacion.classList.toggle("hidden", esRegistrado);
+  campoMotivo.classList.toggle("hidden", esRegistrado);
+  campoPropiedadDepartamento.classList.remove("hidden");
+  campoNumHuespedes.classList.toggle("hidden", esRegistrado);
+  campoHuespedesNombres.classList.toggle("hidden", esRegistrado);
+  seccionContactoHuesped.classList.toggle("hidden", esRegistrado);
+
+  if (factura.value === "si") {
+    campoRazonSocial.classList.toggle("hidden", esRegistrado);
+    campoRegimenFiscal.classList.toggle("hidden", esRegistrado);
+  } else {
+    campoRazonSocial.classList.add("hidden");
+    campoRegimenFiscal.classList.add("hidden");
+  }
+
+  if (esRegistrado) {
+    identificacionTipo.value = "";
+    identificacionOtro.value = "";
+    toggleIdentificacion();
+    motivo.value = "";
+    motivo_otro.value = "";
+    numHuespedes.value = "";
+    const container = document.getElementById("huespedes-container");
+    container.innerHTML = `<div class="huesped-row">
+      <div style="flex:1;">
+        <input type="text" name="huesped[]" placeholder="Huésped 1">
+        <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" class="copiar-reservante" style="width:auto;" onchange="toggleCopiarReservante(this)">
+          Es la misma persona que realizó la reservación
+        </label>
+      </div>
+    </div>`;
+    renumerarHuespedes();
+    document.getElementById("lada1").value = "52";
+    document.querySelector('input[name="cel"]').value = "";
+  } else {
+    campoRazonSocial.classList.toggle("hidden", factura.value !== "si");
+    campoRegimenFiscal.classList.toggle("hidden", factura.value !== "si");
+  }
+
+  if (window.currentLang) applyTranslations(window.currentLang);
+}
+
+function actualizarCamposPorTipoRegistro(){
+  const esRegistrado = tipoRegistroInput.value === "registrado";
+  if (!tipoRegistroInput.value) return;
+  campoIdentificacion.classList.toggle("hidden", esRegistrado);
+  campoMotivo.classList.toggle("hidden", esRegistrado);
+  campoPropiedadDepartamento.classList.remove("hidden");
+  campoNumHuespedes.classList.toggle("hidden", esRegistrado);
+  campoHuespedesNombres.classList.toggle("hidden", esRegistrado);
+  seccionContactoHuesped.classList.toggle("hidden", esRegistrado);
+  campoRazonSocial.classList.toggle("hidden", factura.value !== "si" || esRegistrado);
+  campoRegimenFiscal.classList.toggle("hidden", factura.value !== "si" || esRegistrado);
+}
+
 document.querySelector('input[name="nombre"]').addEventListener("input", () => {
   const firstRow = document.querySelector('#huespedes-container .huesped-row');
   const chk = firstRow?.querySelector('.copiar-reservante:checked');
@@ -1037,6 +1139,9 @@ factura.addEventListener("change", () => {
   const show = factura.value === "si";
   facturaFields.classList.toggle("hidden", !show);
   facturaNotas.classList.toggle("hidden", !show);
+  const esRegistrado = tipoRegistroInput.value === "registrado";
+  campoRazonSocial.classList.toggle("hidden", !show || esRegistrado);
+  campoRegimenFiscal.classList.toggle("hidden", !show || esRegistrado);
 
   if (!show) {
     nota_airbnb.classList.add("hidden");
@@ -1365,6 +1470,12 @@ document.getElementById("form").addEventListener("submit", async function(e){
   status.style.display = "none";
   status.textContent = "";
 
+  if (!tipoRegistroInput.value) {
+    status.textContent = window.currentLang === "en" ? "Select a registration type before continuing." : "Selecciona primero el tipo de registro.";
+    status.classList.add("error");
+    return;
+  }
+
   if (!WEB_APP_URL || WEB_APP_URL.includes("PEGA_AQUI")) {
     status.textContent = "Falta pegar la URL del Web App de Apps Script.";
     status.classList.add("error");
@@ -1377,6 +1488,7 @@ document.getElementById("form").addEventListener("submit", async function(e){
 
   const payload = {
     action: "submit_form",
+    tipo_registro: f.get("tipo_registro"),
     medio: f.get("medio"),
     nombre: f.get("nombre"),
     hora_llegada_estimada: f.get("hora_llegada_estimada"),
@@ -1459,6 +1571,17 @@ document.getElementById("form").addEventListener("submit", async function(e){
       this.reset();
 
       facturaFields.classList.add("hidden");
+      formularioPrincipal.classList.remove("visible");
+      tipoRegistroInput.value = "";
+      document.getElementById("choice_nuevo").classList.remove("active");
+      document.getElementById("choice_registrado").classList.remove("active");
+      campoIdentificacion.classList.remove("hidden");
+      campoMotivo.classList.remove("hidden");
+      campoNumHuespedes.classList.remove("hidden");
+      campoHuespedesNombres.classList.remove("hidden");
+      seccionContactoHuesped.classList.remove("hidden");
+      campoRazonSocial.classList.add("hidden");
+      campoRegimenFiscal.classList.add("hidden");
       facturaNotas.classList.add("hidden");
       nota_airbnb.classList.add("hidden");
       comprobanteTransferenciaWrap.classList.add("hidden");
@@ -1520,15 +1643,6 @@ document.getElementById("form").addEventListener("submit", async function(e){
 
 </script>
 
-
-
-
-</div>
-
-
-
-
-
 <script>
 const I18N = {
   es: {
@@ -1582,6 +1696,12 @@ const I18N = {
     uploadImage: "Subir imagen",
     noImage: "Ninguna imagen seleccionada",
     chooseLanguage: "Selecciona el idioma",
+    preFormTitle: "Tipo de registro",
+    preFormSub: "Antes de continuar, selecciona si se trata de un registro nuevo o de un huésped ya registrado.",
+    optionNewTitle: "Registro nuevo",
+    optionNewText: "Muestra el formulario completo para capturar todos los datos del huésped.",
+    optionRegisteredTitle: "Huésped ya registrado",
+    optionRegisteredText: "Oculta los campos que ya existen en registros previos y muestra únicamente los necesarios para una nueva estancia.",
     make: "Marca",
     specifyMake: "Especifica la marca",
     model: "Modelo",
@@ -1605,7 +1725,7 @@ const I18N = {
     placeholderHour1: "Huésped 1",
     placeholderGuestBase: "Huésped",
     placeholderModel: "Especifica el modelo",
-    bookerMediumOptions: ["Selecciona","Airbnb","Check-inn-Saltillo.com","Trato directo"],
+    bookerMediumOptions: ["Selecciona","Airbnb","Check-inn-Saltillo.com (website / link de whatsapp)","Trato directo"],
     idTypeOptions: ["Selecciona","INE","Pasaporte","Otro"],
     reasonOptions: ["Selecciona","Laboral","Estudio","Vacacional","Otro"],
     propertyOptions: ["Selecciona","Cumbres","Baja California","Oaxaca","José Cárdenas","Matamoros","Torreón","Otra"],
@@ -1668,6 +1788,12 @@ const I18N = {
     uploadImage: "Upload image",
     noImage: "No image selected",
     chooseLanguage: "Choose language",
+    preFormTitle: "Registration type",
+    preFormSub: "Before continuing, select whether this is a new registration or an already registered guest.",
+    optionNewTitle: "New registration",
+    optionNewText: "Shows the full form to capture all guest details.",
+    optionRegisteredTitle: "Already registered guest",
+    optionRegisteredText: "Hides fields already stored in previous records and shows only what is needed for a new stay.",
     make: "Make",
     specifyMake: "Specify the make",
     model: "Model",
@@ -1691,7 +1817,7 @@ const I18N = {
     placeholderHour1: "Guest 1",
     placeholderGuestBase: "Guest",
     placeholderModel: "Specify the model",
-    bookerMediumOptions: ["Select","Airbnb","Check-inn-Saltillo.com","Direct booking"],
+    bookerMediumOptions: ["Select","Airbnb","Check-inn-Saltillo.com (website / WhatsApp link)","Direct booking"],
     idTypeOptions: ["Select","ID card","Passport","Other"],
     reasonOptions: ["Select","Work","Study","Vacation","Other"],
     propertyOptions: ["Select","Cumbres","Baja California","Oaxaca","José Cárdenas","Matamoros","Torreón","Other"],
@@ -1857,28 +1983,18 @@ document.documentElement.lang = lang;
   window.currentLang = lang;
 }
 
-});
-
-
-applyTranslations(window.currentLang);
+applyTranslations(window.currentLang || "es");
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 const SIMPLE_I18N = {
   es: {
     chooseLanguage:"Selecciona el idioma",
+    preFormTitle:"Tipo de registro",
+    preFormSub:"Antes de continuar, selecciona si se trata de un registro nuevo o de un huésped ya registrado.",
+    optionNewTitle:"Registro nuevo",
+    optionNewText:"Muestra el formulario completo para capturar todos los datos del huésped.",
+    optionRegisteredTitle:"Huésped ya registrado",
+    optionRegisteredText:"Oculta los campos que ya existen en registros previos y muestra únicamente los necesarios para una nueva estancia.",
     title:"Registro de huéspedes",
     sec1Title:"Datos de la reservación",
     sec1Sub:"Información general de la estancia y de la persona que realizó la reservación.",
@@ -1932,6 +2048,12 @@ const SIMPLE_I18N = {
   },
   en: {
     chooseLanguage:"Choose language",
+    preFormTitle:"Registration type",
+    preFormSub:"Before continuing, select whether this is a new registration or an already registered guest.",
+    optionNewTitle:"New registration",
+    optionNewText:"Shows the full form to capture all guest details.",
+    optionRegisteredTitle:"Already registered guest",
+    optionRegisteredText:"Hides fields already stored in previous records and shows only what is needed for a new stay.",
     title:"Guest registration",
     sec1Title:"Reservation details",
     sec1Sub:"General stay information and details of the person who made the reservation.",
@@ -2015,7 +2137,7 @@ function applyTranslations(lang){
   });
 
   const selectMaps = [
-    ['select[name="medio"]', lang === "en" ? ["Select","Airbnb","Check-inn-Saltillo.com","Direct booking"] : ["Selecciona","Airbnb","Check-inn-Saltillo.com","Trato directo"]],
+    ['select[name="medio"]', lang === "en" ? ["Select","Airbnb","Check-inn-Saltillo.com (website / WhatsApp link)","Direct booking"] : ["Selecciona","Airbnb","Check-inn-Saltillo.com (website / link de whatsapp)","Trato directo"]],
     ['#identificacion_tipo', lang === "en" ? ["Select","ID card","Passport","Other"] : ["Selecciona","INE","Pasaporte","Otro"]],
     ['#motivo', lang === "en" ? ["Select","Work","Study","Vacation","Other"] : ["Selecciona","Laboral","Estudio","Vacacional","Otro"]],
     ['#propiedad', lang === "en" ? ["Select","Cumbres","Baja California","Oaxaca","José Cárdenas","Matamoros","Torreón","Other"] : ["Selecciona","Cumbres","Baja California","Oaxaca","José Cárdenas","Matamoros","Torreón","Otra"]],
@@ -2069,6 +2191,5 @@ function applyTranslations(lang){
   });
 })();
 </script>
-
 </body>
 </html>
