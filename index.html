@@ -2210,6 +2210,7 @@ function applyTranslations(lang){
   if (lada2 && lada2.options[0]) lada2.options[0].textContent = lang === "en" ? "Country code" : "Lada";
 
   document.documentElement.lang = lang;
+  window.currentLang = lang;
 }
 
 (function(){
@@ -2233,11 +2234,13 @@ function applyTranslations(lang){
     if (sw) {
       sw.addEventListener("click", function(){
         currentLang = currentLang === "es" ? "en" : "es";
+        window.currentLang = currentLang;
         applyTranslations(currentLang);
         updateSwitchUI();
       });
     }
-    applyTranslations("es");
+    applyTranslations(currentLang);
+    window.currentLang = currentLang;
     updateSwitchUI();
   });
 })();
