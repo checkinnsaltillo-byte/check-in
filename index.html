@@ -164,7 +164,6 @@ button:disabled{
   box-shadow:none;
 }
 .hidden{display:none !important;}
-.hidden-section-backend{display:none !important;}
 .note{
   background:var(--note-bg);
   border:1px solid var(--note-border);
@@ -674,11 +673,9 @@ button:disabled{
   <option value="no">No</option>
 </select>
 
-
-
 <div id="factura_notas" class="note hidden">
   <div data-i18n="invoiceNotePeriod">Se emitirá una factura para cada periodo registrado.</div>
-  <div style="margin-top:6px;" data-i18n="invoiceNoteExtension">Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.</div>
+  <div data-i18n="invoiceNoteExtension" style="margin-top:6px;">Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.</div>
 </div>
 
 <div id="factura_fields" class="hidden">
@@ -705,6 +702,23 @@ button:disabled{
     <option value="Liga de Whatsapp">Liga de Whatsapp</option>
   </select>
 
+  <div id="comprobante_transferencia_wrap" class="hidden">
+    <label data-i18n="transferReceipt">Sube el comprobante de transferencia</label>
+    <div class="upload-box">
+      <label class="custom-upload">
+        <input type="file" id="comprobante_transferencia" name="comprobante_transferencia" accept="image/*">
+        <span class="upload-drop">
+          <span class="upload-copy">
+            <span class="upload-title" data-i18n="uploadImage">Subir imagen</span>
+            <span class="upload-subtitle">JPG o PNG optimizado</span>
+          </span>
+          <span class="upload-btn" data-i18n="uploadImage">Subir imagen</span>
+        </span>
+      </label>
+      <div class="preview-wrapper"><img id="comprobante_transferencia_preview" class="preview-img hidden" alt=""><div class="preview-text" id="comprobante_transferencia_name">Ninguna imagen seleccionada</div></div>
+    </div>
+  </div>
+
   <div id="nota_airbnb" class="note hidden">
     La factura emitimos corresponde al monto que Airbnb deposita a nuestra cuenta ($ Monto pagado - $ Comisión Airbnb). En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.
   </div>
@@ -730,7 +744,7 @@ button:disabled{
   <input type="email" id="correo2" name="correo2">
 </div>
 
-</div><div class="section hidden-section-backend" id="seccion-registro-vehiculo"><h2 class="section-title" data-i18n="sec5Title">Registro de vehículo</h2><label data-i18n="vehicle">¿Cuentas con vehículo?</label>
+</div><div class="section hidden" id="vehicle_section_hidden_backend"><h2 class="section-title" data-i18n="sec5Title">Registro de vehículo</h2><label data-i18n="vehicle">¿Cuentas con vehículo?</label>
 <select id="tiene_vehiculo" name="tiene_vehiculo">
   <option value="">Selecciona</option>
   <option value="si">Sí</option>
@@ -835,7 +849,7 @@ button:disabled{
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyeo_p94YS2A_opno40EWx22RdDYn4MI5mPdSFl_U6Ptqj7WXXY_P69a3-lLMFeIvDZSA/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqrKPeePHdJPH08iM95shZkMRAso68IryR-Ol42kKtQq6PzqzakneFojDG_9WGrhdAUg/exec";
 
 const ladas = [
   {c:"México",code:"52",p:1},
@@ -970,6 +984,8 @@ const vehiculoColor = document.getElementById("vehiculo_color");
 const vehiculoFoto = document.getElementById("vehiculo_foto");
 const vehiculoHoraSalida = document.getElementById("vehiculo_hora_salida");
 const vehiculoPlacas = document.getElementById("vehiculo_placas");
+const comprobanteTransferenciaWrap = document.getElementById("comprobante_transferencia_wrap");
+const comprobanteTransferencia = document.getElementById("comprobante_transferencia");
 
 document.querySelector('input[name="nombre"]').addEventListener("input", () => {
   const firstRow = document.querySelector('#huespedes-container .huesped-row');
@@ -1027,14 +1043,28 @@ factura.addEventListener("change", () => {
     regimen_otro.classList.add("hidden");
     regimen_otro.value = "";
     medio_pago.value = "";
+    toggleComprobanteTransferencia();
   } else {
     toggleRegimenOtro();
     nota_airbnb.classList.toggle("hidden", medio_pago.value !== "Airbnb");
+    toggleComprobanteTransferencia();
   }
 });
 
+function toggleComprobanteTransferencia(){
+  const show = medio_pago.value === "Transferencia directa a la cuenta del anfitrión";
+  comprobanteTransferenciaWrap.classList.toggle("hidden", !show);
+  if (!show && comprobanteTransferencia) {
+    comprobanteTransferencia.value = "";
+    document.getElementById("comprobante_transferencia_name").textContent = (window.currentLang === "en" ? "No image selected" : "Ninguna imagen seleccionada");
+    document.getElementById("comprobante_transferencia_preview").classList.add("hidden");
+    document.getElementById("comprobante_transferencia_preview").src = "";
+  }
+}
+
 medio_pago.addEventListener("change", () => {
   nota_airbnb.classList.toggle("hidden", medio_pago.value !== "Airbnb");
+  toggleComprobanteTransferencia();
 });
 
 function formatCurrencyPreview(){
@@ -1055,6 +1085,7 @@ function formatCurrencyPreview(){
 monto_pagado.addEventListener("input", formatCurrencyPreview);
 divisa_monto.addEventListener("change", formatCurrencyPreview);
 formatCurrencyPreview();
+toggleComprobanteTransferencia();
 
 function updateFileName(inputId, outputId, previewId){
   const input = document.getElementById(inputId);
@@ -1087,6 +1118,7 @@ updateFileName("ine_frontal", "ine_frontal_name", "ine_frontal_preview");
 updateFileName("ine_trasero", "ine_trasero_name", "ine_trasero_preview");
 updateFileName("identificacion_unica", "identificacion_unica_name", "identificacion_unica_preview");
 updateFileName("vehiculo_foto", "vehiculo_foto_name", "vehiculo_foto_preview");
+updateFileName("comprobante_transferencia", "comprobante_transferencia_name", "comprobante_transferencia_preview");
 
 function fileToBase64(file){
   return new Promise((resolve, reject) => {
@@ -1219,7 +1251,8 @@ function getSelectedFilesForUpload(){
     { fieldName: "ine_frontal", label: "INE frontal", file: document.getElementById("ine_frontal")?.files?.[0] || null },
     { fieldName: "ine_trasero", label: "INE trasero", file: document.getElementById("ine_trasero")?.files?.[0] || null },
     { fieldName: "identificacion_unica", label: "Identificación", file: document.getElementById("identificacion_unica")?.files?.[0] || null },
-    { fieldName: "vehiculo_foto", label: "Foto vehículo", file: document.getElementById("vehiculo_foto")?.files?.[0] || null }
+    { fieldName: "vehiculo_foto", label: "Foto vehículo", file: document.getElementById("vehiculo_foto")?.files?.[0] || null },
+    { fieldName: "comprobante_transferencia", label: "Comprobante de transferencia", file: document.getElementById("comprobante_transferencia")?.files?.[0] || null }
   ].filter(x => x.file);
 }
 
@@ -1307,7 +1340,8 @@ function validarArchivosAntesDeEnviar(){
     { inputId: "ine_frontal", etiqueta: "INE frontal" },
     { inputId: "ine_trasero", etiqueta: "INE trasero" },
     { inputId: "identificacion_unica", etiqueta: "Identificación" },
-    { inputId: "vehiculo_foto", etiqueta: "Foto de vehículo" }
+    { inputId: "vehiculo_foto", etiqueta: "Foto de vehículo" },
+    { inputId: "comprobante_transferencia", etiqueta: "Comprobante de transferencia" }
   ];
 
   for (const item of archivos) {
@@ -1347,7 +1381,7 @@ document.getElementById("form").addEventListener("submit", async function(e){
     nombre: f.get("nombre"),
     hora_llegada_estimada: f.get("hora_llegada_estimada"),
     hora_salida_estimada: f.get("hora_salida_estimada"),
-    identificacion_tipo: f.get("identificacion_tipo") === "Otro" ? f.get("identificacion_otro") : f.get("identificacion_tipo"),
+    identificacion_tipo: f.get("identificacion_tipo"),
     identificacion_otro: f.get("identificacion_otro"),
     ine_frontal: "",
     ine_trasero: "",
@@ -1367,17 +1401,22 @@ document.getElementById("form").addEventListener("submit", async function(e){
     celular_emergencia: `'${(f.get("lada2") || "").trim()} ${(f.get("emergencia") || "").trim()}`.trim(),
     factura: f.get("factura"),
     razon_social: f.get("razon_social"),
-    regimen: f.get("regimen") === "Otro" ? f.get("regimen_otro") : f.get("regimen"),
+    regimen: f.get("regimen"),
     regimen_otro: f.get("regimen_otro"),
     medio_pago: f.get("medio_pago"),
+    comprobante_transferencia: "",
     divisa_monto: f.get("divisa_monto"),
     monto_pagado: f.get("monto_pagado"),
     correo1: f.get("correo1"),
     correo2: f.get("correo2"),
+    rfc: "",
+    codigo_postal: "",
+    comentarios_factura: "",
     tiene_vehiculo: f.get("tiene_vehiculo"),
-    vehiculo_marca: f.get("vehiculo_marca") === "Otro" ? f.get("vehiculo_marca_otro") : f.get("vehiculo_marca"),
+    vehiculo_marca: f.get("vehiculo_marca"),
     vehiculo_marca_otro: f.get("vehiculo_marca_otro"),
     vehiculo_modelo: f.get("vehiculo_modelo"),
+    vehiculo_modelo_otro: "",
     vehiculo_color: f.get("vehiculo_color"),
     vehiculo_foto: "",
     vehiculo_hora_salida: f.get("vehiculo_hora_salida"),
@@ -1422,6 +1461,7 @@ document.getElementById("form").addEventListener("submit", async function(e){
       facturaFields.classList.add("hidden");
       facturaNotas.classList.add("hidden");
       nota_airbnb.classList.add("hidden");
+      comprobanteTransferenciaWrap.classList.add("hidden");
       regimen_otro.classList.add("hidden");
       identificacionOtro.classList.add("hidden");
       identificacionIneFields.classList.add("hidden");
@@ -1453,6 +1493,9 @@ document.getElementById("form").addEventListener("submit", async function(e){
       document.getElementById("vehiculo_foto_name").textContent = "Ninguna imagen seleccionada";
       document.getElementById("vehiculo_foto_preview").classList.add("hidden");
       document.getElementById("vehiculo_foto_preview").src = "";
+      document.getElementById("comprobante_transferencia_name").textContent = "Ninguna imagen seleccionada";
+      document.getElementById("comprobante_transferencia_preview").classList.add("hidden");
+      document.getElementById("comprobante_transferencia_preview").src = "";
 
       formatCurrencyPreview();
       loadLadas("lada1");
@@ -1521,10 +1564,13 @@ const I18N = {
     guestPhone: "Celular del huésped",
     emergencyContact: "Contacto emergencia",
     invoice: "¿Requieres factura?",
+    invoiceNotePeriod: "Se emitirá una factura para cada periodo registrado.",
+    invoiceNoteExtension: "Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.",
     businessName: "Razón social",
     taxRegime: "Régimen fiscal",
     specifyTaxRegime: "Especifica el régimen fiscal",
     paymentMethod: "Medio de pago",
+    transferReceipt: "Sube el comprobante de transferencia",
     airbnbNote: "La factura emitimos corresponde al monto que Airbnb deposita a nuestra cuenta ($ Monto pagado - $ Comisión Airbnb). En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.",
     amountPaid: "$ Monto pagado",
     currencyHintPrefix: "Monto capturado:",
@@ -1604,10 +1650,13 @@ const I18N = {
     guestPhone: "Guest phone",
     emergencyContact: "Emergency contact",
     invoice: "Do you need an invoice?",
+    invoiceNotePeriod: "One invoice will be issued for each registered period.",
+    invoiceNoteExtension: "If you make an EXTENSION, you must submit a new registration for the new period.",
     businessName: "Business name",
     taxRegime: "Tax regime",
     specifyTaxRegime: "Specify the tax regime",
     paymentMethod: "Payment method",
+    transferReceipt: "Upload transfer receipt",
     airbnbNote: "The invoice we issue corresponds to the amount Airbnb deposits into our account ($ Amount paid - $ Airbnb commission). If you need to cover the full amount, you must download the invoice for the platform commission directly from the Airbnb app.",
     amountPaid: "$ Amount paid",
     currencyHintPrefix: "Captured amount:",
@@ -1731,6 +1780,7 @@ function applyTranslations(lang){
     else if (text === "Razón social" || text === "Business name") label.textContent = t.businessName;
     else if (text === "Régimen fiscal" || text === "Tax regime") label.textContent = t.taxRegime;
     else if (text === "Medio de pago" || text === "Payment method") label.textContent = t.paymentMethod;
+    else if (text === "Sube el comprobante de transferencia" || text === "Upload transfer receipt") label.textContent = t.transferReceipt;
     else if (text.includes("$ Monto pagado") || text.includes("$ Amount paid")) label.textContent = t.amountPaid;
     else if (text === "Correo electrónico (principal)" || text === "Email (primary)") label.textContent = t.emailPrimary;
     else if (text === "Correo electrónico (copia)" || text === "Email (copy)") label.textContent = t.emailCopy;
@@ -1860,9 +1910,12 @@ const SIMPLE_I18N = {
     guestPhone:"Celular del huésped",
     emergencyContact:"Contacto emergencia",
     invoice:"¿Requieres factura?",
+    invoiceNotePeriod:"Se emitirá una factura para cada periodo registrado.",
+    invoiceNoteExtension:"Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.",
     businessName:"Razón social",
     taxRegime:"Régimen fiscal",
     paymentMethod:"Medio de pago",
+    transferReceipt:"Sube el comprobante de transferencia",
     amountPaid:"$ Monto pagado",
     emailPrimary:"Correo electrónico (principal)",
     emailCopy:"Correo electrónico (copia)",
@@ -1910,9 +1963,12 @@ const SIMPLE_I18N = {
     guestPhone:"Guest phone",
     emergencyContact:"Emergency contact",
     invoice:"Do you need an invoice?",
+    invoiceNotePeriod:"One invoice will be issued for each registered period.",
+    invoiceNoteExtension:"If you make an EXTENSION, you must submit a new registration for the new period.",
     businessName:"Business name",
     taxRegime:"Tax regime",
     paymentMethod:"Payment method",
+    transferReceipt:"Upload transfer receipt",
     amountPaid:"$ Amount paid",
     emailPrimary:"Email (primary)",
     emailCopy:"Email (copy)",
