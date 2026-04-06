@@ -909,7 +909,8 @@ button:disabled{
         El formulario se envió correctamente.
       </div>
 <button onclick="cerrarVentanaEnvio()" type="button">Cerrar</button>
-</div>
+
+<div style="margin-top:12px; font-size:14px; color:#374151;">Dudas/Comentarios</div><button onclick="abrirWhatsappDudas()" style="margin-top:8px; background:#25D366;" type="button">Envíanos un Whatsapp</button></div>
 </div>
 </div>
 </div>
@@ -1609,6 +1610,15 @@ document.getElementById("form").addEventListener("submit", async function(e){
       await uploadImagesInBackground(recordId);
 
       status.textContent = "Envío exitoso. Registro guardado correctamente.";
+
+      window.__ultimoRegistroWhatsapp = {
+        nombre: String(payload.nombre || "").trim(),
+        propiedad: String((payload.propiedad === "Otra" ? (payload.propiedad_otra || "") : (payload.propiedad || "")) || "").trim(),
+        depto: String(payload.depto || "").trim(),
+        ingreso: String(payload.ingreso || "").trim(),
+        salida: String(payload.salida || "").trim()
+      };
+
       this.reset();
 
       facturaFields.classList.add("hidden");
@@ -2231,6 +2241,69 @@ function applyTranslations(lang){
     updateSwitchUI();
   });
 })();
+</script>
+<script>
+function abrirWhatsappDudas() {
+  const nombre = document.querySelector('input[name="nombre"]')?.value || "";
+  const propiedad = document.querySelector('select[name="propiedad"]')?.value || "";
+  const depto = document.querySelector('select[name="depto"]')?.value || "";
+  const ingreso = document.querySelector('input[name="ingreso"]')?.value || "";
+  const salida = document.querySelector('input[name="salida"]')?.value || "";
+
+  const mensaje = `Hola soy ${nombre} con reservación en ${propiedad}-${depto} del ${ingreso} al ${salida}. Mi duda/comentario es el siguiente:`;
+
+  const url = `https://wa.me/528444443922?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, "_blank");
+}
+</script>
+<script>
+window.__ultimoRegistroWhatsapp = {
+  nombre: "",
+  propiedad: "",
+  depto: "",
+  ingreso: "",
+  salida: ""
+};
+
+function formatearFechaWhatsapp(fechaISO){
+  if (!fechaISO) return "";
+  const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  const partes = String(fechaISO).split("-");
+  if (partes.length !== 3) return fechaISO;
+  const anio = Number(partes[0]);
+  const mes = Number(partes[1]);
+  const dia = Number(partes[2]);
+  if (!anio || !mes || !dia) return fechaISO;
+  return `${dia} de ${meses[mes - 1]}`;
+}
+
+function obtenerTextoPropiedad(){
+  const select = document.querySelector('select[name="propiedad"]');
+  const otra = document.querySelector('input[name="propiedad_otra"]')?.value?.trim() || "";
+  if (select && select.value === "Otra" && otra) return otra;
+  return select?.value || "";
+}
+
+function abrirWhatsappDudas() {
+  const data = window.__ultimoRegistroWhatsapp || {};
+  const nombre = (data.nombre || "").trim();
+  const propiedad = (data.propiedad || "").trim();
+  const depto = (data.depto || "").trim();
+  const ingreso = formatearFechaWhatsapp(data.ingreso || "");
+  const salida = formatearFechaWhatsapp(data.salida || "");
+
+  const ubicacion = [propiedad, depto].filter(Boolean).join(" ");
+  const periodo = [ingreso, salida].filter(Boolean).join(" al ");
+
+  let mensaje = "Hola";
+  if (nombre) mensaje += ` soy *${nombre}*`;
+  if (propiedad || depto) mensaje += ` con reservación en *${propiedad}*-*${depto}*`;
+  if (ingreso || salida) mensaje += ` del *${ingreso}* al *${salida}*`;
+  mensaje += ". Mi duda/comentario es el siguiente:";
+
+  const url = `https://wa.me/528444443922?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, "_blank");
+}
 </script>
 </body>
 </html>
