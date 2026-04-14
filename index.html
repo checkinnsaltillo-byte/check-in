@@ -491,11 +491,10 @@ button:disabled{
 <div class="choice-grid">
 <div class="choice-card" id="choice_nuevo" onclick="seleccionarTipoRegistro('nuevo')">
 <div class="choice-card-title" data-i18n="optionNewTitle">Registro nuevo</div>
-<div class="choice-card-text" data-i18n="optionNewText"><strong>Prepara tu identificación personal</strong></div>
+<div class="choice-card-text" data-i18n="optionNewText">Prepara tu identificación personal</div>
 </div>
 <div class="choice-card" id="choice_registrado" onclick="seleccionarTipoRegistro('registrado')">
-<div class="choice-card-title" data-i18n="optionRegisteredTitle">Huésped ya registrado
-<div style="font-size:14px; color:#6b7280; margin-top:6px;">Ya subiste tu identificación personal</div></div>
+<div class="choice-card-title" data-i18n="optionRegisteredTitle">Huésped ya registrado</div>
 <div class="choice-card-text" data-i18n="optionRegisteredText"></div>
 </div>
 </div>
@@ -541,7 +540,7 @@ button:disabled{
 </select>
 </div></div>
 <div id="field_huespedes_nombres"><label data-i18n="guestNames">Nombres de los huéspedes</label>
-<div class="hint" data-i18n="guestHint">Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.</div>
+
 <div id="huespedes-container">
 <div class="huesped-row">
 <div style="flex:1;">
@@ -757,7 +756,7 @@ button:disabled{
 </select>
 </div></div>
 <div id="field_huespedes_nombres"><label data-i18n="guestNames">Nombres de los huéspedes</label>
-<div class="hint" data-i18n="guestHint">Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.</div>
+
 <div id="huespedes-container">
 <div class="huesped-row">
 <div style="flex:1;">
@@ -929,7 +928,7 @@ button:disabled{
 <input id="vehiculo_placas" name="vehiculo_placas" placeholder="Escribe las placas" type="text"/>
 </div>
 </div>
-<div class="section"><h2 class="section-title" data-i18n="sec6Title">Comentarios</h2><p class="section-subtitle" data-i18n="sec6Sub">Información adicional relevante.</p>
+<div class="section"><h2 class="section-title" data-i18n="sec6Title">Comentarios</h2><p class="section-subtitle" data-i18n="sec6Sub"></p>
 <textarea name="comentarios"></textarea></div>
 <div class="submit-wrap"><button data-i18n="send" id="submitBtn" type="submit">Enviar</button><div class="status" id="statusMessage"></div></div></div></form>
 <div class="popup-backdrop" id="popupEnvio" style="display:none; position:fixed; inset:0; z-index:999999; align-items:center; justify-content:center; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);">
@@ -1760,7 +1759,7 @@ const I18N = {
     department: "# Departamento",
     guestsCount: "# Huéspedes",
     guestNames: "Nombres de los huéspedes",
-    guestHint: "Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.",
+    guestHint:"",
     sameAsBooker: "Es la misma persona que realizó la reservación",
     addGuest: "➕ Agregar huésped",
     guestPhone: "Celular del huésped",
@@ -1787,9 +1786,8 @@ const I18N = {
     preFormTitle: "Tipo de registro",
     preFormSub: "",
     optionNewTitle: "Registro nuevo",
-    optionNewText: "<strong>Prepara tu identificación personal</strong>",
-    optionRegisteredTitle: "Huésped ya registrado
-<div style="font-size:14px; color:#6b7280; margin-top:6px;">Ya subiste tu identificación personal</div>",
+    optionNewText: "Prepara tu identificación personal",
+    optionRegisteredTitle: "Huésped ya registrado",
     optionRegisteredText: "",
     make: "Marca",
     specifyMake: "Especifica la marca",
@@ -1829,7 +1827,7 @@ const I18N = {
   en: {
     title: "Guest registration",
     sec1Title: "Reservation details",
-    sec1Sub: "General stay information and details of the person who made the reservation.",
+    sec1Sub: "Información general de la estancia y de la persona que realizó la reservación.",
     sec2Title: "Identification and stay",
     sec2Sub: "Provide identification, trip purpose, dates, times and guest names.",
     sec3Title: "Guest contact",
@@ -1853,7 +1851,7 @@ const I18N = {
     department: "Apartment #",
     guestsCount: "Guests #",
     guestNames: "Guest names",
-    guestHint: "You can check the first guest box to copy the name of the person who made the reservation.",
+    guestHint:"",
     sameAsBooker: "Same person who made the reservation",
     addGuest: "➕ Add guest",
     guestPhone: "Guest phone",
@@ -1878,11 +1876,11 @@ const I18N = {
     noImage: "No image selected",
     chooseLanguage: "Choose language",
     preFormTitle: "Registration type",
-    preFormSub: "Before continuing, select whether this is a new registration or an already registered guest.",
+    preFormSub: "",
     optionNewTitle: "New registration",
-    optionNewText: "Shows the full form to capture all guest details.",
+    optionNewText: "Prepare your personal ID.",
     optionRegisteredTitle: "Already registered guest",
-    optionRegisteredText: "Hides fields already stored in previous records and shows only what is needed for a new stay.",
+    optionRegisteredText:"If you have already uploaded your personal ID",
     make: "Make",
     specifyMake: "Specify the make",
     model: "Model",
@@ -1969,7 +1967,7 @@ function applyTranslations(lang){
     sectionSubs[4].textContent = t.sec4Sub;
     sectionSubs[4].style.display = t.sec4Sub ? "" : "none";
   }
-  if (sectionSubs[5]) sectionSubs[5].textContent = (lang === "en" ? "Additional relevant information." : "Información adicional relevante.");
+  if (sectionSubs[5]) sectionSubs[5].textContent = (lang === "en" ? "" : "");
 
   const labels = Array.from(document.querySelectorAll("label"));
   labels.forEach(label => {
@@ -2081,10 +2079,9 @@ const SIMPLE_I18N = {
     preFormTitle:"Tipo de registro",
     preFormSub:"",
     optionNewTitle:"Registro nuevo",
-    optionNewText:"<strong>Prepara tu identificación personal</strong>",
-    optionRegisteredTitle:"Huésped ya registrado
-<div style="font-size:14px; color:#6b7280; margin-top:6px;">Ya subiste tu identificación personal</div>",
-    optionRegisteredText:"",
+    optionNewText:"Prepara tu identificación personal",
+    optionRegisteredTitle:"Huésped ya registrado",
+    optionRegisteredText:"Si ya subiste tu identificación personal",
     title:"Registro de huéspedes",
     sec1Title:"Datos de la reservación",
     sec1Sub:"",
@@ -2096,7 +2093,7 @@ const SIMPLE_I18N = {
     sec4Sub:"",
     sec5Title:"Registro de vehículo",
     sec6Title:"Comentarios",
-    sec6Sub:"Información adicional relevante.",
+    sec6Sub:"",
     bookingSource:"Medio de reservación",
     bookingName:"Nombre de la persona que hizo la reservación",
     checkinDate:"Fecha de ingreso",
@@ -2112,7 +2109,7 @@ const SIMPLE_I18N = {
     department:"# Departamento",
     guestsCount:"# Huéspedes",
     guestNames:"Nombres de los huéspedes",
-    guestHint:"Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.",
+    guestHint:"",
     guestPhone:"Celular del huésped",
     emergencyContact:"Contacto emergencia",
     invoice:"¿Requieres el TICKET para AUTO-FACTURACIÓN?",
@@ -2139,14 +2136,14 @@ const SIMPLE_I18N = {
   en: {
     chooseLanguage:"Choose language",
     preFormTitle:"Registration type",
-    preFormSub:"Before continuing, select whether this is a new registration or an already registered guest.",
+    preFormSub:"",
     optionNewTitle:"New registration",
-    optionNewText:"Shows the full form to capture all guest details.",
+    optionNewText:"Prepare your personal ID.",
     optionRegisteredTitle:"Already registered guest",
-    optionRegisteredText:"Hides fields already stored in previous records and shows only what is needed for a new stay.",
+    optionRegisteredText:"If you have already uploaded your personal ID",
     title:"Guest registration",
     sec1Title:"Reservation details",
-    sec1Sub:"General stay information and details of the person who made the reservation.",
+    sec1Sub:"",
     sec2Title:"Identification and stay",
     sec2Sub:"Provide identification, trip purpose, dates, times and guest names.",
     sec3Title:"Guest contact",
@@ -2155,7 +2152,7 @@ const SIMPLE_I18N = {
     sec4Sub:"Tax information for invoice issuance.",
     sec5Title:"Vehicle registration",
     sec6Title:"Comments",
-    sec6Sub:"Additional relevant information.",
+    sec6Sub:"",
     bookingSource:"Booking source",
     bookingName:"Name of the person who made the reservation",
     checkinDate:"Check-in date",
@@ -2171,7 +2168,7 @@ const SIMPLE_I18N = {
     department:"Apartment #",
     guestsCount:"Guests #",
     guestNames:"Guest names",
-    guestHint:"You can check the first guest box to copy the name of the person who made the reservation.",
+    guestHint:"",
     guestPhone:"Guest phone",
     emergencyContact:"Emergency contact",
     invoice:"Do you need a self-invoicing ticket?",
