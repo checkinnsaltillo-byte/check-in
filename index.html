@@ -464,6 +464,14 @@ button:disabled{
 </style>
 </head>
 <body>
+<div style="width:100%; text-align:center; margin-top:20px; margin-bottom:10px;">
+  <img
+    src="https://drive.google.com/thumbnail?id=1PT-1BIv8lVFdwyTcjWDJ0QDeAfPFrlPQ&sz=w1000"
+    alt="Logo Check-inn"
+    style="max-width:260px; width:70%; height:auto; display:inline-block;"
+    referrerpolicy="no-referrer"
+  >
+</div>
 <div class="page-shell">
 <div class="container">
 <div class="lang-bar">
@@ -478,20 +486,21 @@ button:disabled{
 <form id="form">
 <div class="section initial-choice">
 <h2 class="section-title" data-i18n="preFormTitle">Tipo de registro</h2>
-<p class="section-subtitle" data-i18n="preFormSub">Antes de continuar, selecciona si se trata de un registro nuevo o de un huésped ya registrado.</p>
+<p class="section-subtitle" data-i18n="preFormSub"></p>
 <input id="tipo_registro" name="tipo_registro" type="hidden" value=""/>
 <div class="choice-grid">
 <div class="choice-card" id="choice_nuevo" onclick="seleccionarTipoRegistro('nuevo')">
 <div class="choice-card-title" data-i18n="optionNewTitle">Registro nuevo</div>
-<div class="choice-card-text" data-i18n="optionNewText">Prepara tu identificación personal</div>
+<div class="choice-card-text" data-i18n="optionNewText"><strong>Prepara tu identificación personal</strong></div>
 </div>
 <div class="choice-card" id="choice_registrado" onclick="seleccionarTipoRegistro('registrado')">
-<div class="choice-card-title" data-i18n="optionRegisteredTitle">Huésped ya registrado</div>
+<div class="choice-card-title" data-i18n="optionRegisteredTitle">Huésped ya registrado
+<div style="font-size:14px; color:#6b7280; margin-top:6px;">Ya subiste tu identificación personal</div></div>
 <div class="choice-card-text" data-i18n="optionRegisteredText"></div>
 </div>
 </div>
 </div>
-<div class="form-hidden-until-choice" id="formulario_principal"><div class="section"><h2 class="section-title" data-i18n="sec1Title">Datos de la reservación</h2><p class="section-subtitle" data-i18n="sec1Sub">Información general de la estancia y de la persona que realizó la reservación.</p><label data-i18n="bookingSource">Medio de reservación</label>
+<div class="form-hidden-until-choice" id="formulario_principal"><div class="section"><h2 class="section-title" data-i18n="sec1Title">Datos de la reservación</h2><p class="section-subtitle" data-i18n="sec1Sub"></p><label data-i18n="bookingSource">Medio de reservación</label>
 <select name="medio">
 <option value="">Selecciona</option>
 <option value="Airbnb">Airbnb</option>
@@ -775,15 +784,20 @@ button:disabled{
 <input name="emergencia" type="tel"/>
 </div>
 </div>
-<div class="section"><h2 class="section-title" data-i18n="sec4Title">Facturación</h2><p class="section-subtitle" data-i18n="sec4Sub">Información fiscal para emisión de factura.</p><label data-i18n="invoice">¿Requieres factura?</label>
+<div class="section"><h2 class="section-title" data-i18n="sec4Title">Facturación</h2><p class="section-subtitle" data-i18n="sec4Sub"></p><label data-i18n="invoice">¿Requieres el TICKET para AUTO-FACTURACIÓN?</label>
 <select id="factura" name="factura">
 <option value="">Selecciona</option>
 <option value="si">Sí</option>
 <option value="no">No</option>
 </select>
 <div class="note hidden" id="factura_notas">
-<div data-i18n="invoiceNotePeriod">Se emitirá una factura para cada periodo registrado.</div>
-<div data-i18n="invoiceNoteExtension" style="margin-top:6px;">Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.</div>
+  <div class="factura-note-es">a) UNA FACTURA por PERIODO registrado</div>
+  <div class="factura-note-es" style="margin-top:6px;">b) Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo</div>
+  <div class="factura-note-es" style="margin-top:6px;">c) TICKET VIGENTE ÚNICAMENTE DENTRO DEL MES en que fue generado</div>
+
+  <div class="factura-note-en hidden">a) ONE INVOICE per REGISTERED PERIOD</div>
+  <div class="factura-note-en hidden" style="margin-top:6px;">b) If you EXTEND your stay, you must submit a new registration for the new period</div>
+  <div class="factura-note-en hidden" style="margin-top:6px;">c) TICKET VALID ONLY WITHIN THE MONTH it was issued</div>
 </div>
 <div class="hidden" id="factura_fields">
 <div id="field_razon_social"><label data-i18n="businessName">Razón social</label>
@@ -822,8 +836,13 @@ button:disabled{
 </div>
 </div>
 <div class="note hidden" id="nota_airbnb">
-    La factura emitimos corresponde al monto que Airbnb deposita a nuestra cuenta ($ Monto pagado - $ Comisión Airbnb). En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.
+  <div class="nota-airbnb-es">
+    La factura emitida por Check-Inn NO INCLUYE la "Comisión Airbnb". En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.
   </div>
+  <div class="nota-airbnb-en hidden">
+    The invoice issued by Check-Inn DOES NOT INCLUDE the "Airbnb Commission". If you want to cover the total cost, you must download the invoice for this platform's commission directly from its app.
+  </div>
+</div>
 <label data-i18n="amountPaid">$ Monto pagado</label>
 <div class="money-group">
 <select id="divisa_monto" name="divisa_monto">
@@ -1717,13 +1736,13 @@ const I18N = {
   es: {
     title: "Registro de huéspedes",
     sec1Title: "Datos de la reservación",
-    sec1Sub: "Información general de la estancia y de la persona que realizó la reservación.",
+    sec1Sub: "",
     sec2Title: "Identificación y estancia",
     sec2Sub: "Capture la identificación, motivo de viaje, fechas, horarios y personas hospedadas.",
     sec3Title: "Contacto",
     sec3Sub: "Datos de contacto del huésped y, si aplica, información fiscal para emisión de factura.",
     sec4Title: "Registro de vehículo",
-    sec4Sub: "Complete esta sección solo si el huésped cuenta con vehículo o desea agregar comentarios adicionales.",
+    sec4Sub: "",
     bookingSource: "Medio de reservación",
     bookingName: "Nombre de la persona que hizo la reservación",
     checkinDate: "Fecha de ingreso",
@@ -1746,15 +1765,15 @@ const I18N = {
     addGuest: "➕ Agregar huésped",
     guestPhone: "Celular del huésped",
     emergencyContact: "Contacto emergencia",
-    invoice: "¿Requieres factura?",
-    invoiceNotePeriod: "Se emitirá UNA FACTURA/PERIODO registrado",
-    invoiceNoteExtension: "Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.",
+    invoice: "¿Requieres el TICKET para AUTO-FACTURACIÓN?",
+    invoiceNotePeriod: "",
+    invoiceNoteExtension: "",
     businessName: "Razón social",
     taxRegime: "Régimen fiscal",
     specifyTaxRegime: "Especifica el régimen fiscal",
     paymentMethod: "Medio de pago",
     transferReceipt: "Sube el comprobante de transferencia",
-    airbnbNote: "La factura emitimos corresponde al monto que Airbnb deposita a nuestra cuenta ($ Monto pagado - $ Comisión Airbnb). En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.",
+    airbnbNote: "",
     amountPaid: "$ Monto pagado",
     currencyHintPrefix: "Monto capturado:",
     emailPrimary: "Correo electrónico (principal)",
@@ -1766,10 +1785,11 @@ const I18N = {
     noImage: "Ninguna imagen seleccionada",
     chooseLanguage: "Selecciona el idioma",
     preFormTitle: "Tipo de registro",
-    preFormSub: "Antes de continuar, selecciona si se trata de un registro nuevo o de un huésped ya registrado.",
+    preFormSub: "",
     optionNewTitle: "Registro nuevo",
-    optionNewText: "Prepara tu identificación personal",
-    optionRegisteredTitle: "Huésped ya registrado",
+    optionNewText: "<strong>Prepara tu identificación personal</strong>",
+    optionRegisteredTitle: "Huésped ya registrado
+<div style="font-size:14px; color:#6b7280; margin-top:6px;">Ya subiste tu identificación personal</div>",
     optionRegisteredText: "",
     make: "Marca",
     specifyMake: "Especifica la marca",
@@ -1838,7 +1858,7 @@ const I18N = {
     addGuest: "➕ Add guest",
     guestPhone: "Guest phone",
     emergencyContact: "Emergency contact",
-    invoice: "Do you need an invoice?",
+    invoice: "Do you need a self-invoicing ticket?",
     invoiceNotePeriod: "One invoice will be issued for each registered period.",
     invoiceNoteExtension: "If you make an EXTENSION, you must submit a new registration for the new period.",
     businessName: "Business name",
@@ -1846,7 +1866,7 @@ const I18N = {
     specifyTaxRegime: "Specify the tax regime",
     paymentMethod: "Payment method",
     transferReceipt: "Upload transfer receipt",
-    airbnbNote: "The invoice we issue corresponds to the amount Airbnb deposits into our account ($ Amount paid - $ Airbnb commission). If you need to cover the full amount, you must download the invoice for the platform commission directly from the Airbnb app.",
+    airbnbNote: "",
     amountPaid: "$ Amount paid",
     currencyHintPrefix: "Captured amount:",
     emailPrimary: "Email (primary)",
@@ -1944,7 +1964,7 @@ function applyTranslations(lang){
   if (sectionSubs[0]) sectionSubs[0].textContent = t.sec1Sub;
   if (sectionSubs[1]) sectionSubs[1].textContent = t.sec2Sub;
   if (sectionSubs[2]) sectionSubs[2].textContent = t.sec3Sub;
-  if (sectionSubs[3]) sectionSubs[3].textContent = (lang === "en" ? "Tax information for invoice issuance." : "Información fiscal para emisión de factura.");
+  if (sectionSubs[3]) sectionSubs[3].textContent = (lang === "en" ? "Tax information for invoice issuance." : "");
   if (sectionSubs[4]) {
     sectionSubs[4].textContent = t.sec4Sub;
     sectionSubs[4].style.display = t.sec4Sub ? "" : "none";
@@ -2059,20 +2079,21 @@ const SIMPLE_I18N = {
   es: {
     chooseLanguage:"Selecciona el idioma",
     preFormTitle:"Tipo de registro",
-    preFormSub:"Antes de continuar, selecciona si se trata de un registro nuevo o de un huésped ya registrado.",
+    preFormSub:"",
     optionNewTitle:"Registro nuevo",
-    optionNewText:"Prepara tu identificación personal",
-    optionRegisteredTitle:"Huésped ya registrado",
+    optionNewText:"<strong>Prepara tu identificación personal</strong>",
+    optionRegisteredTitle:"Huésped ya registrado
+<div style="font-size:14px; color:#6b7280; margin-top:6px;">Ya subiste tu identificación personal</div>",
     optionRegisteredText:"",
     title:"Registro de huéspedes",
     sec1Title:"Datos de la reservación",
-    sec1Sub:"Información general de la estancia y de la persona que realizó la reservación.",
+    sec1Sub:"",
     sec2Title:"Identificación y estancia",
     sec2Sub:"Capture la identificación, motivo de viaje, fechas, horarios y personas hospedadas.",
     sec3Title:"Contacto del huésped",
     sec3Sub:"Datos de contacto del huésped y de emergencia.",
     sec4Title:"Facturación",
-    sec4Sub:"Información fiscal para emisión de factura.",
+    sec4Sub:"",
     sec5Title:"Registro de vehículo",
     sec6Title:"Comentarios",
     sec6Sub:"Información adicional relevante.",
@@ -2094,9 +2115,9 @@ const SIMPLE_I18N = {
     guestHint:"Puedes marcar la casilla del primer huésped para copiar el nombre de la persona que hizo la reservación.",
     guestPhone:"Celular del huésped",
     emergencyContact:"Contacto emergencia",
-    invoice:"¿Requieres factura?",
-    invoiceNotePeriod:"Se emitirá UNA FACTURA/PERIODO registrado",
-    invoiceNoteExtension:"Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo.",
+    invoice:"¿Requieres el TICKET para AUTO-FACTURACIÓN?",
+    invoiceNotePeriod:"",
+    invoiceNoteExtension:"",
     businessName:"Razón social",
     taxRegime:"Régimen fiscal",
     paymentMethod:"Medio de pago",
@@ -2153,7 +2174,7 @@ const SIMPLE_I18N = {
     guestHint:"You can check the first guest box to copy the name of the person who made the reservation.",
     guestPhone:"Guest phone",
     emergencyContact:"Emergency contact",
-    invoice:"Do you need an invoice?",
+    invoice:"Do you need a self-invoicing ticket?",
     invoiceNotePeriod:"One invoice will be issued for each registered period.",
     invoiceNoteExtension:"If you make an EXTENSION, you must submit a new registration for the new period.",
     businessName:"Business name",
@@ -2325,6 +2346,124 @@ function abrirWhatsappDudas() {
   const url = `https://wa.me/528444443922?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
 }
+</script>
+<script>
+function actualizarNotasFacturaPorIdioma(lang){
+  const mostrarEN = lang === "en";
+  document.querySelectorAll(".factura-note-es").forEach(el => el.classList.toggle("hidden", mostrarEN));
+  document.querySelectorAll(".factura-note-en").forEach(el => el.classList.toggle("hidden", !mostrarEN));
+  document.querySelectorAll(".nota-airbnb-es").forEach(el => el.classList.toggle("hidden", mostrarEN));
+  document.querySelectorAll(".nota-airbnb-en").forEach(el => el.classList.toggle("hidden", !mostrarEN));
+}
+
+function limpiarSistemaDeTextosCheckInn(){
+  const facturaNotas = document.getElementById("factura_notas");
+  if (facturaNotas) {
+    facturaNotas.innerHTML = `
+      <div class="factura-note-es">a) UNA FACTURA por PERIODO registrado</div>
+      <div class="factura-note-es" style="margin-top:6px;">b) Si realizas una EXTENSIÓN deberás realizar un nuevo registro para el nuevo periodo</div>
+      <div class="factura-note-es" style="margin-top:6px;">c) TICKET VIGENTE ÚNICAMENTE DENTRO DEL MES en que fue generado</div>
+
+      <div class="factura-note-en hidden">a) ONE INVOICE per REGISTERED PERIOD</div>
+      <div class="factura-note-en hidden" style="margin-top:6px;">b) If you EXTEND your stay, you must submit a new registration for the new period</div>
+      <div class="factura-note-en hidden" style="margin-top:6px;">c) TICKET VALID ONLY WITHIN THE MONTH it was issued</div>
+    `;
+  }
+
+  const notaAirbnb = document.getElementById("nota_airbnb");
+  if (notaAirbnb) {
+    notaAirbnb.innerHTML = `
+      <div class="nota-airbnb-es">
+        La factura emitida por Check-Inn NO INCLUYE la "Comisión Airbnb". En caso de querer cubrir el gasto total deberás descargar la factura correspondiente a la comisión de esta plataforma directamente de su app.
+      </div>
+      <div class="nota-airbnb-en hidden">
+        The invoice issued by Check-Inn DOES NOT INCLUDE the "Airbnb Commission". If you want to cover the total cost, you must download the invoice for this platform's commission directly from its app.
+      </div>
+    `;
+  }
+
+  actualizarNotasFacturaPorIdioma(window.currentLang || document.documentElement.lang || "es");
+}
+
+(function(){
+  const originalApplyTranslations = window.applyTranslations;
+  if (typeof originalApplyTranslations === "function") {
+    window.applyTranslations = function(lang){
+      originalApplyTranslations(lang);
+      limpiarSistemaDeTextosCheckInn();
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    limpiarSistemaDeTextosCheckInn();
+  });
+})();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const medioPago = document.querySelector('select[name="medio_pago"]');
+  const montoField = document.querySelector('[name="monto"]')?.closest('div');
+
+  function toggleMonto(){
+    if(!medioPago || !montoField) return;
+    if(medioPago.value.toLowerCase().includes("airbnb")){
+      montoField.style.display = "none";
+    } else {
+      montoField.style.display = "";
+    }
+  }
+
+  if(medioPago){
+    medioPago.addEventListener("change", toggleMonto);
+    toggleMonto();
+  }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const medioPago = document.getElementById("medio_pago");
+  const montoInput = document.getElementById("monto_pagado");
+  const montoPreview = document.getElementById("monto_preview");
+
+  function encontrarLabelMonto(){
+    if (!montoInput) return null;
+    let node = montoInput.parentElement;
+    while (node) {
+      let prev = node.previousElementSibling;
+      while (prev) {
+        if (prev.tagName && prev.tagName.toLowerCase() === "label") return prev;
+        prev = prev.previousElementSibling;
+      }
+      node = node.parentElement;
+    }
+    return null;
+  }
+
+  const montoLabel = encontrarLabelMonto();
+  const montoGroup = montoInput ? montoInput.closest(".money-group") : null;
+
+  function toggleMontoPagado(){
+    if (!medioPago) return;
+    const esAirbnb = (medioPago.value || "").trim().toLowerCase() === "airbnb";
+
+    if (montoLabel) montoLabel.style.display = esAirbnb ? "none" : "";
+    if (montoGroup) montoGroup.style.display = esAirbnb ? "none" : "";
+    if (montoPreview) montoPreview.style.display = esAirbnb ? "none" : "";
+
+    if (montoInput) {
+      if (esAirbnb) {
+        montoInput.value = "";
+      }
+    }
+  }
+
+  if (medioPago) {
+    medioPago.addEventListener("change", toggleMontoPagado);
+    toggleMontoPagado();
+  }
+});
 </script>
 </body>
 </html>
