@@ -461,6 +461,315 @@ button:disabled{
     background:#25D366 !important;
   }
 }
+
+/* ===== Menú principal + dashboard de control de huéspedes ===== */
+.top-menu{
+  display:flex;
+  gap:10px;
+  margin:10px 0 18px;
+  flex-wrap:wrap;
+}
+.menu-btn{
+  flex:1 1 220px;
+  margin-top:0;
+  padding:12px 16px;
+}
+.menu-btn.secondary{
+  background:linear-gradient(180deg,#fff7ed 0%, #fde7c0 100%);
+  color:#8a5300;
+  border:1px solid #efc36f;
+  box-shadow:none;
+}
+.menu-btn.active{
+  box-shadow:0 0 0 4px rgba(245,158,11,.14), 0 10px 20px rgba(217,119,6,.18);
+}
+.view-panel.hidden{
+  display:none !important;
+}
+.dashboard-wrap{
+  margin-top:10px;
+}
+.filter-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
+}
+.filter-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:12px;
+  margin-top:16px;
+}
+.kpi-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+}
+.kpi-label{
+  font-size:12px;
+  color:var(--text-soft);
+  margin-bottom:6px;
+}
+.kpi-value{
+  font-size:24px;
+  font-weight:700;
+  color:var(--text);
+}
+.table-wrap{
+  margin-top:16px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:auto;
+  background:#fff;
+}
+.table-results{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1200px;
+}
+.table-results th,
+.table-results td{
+  padding:10px 12px;
+  border-bottom:1px solid #f3e3c4;
+  font-size:13px;
+  text-align:left;
+  vertical-align:top;
+  white-space:nowrap;
+}
+.table-results th{
+  position:sticky;
+  top:0;
+  background:#fff7ed;
+  z-index:1;
+}
+.results-meta{
+  margin-top:12px;
+  font-size:13px;
+  color:var(--text-soft);
+}
+.badge-yes,
+.badge-no{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+.badge-yes{
+  background:#ecfdf3;
+  color:#067647;
+  border:1px solid #abefc6;
+}
+.badge-no{
+  background:#fef3f2;
+  color:#b42318;
+  border:1px solid #fecdca;
+}
+.empty-state{
+  padding:22px;
+  text-align:center;
+  color:var(--text-soft);
+}
+@media (max-width: 900px){
+  .filter-grid{
+    grid-template-columns:1fr 1fr;
+  }
+  .kpi-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+@media (max-width: 700px){
+  .filter-grid,
+  .kpi-grid{
+    grid-template-columns:1fr;
+  }
+  .filter-actions{
+    flex-direction:column;
+  }
+}
+
+
+.range-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+.range-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px;}
+.range-title{font-size:13px;font-weight:700;margin-bottom:10px;color:#7c4a03;}
+.pager-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;}
+.pager-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.pager-controls button{margin-top:0;}
+.pager-info{font-size:13px;color:var(--text-soft);}
+.link-btn{background:none;border:none;padding:0;color:#b45309;font-weight:700;cursor:pointer;box-shadow:none;margin-top:0;}
+.link-btn:hover{text-decoration:underline;transform:none;filter:none;}
+.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 14px;text-align:left;margin-top:10px;}
+.detail-item{background:#fffdf8;border:1px solid var(--border);border-radius:12px;padding:10px;}
+.detail-key{font-size:12px;color:var(--text-soft);margin-bottom:4px;}
+.detail-value{font-size:14px;color:var(--text);word-break:break-word;white-space:pre-wrap;}
+.detail-modal-card{max-width:860px;width:100%;max-height:85vh;overflow:auto;text-align:left;}
+.detail-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px;}
+@media (max-width:700px){.range-grid,.detail-grid{grid-template-columns:1fr;}.pager-bar{align-items:stretch;}.pager-controls{width:100%;}.detail-modal-actions button{width:100%;}}
+
+
+.dashboard-row-clickable{
+  cursor:pointer;
+  transition:background-color .15s ease;
+}
+.dashboard-row-clickable:hover{
+  background:#fff4db;
+}
+
+
+.dashboard-row-clickable{
+  cursor:pointer;
+  transition:background-color .15s ease;
+}
+.dashboard-row-clickable:hover{
+  background:#fff4db;
+}
+.detail-image{
+  max-width:100%;
+  max-height:220px;
+  display:block;
+  border-radius:10px;
+  border:1px solid #e9d5a1;
+  background:#fff;
+}
+.detail-link{
+  word-break:break-all;
+}
+
+
+/* === DETAIL MODAL UPGRADE === */
+.detail-kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+  gap:12px;
+  margin-bottom:14px;
+}
+.detail-kpi{
+  background:linear-gradient(180deg,#fffdf8 0%, #fff7ed 100%);
+  border:1px solid #f3cf94;
+  border-radius:18px;
+  padding:14px;
+  box-shadow:0 8px 20px rgba(217,119,6,.08);
+}
+.detail-kpi-label{
+  font-size:12px;
+  color:#6b7280;
+  margin-bottom:6px;
+}
+.detail-kpi-value{
+  font-size:18px;
+  font-weight:700;
+  color:#2b2b2b;
+  line-height:1.2;
+}
+.detail-sections{
+  display:grid;
+  gap:14px;
+}
+.detail-card{
+  background:#fffdf8;
+  border:1px solid #f2cc8c;
+  border-radius:18px;
+  padding:14px;
+}
+.detail-card-title{
+  font-size:14px;
+  font-weight:700;
+  color:#7c4a03;
+  margin-bottom:10px;
+}
+.detail-grid-compact{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:12px;
+}
+.detail-item{
+  min-height:unset !important;
+  background:#fff;
+  border:1px solid #f2cc8c;
+  border-radius:16px;
+  padding:12px;
+}
+.detail-key{
+  font-size:12px;
+  color:#667085;
+  margin-bottom:5px;
+}
+.detail-value{
+  font-size:14px;
+  color:#2b2b2b;
+  line-height:1.45;
+  word-break:break-word;
+}
+.detail-gallery{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:12px;
+}
+.detail-image-card{
+  background:#fff;
+  border:1px solid #f2cc8c;
+  border-radius:16px;
+  padding:12px;
+}
+.detail-image{
+  width:100%;
+  max-width:100%;
+  height:180px;
+  display:block;
+  border-radius:12px;
+  border:1px solid #e9d5a1;
+  background:#fff;
+  object-fit:contain;
+}
+.detail-link{
+  word-break:break-all;
+}
+.detail-wa{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  color:#0f766e;
+  font-weight:700;
+}
+.detail-wa:hover{
+  text-decoration:underline;
+}
+@media (max-width: 800px){
+  .detail-kpi-grid{
+    grid-template-columns:repeat(2, minmax(0,1fr));
+  }
+  .detail-grid-compact,
+  .detail-gallery{
+    grid-template-columns:1fr;
+  }
+}
+
+
+@media (max-width: 1024px){
+  .detail-kpi-grid{
+    grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+  }
+}
+@media (max-width: 600px){
+  .detail-kpi-grid{
+    grid-template-columns:1fr;
+  }
+  .detail-kpi{
+    padding:16px;
+  }
+  .detail-kpi-value{
+    font-size:20px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -483,6 +792,150 @@ button:disabled{
 </div>
 </div>
 <h1 data-i18n="title">Registro de huéspedes</h1>
+<div class="top-menu">
+  <button type="button" class="menu-btn active" id="menuRegistroBtn">Registro de huéspedes</button>
+  <button type="button" class="menu-btn secondary" id="menuControlBtn">Control de huéspedes</button>
+</div>
+
+<div id="viewDashboard" class="view-panel hidden">
+  <div class="dashboard-wrap">
+    <div class="section">
+      <h2 class="section-title">Control de huéspedes</h2>
+      <p class="section-subtitle">Consulta los registros guardados en la hoja "Check in" con filtros dinámicos, rango de fechas, paginación y detalle completo.</p>
+
+      <div class="range-grid">
+        <div class="range-card">
+          <div class="range-title">Rango de fecha de entrada</div>
+          <div class="grid">
+            <div>
+              <label for="filtro_fecha_entrada_desde">Desde</label>
+              <input type="date" id="filtro_fecha_entrada_desde">
+            </div>
+            <div>
+              <label for="filtro_fecha_entrada_hasta">Hasta</label>
+              <input type="date" id="filtro_fecha_entrada_hasta">
+            </div>
+          </div>
+        </div>
+        <div class="range-card">
+          <div class="range-title">Rango de fecha de salida</div>
+          <div class="grid">
+            <div>
+              <label for="filtro_fecha_salida_desde">Desde</label>
+              <input type="date" id="filtro_fecha_salida_desde">
+            </div>
+            <div>
+              <label for="filtro_fecha_salida_hasta">Hasta</label>
+              <input type="date" id="filtro_fecha_salida_hasta">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-grid" style="margin-top:14px;">
+        <div>
+          <label for="filtro_nombre_reservacion">Nombre de la persona que hizo la reservación</label>
+          <select id="filtro_nombre_reservacion"><option value="">Todos</option></select>
+        </div>
+        <div>
+          <label for="filtro_medio_reservacion">Medio de reservación</label>
+          <select id="filtro_medio_reservacion"><option value="">Todos</option></select>
+        </div>
+        <div>
+          <label for="filtro_celular_principal">Cel/Whatsapp (principal)</label>
+          <select id="filtro_celular_principal"><option value="">Todos</option></select>
+        </div>
+        <div>
+          <label for="filtro_requiere_factura">¿Requiere factura?</label>
+          <select id="filtro_requiere_factura"><option value="">Todos</option><option value="Sí">Sí</option><option value="No">No</option></select>
+        </div>
+        <div>
+          <label for="filtro_razon_social">Razón social</label>
+          <select id="filtro_razon_social"><option value="">Todos</option></select>
+        </div>
+        <div>
+          <label for="filtro_forma_pago">Forma de pago</label>
+          <select id="filtro_forma_pago"><option value="">Todos</option></select>
+        </div>
+        <div>
+          <label for="filtro_correo">Correo electrónico</label>
+          <select id="filtro_correo"><option value="">Todos</option></select>
+        </div>
+        <div>
+          <label for="dashboard_page_size">Registros por página</label>
+          <select id="dashboard_page_size">
+            <option value="10">10</option>
+            <option value="25" selected>25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button type="button" id="btnBuscarHuespedes">Buscar registros</button>
+        <button type="button" class="menu-btn secondary" id="btnLimpiarFiltros" style="flex:0 0 auto;">Limpiar filtros</button>
+        <button type="button" class="menu-btn secondary" id="btnExportarCsv" style="flex:0 0 auto;">Exportar CSV</button>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">Registros encontrados</div><div class="kpi-value" id="kpi_total_registros">0</div></div>
+        <div class="kpi-card"><div class="kpi-label">Con factura</div><div class="kpi-value" id="kpi_con_factura">0</div></div>
+        <div class="kpi-card"><div class="kpi-label">Sin factura</div><div class="kpi-value" id="kpi_sin_factura">0</div></div>
+        <div class="kpi-card"><div class="kpi-label">Medios de reservación únicos</div><div class="kpi-value" id="kpi_medios_unicos">0</div></div>
+      </div>
+
+      <div class="results-meta" id="dashboardMeta">Sin consulta todavía.</div>
+
+      <div class="table-wrap">
+        <table class="table-results">
+          <thead>
+            <tr class="dashboard-row-clickable" onclick="abrirDetalleRegistro(${row.row_number})" title="Abrir detalle del registro">
+              <th>Fecha de entrada</th>
+              <th>Fecha de salida</th>
+              <th>Nombre de la persona que hizo la reservación</th>
+              <th>Medio de reservación</th>
+              <th>Cel/Whatsapp (principal)</th>
+              <th>¿Requiere factura?</th>
+              <th>Razón social</th>
+              <th>Forma de pago</th>
+              <th>Correo electrónico</th>
+              <th>Propiedad</th>
+              <th># Departamento</th>
+              <th># Huéspedes</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="dashboardTableBody">
+            <tr><td colspan="13" class="empty-state">Sin registros para mostrar.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pager-bar">
+        <div class="pager-info" id="dashboardPagerInfo">Página 1 de 1</div>
+        <div class="pager-controls">
+          <button type="button" class="menu-btn secondary" id="btnPrevPage" style="flex:0 0 auto;">Anterior</button>
+          <button type="button" class="menu-btn secondary" id="btnNextPage" style="flex:0 0 auto;">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-backdrop" id="dashboardDetailModal" style="display:none;">
+  <div class="popup-card detail-modal-card">
+    <h3 style="margin-bottom:6px;">Detalle completo del registro</h3>
+    <div class="hint" id="dashboardDetailSubtitle" style="margin-bottom:14px;">Consulta completa del huésped.</div>
+    <div class="detail-grid" id="dashboardDetailGrid"></div>
+    <div class="detail-modal-actions">
+      <button type="button" onclick="cerrarDetalleDashboard()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div id="viewRegistro" class="view-panel">
+
 <form id="form">
 <div class="section initial-choice">
 <h2 class="section-title" data-i18n="preFormTitle">Tipo de registro</h2>
@@ -931,6 +1384,7 @@ button:disabled{
 <div class="section"><h2 class="section-title" data-i18n="sec6Title">Comentarios</h2><p class="section-subtitle" data-i18n="sec6Sub"></p>
 <textarea name="comentarios"></textarea></div>
 <div class="submit-wrap"><button data-i18n="send" id="submitBtn" type="submit">Enviar</button><div class="status" id="statusMessage"></div></div></div></form>
+</div>
 <div class="popup-backdrop" id="popupEnvio" style="display:none; position:fixed; inset:0; z-index:999999; align-items:center; justify-content:center; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);">
 <div class="popup-card" style="max-width:340px;">
 <div id="popupLoadingState">
@@ -952,7 +1406,7 @@ button:disabled{
 </div>
 </div>
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqrKPeePHdJPH08iM95shZkMRAso68IryR-Ol42kKtQq6PzqzakneFojDG_9WGrhdAUg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxyOuyrQAGM4lzvAL7aNj3EY5IGkSBFg-m1PKB4h0DxznA9A0sZH7UbpXZaoQ_DEzBATg/exec";
 
 const ladas = [
   {c:"México",code:"52",p:1},
@@ -2462,5 +2916,594 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 });
 </script>
+
+<script>
+/* ===== Menú + dashboard Control de huéspedes ===== */
+(function(){
+  const viewRegistro = document.getElementById("viewRegistro");
+  const viewDashboard = document.getElementById("viewDashboard");
+  const menuRegistroBtn = document.getElementById("menuRegistroBtn");
+  const menuControlBtn = document.getElementById("menuControlBtn");
+  const tableBody = document.getElementById("dashboardTableBody");
+  const meta = document.getElementById("dashboardMeta");
+  const kpiTotal = document.getElementById("kpi_total_registros");
+  const kpiFactura = document.getElementById("kpi_con_factura");
+  const kpiSinFactura = document.getElementById("kpi_sin_factura");
+  const kpiMedios = document.getElementById("kpi_medios_unicos");
+  const pagerInfo = document.getElementById("dashboardPagerInfo");
+  const pageSizeSelect = document.getElementById("dashboard_page_size");
+
+  let dashboardRows = [];
+  let dashboardPage = 1;
+  let dashboardPageSize = Number(pageSizeSelect?.value || 25);
+  let dashboardTotal = 0;
+  let dashboardPages = 1;
+  let dashboardFilterOptionsLoaded = false;
+
+  function activarVista(vista){
+    const esDashboard = vista === "dashboard";
+    if (viewRegistro) viewRegistro.classList.toggle("hidden", esDashboard);
+    if (viewDashboard) viewDashboard.classList.toggle("hidden", !esDashboard);
+    if (menuRegistroBtn) {
+      menuRegistroBtn.classList.toggle("active", !esDashboard);
+      menuRegistroBtn.classList.toggle("secondary", esDashboard);
+    }
+    if (menuControlBtn) {
+      menuControlBtn.classList.toggle("active", esDashboard);
+      menuControlBtn.classList.toggle("secondary", !esDashboard);
+    }
+  }
+
+  function safeText(v){ return v == null ? "" : String(v); }
+  function escapeHtml(v){
+    return safeText(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function setOptions(selectId, values){
+    const el = document.getElementById(selectId);
+    if (!el) return;
+    const current = el.value;
+    const unique = Array.from(new Set((values || []).map(v => safeText(v).trim()).filter(Boolean))).sort((a,b)=>a.localeCompare(b,'es'));
+    el.innerHTML = '<option value="">Todos</option>' + unique.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
+    if (unique.includes(current)) el.value = current;
+  }
+
+  async function cargarOpcionesFiltros(){
+    if (dashboardFilterOptionsLoaded) return;
+    try {
+      const res = await fetch(`${WEB_APP_URL}?action=list_filter_options`, { method: "GET" });
+      const json = await res.json();
+      if (json && json.message === "Web app activo.") {
+        throw new Error("La Web App publicada no es la versión nueva del dashboard. Debes volver a implementar el Apps Script.");
+      }
+      if (!json.ok) throw new Error(json.error || json.message || "No fue posible cargar filtros.");
+      const opts = json.options || {};
+      setOptions("filtro_nombre_reservacion", opts.nombres_reservacion);
+      setOptions("filtro_medio_reservacion", opts.medios_reservacion);
+      setOptions("filtro_celular_principal", opts.celulares_principales);
+      setOptions("filtro_razon_social", opts.razones_sociales);
+      setOptions("filtro_forma_pago", opts.formas_pago);
+      setOptions("filtro_correo", opts.correos);
+      dashboardFilterOptionsLoaded = true;
+    } catch (err) {
+      if (meta) meta.textContent = "Error al cargar opciones de filtros: " + err.message;
+    }
+  }
+
+  function buildQueryParams(){
+    const params = new URLSearchParams();
+    params.set("action", "list_records");
+    const fields = {
+      fecha_entrada_desde: "filtro_fecha_entrada_desde",
+      fecha_entrada_hasta: "filtro_fecha_entrada_hasta",
+      fecha_salida_desde: "filtro_fecha_salida_desde",
+      fecha_salida_hasta: "filtro_fecha_salida_hasta",
+      nombre_reservacion: "filtro_nombre_reservacion",
+      medio_reservacion: "filtro_medio_reservacion",
+      celular_principal: "filtro_celular_principal",
+      requiere_factura: "filtro_requiere_factura",
+      razon_social: "filtro_razon_social",
+      forma_pago: "filtro_forma_pago",
+      correo: "filtro_correo"
+    };
+    Object.entries(fields).forEach(([param, id]) => {
+      const el = document.getElementById(id);
+      const value = (el && el.value ? String(el.value).trim() : "");
+      if (value) params.set(param, value);
+    });
+    params.set("page", String(dashboardPage));
+    params.set("page_size", String(dashboardPageSize));
+    return params;
+  }
+
+  function renderRows(payload){
+    dashboardRows = Array.isArray(payload.rows) ? payload.rows : [];
+    dashboardTotal = Number(payload.total || 0);
+    dashboardPage = Number(payload.page || 1);
+    dashboardPageSize = Number(payload.page_size || dashboardPageSize || 25);
+    dashboardPages = Math.max(1, Number(payload.total_pages || 1));
+
+    if (!tableBody) return;
+    if (!dashboardRows.length){
+      tableBody.innerHTML = '<tr><td colspan="13" class="empty-state">No se encontraron registros con esos filtros.</td></tr>';
+      if (meta) meta.textContent = dashboardTotal ? `Sin registros en esta página.` : "0 registros encontrados.";
+      if (kpiTotal) kpiTotal.textContent = String(dashboardTotal);
+      if (kpiFactura) kpiFactura.textContent = String(payload.total_con_factura || 0);
+      if (kpiSinFactura) kpiSinFactura.textContent = String(payload.total_sin_factura || 0);
+      if (kpiMedios) kpiMedios.textContent = String(payload.total_medios_unicos || 0);
+      if (pagerInfo) pagerInfo.textContent = `Página ${dashboardPage} de ${dashboardPages}`;
+      return;
+    }
+
+    if (kpiTotal) kpiTotal.textContent = String(dashboardTotal);
+    if (kpiFactura) kpiFactura.textContent = String(payload.total_con_factura || 0);
+    if (kpiSinFactura) kpiSinFactura.textContent = String(payload.total_sin_factura || 0);
+    if (kpiMedios) kpiMedios.textContent = String(payload.total_medios_unicos || 0);
+    const inicio = ((dashboardPage - 1) * dashboardPageSize) + 1;
+    const fin = Math.min(dashboardTotal, inicio + dashboardRows.length - 1);
+    if (meta) meta.textContent = `${dashboardTotal} registros encontrados. Mostrando ${inicio}-${fin}.`;
+    if (pagerInfo) pagerInfo.textContent = `Página ${dashboardPage} de ${dashboardPages}`;
+
+    tableBody.innerHTML = dashboardRows.map(r => {
+      const factura = safeText(r["¿Requiere factura?"]);
+      const facturaLow = factura.toLowerCase();
+      const facturaBadge = facturaLow === "sí" || facturaLow === "si"
+        ? '<span class="badge-yes">Sí</span>'
+        : (facturaLow === "no" ? '<span class="badge-no">No</span>' : escapeHtml(factura));
+      return `
+        <tr class="dashboard-row-clickable" onclick="abrirDetalleDashboard('${escapeHtml(r["ID"] || r["row_number"] || "")}')" title="Abrir detalle del registro">
+          <td>${escapeHtml(r["Fecha de ingreso"])}</td>
+          <td>${escapeHtml(r["Fecha de salida"])}</td>
+          <td>${escapeHtml(r["Nombre de la persona que hizo la reservación"])}</td>
+          <td>${escapeHtml(r["Medio de reservación"])}</td>
+          <td>${escapeHtml(r["Cel/Whatsapp (principal)"])}</td>
+          <td>${facturaBadge}</td>
+          <td>${escapeHtml(r["Razón social"])}</td>
+          <td>${escapeHtml(r["Forma de pago"])}</td>
+          <td>${escapeHtml(r["Correo electrónico"])}</td>
+          <td>${escapeHtml(r["Propiedad"])}</td>
+          <td>${escapeHtml(r["# Departamento"])}</td>
+          <td>${escapeHtml(r["# Huéspedes"])}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  async function buscarRegistros(resetPage){
+    if (resetPage) dashboardPage = 1;
+    if (meta) meta.textContent = "Consultando registros...";
+    try {
+      const params = buildQueryParams();
+      const res = await fetch(`${WEB_APP_URL}?${params.toString()}`, { method: "GET" });
+      const json = await res.json();
+      if (json && json.message === "Web app activo.") {
+        throw new Error("La Web App publicada sigue en la versión vieja. Vuelve a implementar el Apps Script nuevo y actualiza la URL.");
+      }
+      if (!json.ok) throw new Error(json.error || json.message || "No fue posible obtener los registros.");
+      renderRows(json);
+    } catch (err) {
+      renderRows({ rows: [], total: 0, page: 1, total_pages: 1, total_con_factura: 0, total_sin_factura: 0, total_medios_unicos: 0 });
+      if (meta) meta.textContent = "Error al consultar registros: " + err.message + " Verifica que publicaste el Apps Script nuevo y que WEB_APP_URL corresponde a esa implementación.";
+    }
+  }
+
+  function limpiarFiltros(){
+    [
+      "filtro_fecha_entrada_desde","filtro_fecha_entrada_hasta","filtro_fecha_salida_desde","filtro_fecha_salida_hasta",
+      "filtro_nombre_reservacion","filtro_medio_reservacion","filtro_celular_principal","filtro_requiere_factura",
+      "filtro_razon_social","filtro_forma_pago","filtro_correo"
+    ].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = "";
+    });
+    dashboardPage = 1;
+    buscarRegistros(true);
+  }
+
+  function exportarCsv(){
+    if (!dashboardRows.length) {
+      alert("No hay registros para exportar en la página actual.");
+      return;
+    }
+    const headers = [
+      "Fecha de ingreso","Fecha de salida","Nombre de la persona que hizo la reservación","Medio de reservación",
+      "Cel/Whatsapp (principal)","¿Requiere factura?","Razón social","Forma de pago","Correo electrónico",
+      "Propiedad","# Departamento","# Huéspedes"
+    ];
+    const lines = [headers.join(","), ...dashboardRows.map(row => headers.map(h => `"${safeText(row[h]).replace(/"/g, '""')}"`).join(","))];
+    const blob = new Blob(["﻿" + lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `control_huespedes_pagina_${dashboardPage}.csv`;
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  }
+
+  window.abrirDetalleDashboard = async function(recordId){
+    const modal = document.getElementById("dashboardDetailModal");
+    const grid = document.getElementById("dashboardDetailGrid");
+    const subtitle = document.getElementById("dashboardDetailSubtitle");
+    if (!modal || !grid) return;
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">Cargando detalle...</div>';
+    modal.style.display = "flex";
+    try {
+      const res = await fetch(`${WEB_APP_URL}?action=get_record_detail&record_id=${encodeURIComponent(recordId)}`, { method: "GET" });
+      const json = await res.json();
+      if (json && json.message === "Web app activo.") {
+        throw new Error("La Web App publicada sigue en la versión vieja.");
+      }
+      if (!json.ok) throw new Error(json.error || json.message || "No fue posible obtener el detalle.");
+      const record = json.record || {};
+      subtitle.textContent = `${safeText(record["Nombre de la persona que hizo la reservación"]) || 'Registro'} · ${safeText(record["Fecha de ingreso"]) || ''}`;
+
+      const allowedFields = [
+        "Medio de reservación",
+        "Nombre de la persona que hizo la reservación",
+        "Tipo de identificación",
+        "INE frontal",
+        "INE trasero",
+        "Identificación única",
+        "Identificación otro",
+        "Propiedad",
+        "# Departamento",
+        "Motivo de tu hospedaje",
+        "Fecha de ingreso",
+        "Hora estimada de llegada",
+        "Fecha de salida",
+        "Hora estimada de salida",
+        "# Noches",
+        "# Huéspedes",
+        "Nombres de TODOS los huéspedes (separados por comas)",
+        "Cel/Whatsapp (principal)",
+        "Cel/Whatsapp (contacto de emergencia)",
+        "¿Requiere factura?",
+        "Razón social",
+        "Divisa monto pagado",
+        "($) Monto Total pagado",
+        "Comprobante transferencia",
+        "Correo electrónico",
+        "...enviar copia al siguiente correo:",
+        "$ Monto facturado Total"
+      ];
+
+      function safeVal(key){
+        return safeText(record[key]);
+      }
+
+      function isImageField(key, value){
+        const k = safeText(key).toLowerCase();
+        const v = safeText(value);
+        if (!v || v === "—") return false;
+        return /(ine frontal|ine trasero|identificacion unica|identificación única|identificacion otro|identificación otro|comprobante transferencia)/.test(k) && /^https?:\/\//i.test(v);
+      }
+
+      function normalizeDriveImage(url){
+        const txt = safeText(url);
+        const fileMatch = txt.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (fileMatch) return `https://drive.google.com/thumbnail?id=${fileMatch[1]}&sz=w1200`;
+        const dMatch = txt.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (dMatch) return `https://drive.google.com/thumbnail?id=${dMatch[1]}&sz=w1200`;
+        const idMatch = txt.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+        if (idMatch) return `https://drive.google.com/thumbnail?id=${idMatch[1]}&sz=w1200`;
+        return txt;
+      }
+
+      function normalizePhone(val){
+        return safeText(val).replace(/[^0-9]/g,'');
+      }
+
+      function renderPhoneWhatsApp(val){
+        const raw = safeText(val);
+        const digits = normalizePhone(raw);
+        if (!digits) return `<span>${escapeHtml(raw)}</span>`;
+        return `<a class="detail-wa" href="https://wa.me/${encodeURIComponent(digits)}" target="_blank" rel="noopener">WhatsApp: ${escapeHtml(raw)}</a>`;
+      }
+
+      function renderStandardItem(key){
+        const raw = safeVal(key);
+        if (!raw || raw === "—") return "";
+        let valueHtml = `<span>${escapeHtml(raw)}</span>`;
+        if (key === "Cel/Whatsapp (principal)" || key === "Cel/Whatsapp (contacto de emergencia)") {
+          valueHtml = renderPhoneWhatsApp(raw);
+        } else if (key === "Correo electrónico" || key === "...enviar copia al siguiente correo:") {
+          valueHtml = `<a href="mailto:${escapeHtml(raw)}">${escapeHtml(raw)}</a>`;
+        }
+        return `
+          <div class="detail-item">
+            <div class="detail-key">${escapeHtml(key)}</div>
+            <div class="detail-value">${valueHtml}</div>
+          </div>
+        `;
+      }
+
+      const visibleFields = allowedFields.filter(key => {
+        const val = safeVal(key);
+        return val && val !== "—";
+      });
+
+      if (!visibleFields.length) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">No hay campos con información para mostrar.</div>';
+        return;
+      }
+
+      const kpis = [
+        ["Reservación", safeVal("Nombre de la persona que hizo la reservación")],
+        ["Ubicación", [safeVal("Propiedad"), safeVal("# Departamento") ? "Depto " + safeVal("# Departamento") : ""].filter(Boolean).join(" · ")],
+        ["Periodo", [safeVal("Fecha de ingreso"), safeVal("Fecha de salida")].filter(Boolean).join(" → ")],
+        ["Monto", [safeVal("Divisa monto pagado"), safeVal("($) Monto Total pagado") || safeVal("$ Monto facturado Total")].filter(Boolean).join(" ")]
+      ].filter(item => item[1]);
+
+      const imageFields = visibleFields.filter(key => isImageField(key, safeVal(key)));
+      const standardFields = visibleFields.filter(key => !isImageField(key, safeVal(key)));
+
+      const bookingFields = [
+        "Medio de reservación",
+        "Nombre de la persona que hizo la reservación",
+        "Tipo de identificación",
+        "Propiedad",
+        "# Departamento",
+        "Motivo de tu hospedaje",
+        "Fecha de ingreso",
+        "Hora estimada de llegada",
+        "Fecha de salida",
+        "Hora estimada de salida",
+        "# Noches",
+        "# Huéspedes",
+        "Nombres de TODOS los huéspedes (separados por comas)"
+      ];
+
+      const contactFields = [
+        "Cel/Whatsapp (principal)",
+        "Cel/Whatsapp (contacto de emergencia)",
+        "Correo electrónico",
+        "...enviar copia al siguiente correo:"
+      ];
+
+      const billingFields = [
+        "¿Requiere factura?",
+        "Razón social",
+        "Divisa monto pagado",
+        "($) Monto Total pagado",
+        "$ Monto facturado Total"
+      ];
+
+      function renderSection(title, fieldList){
+        const items = fieldList
+          .filter(key => standardFields.includes(key))
+          .map(renderStandardItem)
+          .filter(Boolean)
+          .join("");
+        if (!items) return "";
+        return `
+          <div class="detail-card">
+            <div class="detail-card-title">${escapeHtml(title)}</div>
+            <div class="detail-grid-compact">${items}</div>
+          </div>
+        `;
+      }
+
+      let galleryHtml = "";
+      if (imageFields.length) {
+        galleryHtml = `
+          <div class="detail-card">
+            <div class="detail-card-title">Imágenes</div>
+            <div class="detail-gallery">
+              ${imageFields.map(key => {
+                const rawUrl = safeVal(key);
+                const imgUrl = normalizeDriveImage(rawUrl);
+                return `
+                  <div class="detail-image-card">
+                    <div class="detail-key">${escapeHtml(key)}</div>
+                    <div style="margin:8px 0 10px 0;">
+                      <img class="detail-image" src="${escapeHtml(imgUrl)}" alt="${escapeHtml(key)}"
+                           referrerpolicy="no-referrer"
+                           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                      <div style="display:none;color:#8a6d3b;">No se pudo previsualizar la imagen.</div>
+                    </div>
+                    <a class="detail-link" href="${escapeHtml(rawUrl)}" target="_blank" rel="noopener">Abrir imagen</a>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      grid.innerHTML = `
+        <div class="detail-sections">
+          ${kpis.length ? `
+            <div class="detail-kpi-grid">
+              ${kpis.map(([label, value]) => `
+                <div class="detail-kpi">
+                  <div class="detail-kpi-label">${escapeHtml(label)}</div>
+                  <div class="detail-kpi-value">${escapeHtml(value)}</div>
+                </div>
+              `).join("")}
+            </div>
+          ` : ""}
+          ${galleryHtml}
+          ${renderSection("Reservación y estancia", bookingFields)}
+          ${renderSection("Contacto", contactFields)}
+          ${renderSection("Facturación", billingFields)}
+        </div>
+      `;
+    } catch (err) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">Error al cargar detalle: ${escapeHtml(err.message)}</div>`;
+    }
+  };
+
+  window.cerrarDetalleDashboard = function(){
+    const modal = document.getElementById("dashboardDetailModal");
+    if (modal) modal.style.display = "none";
+  };
+
+  if (menuRegistroBtn) menuRegistroBtn.addEventListener("click", () => activarVista("registro"));
+  if (menuControlBtn) menuControlBtn.addEventListener("click", async () => {
+    activarVista("dashboard");
+    await cargarOpcionesFiltros();
+    buscarRegistros(true);
+  });
+
+  document.getElementById("btnBuscarHuespedes")?.addEventListener("click", () => buscarRegistros(true));
+  document.getElementById("btnLimpiarFiltros")?.addEventListener("click", limpiarFiltros);
+  document.getElementById("btnExportarCsv")?.addEventListener("click", exportarCsv);
+  document.getElementById("btnPrevPage")?.addEventListener("click", () => { if (dashboardPage > 1) { dashboardPage -= 1; buscarRegistros(false); } });
+  document.getElementById("btnNextPage")?.addEventListener("click", () => { if (dashboardPage < dashboardPages) { dashboardPage += 1; buscarRegistros(false); } });
+  pageSizeSelect?.addEventListener("change", () => { dashboardPageSize = Number(pageSizeSelect.value || 25); buscarRegistros(true); });
+
+  [
+    "filtro_fecha_entrada_desde","filtro_fecha_entrada_hasta","filtro_fecha_salida_desde","filtro_fecha_salida_hasta",
+    "filtro_nombre_reservacion","filtro_medio_reservacion","filtro_celular_principal","filtro_requiere_factura",
+    "filtro_razon_social","filtro_forma_pago","filtro_correo"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("change", () => buscarRegistros(true));
+    el.addEventListener("keydown", function(ev){ if (ev.key === "Enter") { ev.preventDefault(); buscarRegistros(true); } });
+  });
+})();
+</script>
+
+
+
+
+
+
+
+
+<div id="passwordModal" class="popup-backdrop" style="display:none;">
+  <div class="popup-card" style="max-width:360px;">
+    <h3 style="margin-bottom:8px;">Acceso restringido</h3>
+    <div class="hint" style="margin-bottom:14px;">Ingresa la contraseña para entrar a Control de huéspedes</div>
+    <input id="adminPasswordInput" type="password" placeholder="Contraseña" style="width:100%;padding:14px 15px;border-radius:14px;border:1px solid var(--border-strong);font-size:16px;">
+    <div id="adminPasswordError" style="display:none;color:#b42318;font-size:13px;margin-top:10px;">Contraseña incorrecta</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
+      <button type="button" id="cancelPasswordBtn" style="margin-top:0;background:linear-gradient(180deg,#d1d5db 0%, #9ca3af 100%);">Cancelar</button>
+      <button type="button" id="submitPasswordBtn" style="margin-top:0;">Entrar</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+window.dashboardUnlocked = false;
+const DASHBOARD_PASSWORD = "admin";
+
+function showPasswordModal(){
+  const modal = document.getElementById("passwordModal");
+  const input = document.getElementById("adminPasswordInput");
+  const err = document.getElementById("adminPasswordError");
+  if (err) err.style.display = "none";
+  if (input) input.value = "";
+  if (modal) modal.style.display = "flex";
+  if (input) setTimeout(() => input.focus(), 30);
+}
+
+function hidePasswordModal(){
+  const modal = document.getElementById("passwordModal");
+  if (modal) modal.style.display = "none";
+}
+
+function openDashboardAfterUnlock(){
+  if (typeof activarVista === "function") {
+    activarVista("dashboard");
+  }
+  if (typeof cargarOpcionesFiltros === "function") {
+    Promise.resolve(cargarOpcionesFiltros()).then(() => {
+      if (typeof buscarRegistros === "function") buscarRegistros(true);
+    }).catch(() => {});
+  } else if (typeof buscarRegistros === "function") {
+    buscarRegistros(true);
+  }
+}
+
+function unlockDashboardWithPassword(){
+  const input = document.getElementById("adminPasswordInput");
+  const err = document.getElementById("adminPasswordError");
+  const pass = input ? input.value : "";
+  if (pass === DASHBOARD_PASSWORD) {
+    window.dashboardUnlocked = true;
+    if (err) err.style.display = "none";
+    hidePasswordModal();
+    openDashboardAfterUnlock();
+  } else {
+    if (err) err.style.display = "block";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  const dashboardBtn = document.getElementById("menuControlBtn");
+  const submitBtn = document.getElementById("submitPasswordBtn");
+  const cancelBtn = document.getElementById("cancelPasswordBtn");
+  const input = document.getElementById("adminPasswordInput");
+  const modal = document.getElementById("passwordModal");
+
+  if (dashboardBtn) {
+    dashboardBtn.addEventListener("click", function(ev){
+      if (window.dashboardUnlocked) return;
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      ev.stopPropagation();
+      showPasswordModal();
+    }, true);
+  }
+
+  if (submitBtn) submitBtn.addEventListener("click", unlockDashboardWithPassword);
+  if (cancelBtn) cancelBtn.addEventListener("click", hidePasswordModal);
+  if (input) {
+    input.addEventListener("keydown", function(e){
+      if (e.key === "Enter") unlockDashboardWithPassword();
+    });
+  }
+  if (modal) {
+    modal.addEventListener("click", function(e){
+      if (e.target === modal) hidePasswordModal();
+    });
+  }
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const entradaDesde = document.getElementById("filtro_fecha_entrada_desde");
+  if (entradaDesde && !entradaDesde.value) {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    entradaDesde.value = `${yyyy}-${mm}-${dd}`;
+  }
+
+  const detailModal = document.getElementById("dashboardDetailModal");
+  const closeBtn =
+    document.getElementById("dashboardDetailCloseBtn") ||
+    document.querySelector('[data-close="dashboard-detail"]') ||
+    document.querySelector(".dashboard-detail-close");
+
+  function cerrarDetalleRegistro(){
+    if (detailModal) detailModal.style.display = "none";
+  }
+
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && detailModal && detailModal.style.display === "flex") {
+      cerrarDetalleRegistro();
+    }
+  });
+
+  if (detailModal) {
+    detailModal.addEventListener("click", function(e){
+      if (e.target === detailModal) {
+        cerrarDetalleRegistro();
+      }
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", cerrarDetalleRegistro);
+  }
+});
+</script>
+
 </body>
 </html>
