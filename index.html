@@ -1573,7 +1573,7 @@ function seleccionarTipoRegistro(tipo){
 
   if (factura.value === "si") {
     campoRazonSocial.classList.toggle("hidden", esRegistrado);
-    campoRegimenFiscal.classList.toggle("hidden", esRegistrado);
+    campoRegimenFiscal.classList.remove("hidden");
   } else {
     campoRazonSocial.classList.add("hidden");
     campoRegimenFiscal.classList.add("hidden");
@@ -1618,7 +1618,7 @@ function actualizarCamposPorTipoRegistro(){
   campoHuespedesNombres.classList.toggle("hidden", esRegistrado);
   seccionContactoHuesped.classList.toggle("hidden", esRegistrado);
   campoRazonSocial.classList.toggle("hidden", factura.value !== "si" || esRegistrado);
-  campoRegimenFiscal.classList.toggle("hidden", factura.value !== "si" || esRegistrado);
+  campoRegimenFiscal.classList.toggle("hidden", factura.value !== "si");
 }
 
 document.querySelector('input[name="nombre"]').addEventListener("input", () => {
@@ -1673,7 +1673,7 @@ factura.addEventListener("change", () => {
   facturaNotas.classList.toggle("hidden", !show);
   const esRegistrado = tipoRegistroInput.value === "registrado";
   campoRazonSocial.classList.toggle("hidden", !show || esRegistrado);
-  campoRegimenFiscal.classList.toggle("hidden", !show || esRegistrado);
+  campoRegimenFiscal.classList.toggle("hidden", !show);
 
   if (!show) {
     nota_airbnb.classList.add("hidden");
