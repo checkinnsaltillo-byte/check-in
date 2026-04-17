@@ -156,10 +156,27 @@ button:disabled{
   box-shadow:none;
 }
 .btn-remove{
-  background:linear-gradient(180deg,#c9372c 0%, #a61b16 100%);
-  white-space:nowrap;
-  min-width:52px;
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:24px;
+  height:24px;
+  min-width:24px;
+  padding:0;
+  margin-top:0;
+  font-size:14px;
+  line-height:1;
+  border-radius:50%;
+  background:#f3f4f6;
+  color:#6b7280;
+  border:1px solid #e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
   box-shadow:none;
+  transition:all .15s ease, opacity .15s ease;
+  z-index:2;
 }
 .hidden{display:none !important;}
 .note{
@@ -377,7 +394,9 @@ button:disabled{
     flex-direction:column;
     align-items:stretch;
   }
-  .btn-remove, button{ width:100%; }
+  .btn-remove{ width:24px; }
+  button{ width:100%; }
+  .huesped-row .btn-remove{ opacity:1; }
   label{ margin-top:14px; }
   select,input,textarea{
     font-size:16px;
@@ -770,6 +789,40 @@ button:disabled{
   }
 }
 
+
+.auto-detected-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:999px;
+  background:#ecfdf3;
+  border:1px solid #abefc6;
+  color:#067647;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+
+.autofilled-field{
+  background:linear-gradient(180deg,#eefaf3 0%, #e2f7ea 100%) !important;
+  border-color:#7cc79a !important;
+  box-shadow:0 0 0 3px rgba(34,197,94,.10);
+}
+.autofilled-field:focus{
+  border-color:#4caf72 !important;
+  box-shadow:0 0 0 4px rgba(34,197,94,.16) !important;
+}
+.autofilled-label{
+  color:#256b45 !important;
+}
+.autofilled-wrapper{
+  border-color:#7cc79a !important;
+  background:linear-gradient(180deg,#f4fff8 0%, #ebfbf1 100%) !important;
+  box-shadow:0 0 0 3px rgba(34,197,94,.08);
+}
+
 </style>
 </head>
 <body>
@@ -937,22 +990,15 @@ button:disabled{
 <div id="viewRegistro" class="view-panel">
 
 <form id="form">
-<div class="section initial-choice">
-<h2 class="section-title" data-i18n="preFormTitle">Tipo de registro</h2>
-<p class="section-subtitle" data-i18n="preFormSub"></p>
-<input id="tipo_registro" name="tipo_registro" type="hidden" value=""/>
-<div class="choice-grid">
-<div class="choice-card" id="choice_nuevo" onclick="seleccionarTipoRegistro('nuevo')">
-<div class="choice-card-title" data-i18n="optionNewTitle">Registro nuevo</div>
-<div class="choice-card-text" data-i18n="optionNewText">Prepara tu identificación personal</div>
+<input type="hidden" id="tipo_registro" name="tipo_registro" value="nuevo"/>
+<div class="section" id="section_celular_principal"><h2 class="section-title" data-i18n="phoneLookupTitle">Número de celular</h2><p class="section-subtitle" data-i18n="phoneLookupSub">Escribe tu número para buscar si ya existe un registro previo y completar automáticamente algunos datos.</p>
+<div class="phone-group">
+<select id="lada1" name="lada1"></select>
+<input id="celular_principal_input" name="cel" type="tel" inputmode="numeric" autocomplete="tel-national"/>
 </div>
-<div class="choice-card" id="choice_registrado" onclick="seleccionarTipoRegistro('registrado')">
-<div class="choice-card-title" data-i18n="optionRegisteredTitle">Huésped ya registrado</div>
-<div class="choice-card-text" data-i18n="optionRegisteredText"></div>
+<div id="guestAutofillStatus" class="note hidden" style="margin-top:10px;"></div>
 </div>
-</div>
-</div>
-<div class="form-hidden-until-choice" id="formulario_principal"><div class="section"><h2 class="section-title" data-i18n="sec1Title">Datos de la reservación</h2><p class="section-subtitle" data-i18n="sec1Sub"></p><label data-i18n="bookingSource">Medio de reservación</label>
+<div id="formulario_principal" class="visible"><div class="section"><h2 class="section-title" data-i18n="sec1Title">Datos de la reservación</h2><p class="section-subtitle" data-i18n="sec1Sub"></p><label data-i18n="bookingSource">Medio de reservación</label>
 <select name="medio">
 <option value="">Selecciona</option>
 <option value="Airbnb">Airbnb</option>
@@ -963,12 +1009,12 @@ button:disabled{
 <input name="nombre" type="text"/><div id="field_propiedad_departamento"><label data-i18n="property">Propiedad</label>
 <select id="propiedad" name="propiedad">
 <option value="">Selecciona</option>
-<option value="Cumbres">Cumbres</option>
-<option value="Baja California">Baja California</option>
-<option value="Oaxaca">Oaxaca</option>
-<option value="José Cárdenas">José Cárdenas</option>
-<option value="Matamoros">Matamoros</option>
-<option value="Torreón">Torreón</option>
+<option value="Cumbres">Calle Cumbres</option>
+<option value="Baja California">Calle Baja California</option>
+<option value="Oaxaca">Calle Oaxaca</option>
+<option value="José Cárdenas">Calle José Cárdenas</option>
+<option value="Matamoros">Calle Matamoros</option>
+<option value="Torreón">Calle Torreón</option>
 <option value="Otra">Otra</option>
 </select>
 <input class="hidden" id="propiedad_otra" name="propiedad_otra" placeholder="Especifica" type="text"/>
@@ -995,8 +1041,8 @@ button:disabled{
 <div id="field_huespedes_nombres"><label data-i18n="guestNames">Nombres de los huéspedes</label>
 
 <div id="huespedes-container">
-<div class="huesped-row">
-<div style="flex:1;">
+<div class="huesped-row" style="position:relative;">
+<div style="flex:1; padding-right:34px;">
 <input name="huesped[]" placeholder="Huésped 1" type="text"/>
 <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
 <input class="copiar-reservante" onchange="toggleCopiarReservante(this)" style="width:auto;" type="checkbox"/>
@@ -1179,12 +1225,12 @@ button:disabled{
 </div><div class="hidden" id="field_propiedad_departamento"><label data-i18n="property">Propiedad</label>
 <select id="propiedad" name="propiedad">
 <option value="">Selecciona</option>
-<option value="Cumbres">Cumbres</option>
-<option value="Baja California">Baja California</option>
-<option value="Oaxaca">Oaxaca</option>
-<option value="José Cárdenas">José Cárdenas</option>
-<option value="Matamoros">Matamoros</option>
-<option value="Torreón">Torreón</option>
+<option value="Cumbres">Calle Cumbres</option>
+<option value="Baja California">Calle Baja California</option>
+<option value="Oaxaca">Calle Oaxaca</option>
+<option value="José Cárdenas">Calle José Cárdenas</option>
+<option value="Matamoros">Calle Matamoros</option>
+<option value="Torreón">Calle Torreón</option>
 <option value="Otra">Otra</option>
 </select>
 <input class="hidden" id="propiedad_otra" name="propiedad_otra" placeholder="Especifica" type="text"/>
@@ -1211,8 +1257,8 @@ button:disabled{
 <div id="field_huespedes_nombres"><label data-i18n="guestNames">Nombres de los huéspedes</label>
 
 <div id="huespedes-container">
-<div class="huesped-row">
-<div style="flex:1;">
+<div class="huesped-row" style="position:relative;">
+<div style="flex:1; padding-right:34px;">
 <input name="huesped[]" placeholder="Huésped 1" type="text"/>
 <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
 <input class="copiar-reservante" onchange="toggleCopiarReservante(this)" style="width:auto;" type="checkbox"/>
@@ -1225,12 +1271,7 @@ button:disabled{
 </div>
 </div>
 </div>
-<div class="section" id="section_contacto_huesped"><h2 class="section-title" data-i18n="sec3Title">Contacto del huésped</h2><p class="section-subtitle" data-i18n="sec3Sub">Datos de contacto del huésped y de emergencia.</p><label data-i18n="guestPhone">Celular del huésped</label>
-<div class="phone-group">
-<select id="lada1" name="lada1"></select>
-<input name="cel" type="tel"/>
-</div>
-<label data-i18n="emergencyContact">Contacto emergencia</label>
+<div class="section" id="section_contacto_huesped"><h2 class="section-title" data-i18n="sec3Title">Contacto del huésped</h2><p class="section-subtitle" data-i18n="sec3Sub">Datos de contacto del huésped y de emergencia.</p><label data-i18n="emergencyContact">Contacto emergencia</label>
 <div class="phone-group">
 <select id="lada2" name="lada2"></select>
 <input name="emergencia" type="tel"/>
@@ -1435,7 +1476,300 @@ function loadLadas(id){
 }
 loadLadas("lada1");
 loadLadas("lada2");
+const guestAutofillStatus = document.getElementById("guestAutofillStatus");
+let guestLookupTimer = null;
+let guestLookupInFlight = 0;
+let guestLookupCatalog = null;
+let guestLookupLastMatchedPhone = "";
 
+function findRelatedLabel(el){
+  if (!el) return null;
+  if (el.id) {
+    const explicit = document.querySelector(`label[for="${el.id}"]`);
+    if (explicit) return explicit;
+  }
+  let current = el.previousElementSibling;
+  while (current) {
+    if (current.tagName && current.tagName.toLowerCase() === "label") return current;
+    current = current.previousElementSibling;
+  }
+  const parent = el.closest('div');
+  if (!parent) return null;
+  let sibling = parent.previousElementSibling;
+  while (sibling) {
+    if (sibling.tagName && sibling.tagName.toLowerCase() === "label") return sibling;
+    sibling = sibling.previousElementSibling;
+  }
+  return null;
+}
+function markFieldAsAutofilled(el){
+  if (!el) return;
+  el.classList.add("autofilled-field");
+  const label = findRelatedLabel(el);
+  if (label) label.classList.add("autofilled-label");
+}
+function clearFieldAutofilled(el){
+  if (!el) return;
+  el.classList.remove("autofilled-field");
+  const label = findRelatedLabel(el);
+  if (label) label.classList.remove("autofilled-label");
+}
+function markPreviewAsAutofilled(wrapperId){
+  const wrapper = document.getElementById(wrapperId);
+  if (wrapper) wrapper.classList.add("autofilled-wrapper");
+}
+function clearAllAutofilledMarks(){
+  document.querySelectorAll(".autofilled-field").forEach(el => el.classList.remove("autofilled-field"));
+  document.querySelectorAll(".autofilled-label").forEach(el => el.classList.remove("autofilled-label"));
+  document.querySelectorAll(".autofilled-wrapper").forEach(el => el.classList.remove("autofilled-wrapper"));
+}
+function attachAutofilledFieldListeners(root = document){
+  root.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.dataset.autofillHighlightBound === "1") return;
+    const clear = () => clearFieldAutofilled(el);
+    el.addEventListener("input", clear);
+    el.addEventListener("change", clear);
+    el.dataset.autofillHighlightBound = "1";
+  });
+}
+document.addEventListener("DOMContentLoaded", function(){
+  attachAutofilledFieldListeners(document);
+  actualizarTextoUploads(false);
+});
+
+function setGuestAutofillMessage(type, html){
+  if (!guestAutofillStatus) return;
+  guestAutofillStatus.classList.remove("hidden","success","error");
+  if (!html) {
+    guestAutofillStatus.classList.add("hidden");
+    guestAutofillStatus.innerHTML = "";
+    return;
+  }
+  if (type === "success") guestAutofillStatus.classList.add("success");
+  else if (type === "error") guestAutofillStatus.classList.add("error");
+  guestAutofillStatus.innerHTML = html;
+}
+
+function actualizarTextoUploads(esHuespedExistente){
+  const texto = esHuespedExistente
+    ? (window.currentLang === "en" ? "Update image" : "Actualizar imagen")
+    : (window.currentLang === "en" ? "Upload image" : "Subir imagen");
+
+  document.querySelectorAll('.upload-title, .upload-btn').forEach(el => {
+    el.textContent = texto;
+  });
+}
+
+function normalizePhone(value){
+  return String(value || "").replace(/\D/g, "");
+}
+
+function getPrimaryPhoneCandidate(){
+  const lada = document.getElementById("lada1")?.value || "";
+  const cel = document.querySelector('input[name="cel"]')?.value || "";
+  return normalizePhone(`${lada}${cel}`);
+}
+
+async function loadGuestPhoneCatalog(){
+  if (guestLookupCatalog) return guestLookupCatalog;
+  const res = await fetch(`${WEB_APP_URL}?action=list_filter_options`, { method: "GET" });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error || json.message || "No fue posible consultar huéspedes previos.");
+  const phones = Array.isArray(json?.options?.celulares_principales) ? json.options.celulares_principales : [];
+  guestLookupCatalog = phones.map(raw => ({ raw, digits: normalizePhone(raw) })).filter(x => x.digits);
+  return guestLookupCatalog;
+}
+
+async function fetchGuestRecordByExactPhone(rawPhone){
+  const params = new URLSearchParams();
+  params.set("action", "list_records");
+  params.set("celular_principal", rawPhone);
+  params.set("page", "1");
+  params.set("page_size", "100");
+  const res = await fetch(`${WEB_APP_URL}?${params.toString()}`, { method: "GET" });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error || json.message || "No fue posible recuperar el registro.");
+  const rows = Array.isArray(json.rows) ? json.rows : [];
+  return rows.length ? rows[0] : null;
+}
+
+async function fetchGuestRecordDetail(recordId){
+  const id = String(recordId || "").trim();
+  if (!id) return null;
+  const params = new URLSearchParams();
+  params.set("action", "get_record_detail");
+  params.set("record_id", id);
+  const res = await fetch(`${WEB_APP_URL}?${params.toString()}`, { method: "GET" });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error || json.message || "No fue posible recuperar el detalle del registro.");
+  return json.record || null;
+}
+
+function setSelectByTextOrValue(select, desired){
+  if (!select) return false;
+  const target = String(desired || "").trim().toLowerCase();
+  if (!target) return false;
+  const opt = Array.from(select.options).find(o => String(o.value || "").trim().toLowerCase() === target || String(o.textContent || "").trim().toLowerCase() === target);
+  if (!opt) return false;
+  select.value = opt.value;
+  select.dispatchEvent(new Event("change", { bubbles: true }));
+  markFieldAsAutofilled(select);
+  return true;
+}
+
+function fillGuestNames(namesText){
+  const names = String(namesText || "").split(",").map(x => x.trim()).filter(Boolean);
+  if (!names.length) return;
+  const currentInputs = Array.from(document.querySelectorAll('#huespedes-container input[name="huesped[]"]'));
+  while (document.querySelectorAll('#huespedes-container input[name="huesped[]"]').length < names.length) {
+    addGuest();
+  }
+  const inputs = Array.from(document.querySelectorAll('#huespedes-container input[name="huesped[]"]'));
+  inputs.forEach((input, idx) => {
+    input.value = names[idx] || "";
+    if (names[idx]) markFieldAsAutofilled(input);
+  });
+  renumerarHuespedes();
+}
+
+function applyGuestRecordToForm(row){
+  if (!row) return;
+  clearAllAutofilledMarks();
+
+  const setInputValue = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el && value != null && String(value).trim()) {
+      el.value = String(value).trim();
+      markFieldAsAutofilled(el);
+    }
+  };
+
+  setInputValue('input[name="nombre"]', row["Nombre de la persona que hizo la reservación"]);
+  setInputValue('#razon_social', row["Razón social"]);
+  setInputValue('#correo1', row["Correo electrónico"]);
+  setInputValue('#correo2', row["...enviar copia al siguiente correo:"]);
+  const montoPagadoEl = document.getElementById('monto_pagado');
+  if (montoPagadoEl) {
+    montoPagadoEl.value = '';
+    clearFieldAutofilled(montoPagadoEl);
+  }
+
+  fillGuestNames(row["Nombres de TODOS los huéspedes (separados por comas)"]);
+
+  setSelectByTextOrValue(document.getElementById("identificacion_tipo"), row["Tipo de identificación"]);
+  if (String(row["Tipo de identificación"] || "").trim().toLowerCase() === 'otro') {
+    setInputValue('#identificacion_otro', row["Identificación otro"]);
+  }
+  toggleIdentificacion();
+
+  setSelectByTextOrValue(document.getElementById("motivo"), row["Motivo de tu hospedaje"]);
+  if (String(row["Motivo de tu hospedaje"] || "").trim().toLowerCase() === 'otro') {
+    setInputValue('#motivo_otro', row["Motivo otro"] || row["Motivo"]);
+  }
+
+  setSelectByTextOrValue(document.getElementById("factura"), row["¿Requiere factura?"]);
+  syncFacturaVisibility();
+  setInputValue('#razon_social', row["Razón social"]);
+  setSelectByTextOrValue(document.getElementById("regimen"), row["Régimen fiscal"]);
+  setSelectByTextOrValue(document.getElementById("divisa_monto"), row["Divisa monto pagado"]);
+  if (String(row["Régimen fiscal"] || "").trim().toLowerCase() === 'otro') {
+    setInputValue('#regimen_otro', row["Régimen fiscal otro"] || row["Régimen otro"]);
+  }
+  toggleRegimenOtro();
+  toggleComprobanteTransferencia();
+  formatCurrencyPreview();
+
+  const celEmergencia = String(row["Cel/Whatsapp (contacto de emergencia)"] || "");
+  const emergDigits = normalizePhone(celEmergencia);
+  if (emergDigits) {
+    const lada2 = document.getElementById("lada2");
+    const emergencia = document.querySelector('input[name="emergencia"]');
+    if (lada2 && emergDigits.length > 10) {
+      lada2.value = emergDigits.slice(0, emergDigits.length - 10);
+      markFieldAsAutofilled(lada2);
+    }
+    if (emergencia) {
+      emergencia.value = emergDigits.slice(-10);
+      markFieldAsAutofilled(emergencia);
+    }
+  }
+
+  attachAutofilledFieldListeners(document);
+}
+
+function resetAutofillToNewMode(){
+  guestLookupLastMatchedPhone = "";
+  clearAllAutofilledMarks();
+  setGuestAutofillMessage("", "");
+  actualizarTextoUploads(false);
+}
+
+async function detectExistingGuestByPhone(){
+  const lookupId = ++guestLookupInFlight;
+  const digits = getPrimaryPhoneCandidate();
+
+  if (!digits || digits.length < 10) {
+    resetAutofillToNewMode();
+    return;
+  }
+
+  try {
+    setGuestAutofillMessage("", (window.currentLang === "en")
+      ? "Checking previous guest records..."
+      : "Buscando registros previos del huésped...");
+    const catalog = await loadGuestPhoneCatalog();
+    if (lookupId !== guestLookupInFlight) return;
+
+    const exact = catalog.find(item => item.digits === digits || item.digits.endsWith(digits));
+    if (!exact) {
+      resetAutofillToNewMode();
+      actualizarTextoUploads(false);
+      setGuestAutofillMessage("", (window.currentLang === "en")
+        ? "No previous match was found for this phone number."
+        : "No se encontró un registro previo para este número.");
+      return;
+    }
+
+    if (guestLookupLastMatchedPhone === exact.raw) {
+      actualizarTextoUploads(true);
+      setGuestAutofillMessage("success", `<span class="auto-detected-badge">${(window.currentLang === "en") ? "Returning guest detected" : "Huésped ya registrado detectado"}</span>`);
+      return;
+    }
+
+    const row = await fetchGuestRecordByExactPhone(exact.raw);
+    if (lookupId !== guestLookupInFlight) return;
+
+    if (!row) {
+      resetAutofillToNewMode();
+      return;
+    }
+
+    const recordId = row["ID"] || row["row_number"] || row["Row"] || row["ROW_NUMBER"] || "";
+    const detailRow = recordId ? (await fetchGuestRecordDetail(recordId)) : null;
+    if (lookupId !== guestLookupInFlight) return;
+
+    const sourceRow = detailRow || row;
+    guestLookupLastMatchedPhone = exact.raw;
+    applyGuestRecordToForm(sourceRow);
+    actualizarTextoUploads(true);
+    const nombre = sourceRow["Nombre de la persona que hizo la reservación"] || row["Nombre de la persona que hizo la reservación"] || "";
+    setGuestAutofillMessage("success",
+      `<span class="auto-detected-badge">${(window.currentLang === "en") ? "Previous guest found" : "Huésped encontrado"}</span><div>${(window.currentLang === "en") ? "The available fields were completed automatically for" : "Se completaron automáticamente los campos disponibles de"} <strong>${String(nombre || "").trim() || ((window.currentLang === "en") ? "this guest" : "este huésped")}</strong>.</div>`
+    );
+  } catch (err) {
+    if (lookupId !== guestLookupInFlight) return;
+    setGuestAutofillMessage("error", ((window.currentLang === "en") ? "Could not verify previous records: " : "No se pudieron verificar registros previos: ") + err.message);
+  }
+}
+
+function scheduleGuestLookup(){
+  clearTimeout(guestLookupTimer);
+  guestLookupTimer = setTimeout(detectExistingGuestByPhone, 500);
+}
+
+document.querySelector('input[name="cel"]')?.addEventListener("input", scheduleGuestLookup);
+document.querySelector('input[name="cel"]')?.addEventListener("blur", detectExistingGuestByPhone);
+document.getElementById("lada1")?.addEventListener("change", detectExistingGuestByPhone);
 function renumerarHuespedes(){
   const rows = document.querySelectorAll('#huespedes-container .huesped-row');
   rows.forEach((row, index) => {
@@ -1490,15 +1824,16 @@ function toggleCopiarReservante(checkbox){
 function addGuest(){
   const d = document.createElement("div");
   d.className = "huesped-row";
+  d.setAttribute("style","position:relative;");
   d.innerHTML = `
-    <div style="flex:1;">
+    <div style="flex:1; padding-right:34px;">
       <input type="text" name="huesped[]" placeholder="">
       <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:none; align-items:center; gap:8px;">
         <input type="checkbox" class="copiar-reservante" style="width:auto;" onchange="toggleCopiarReservante(this)">
         Es la misma persona que realizó la reservación
       </label>
     </div>
-    <button type="button" class="btn-remove">✖</button>
+    <button type="button" class="btn-remove" aria-label="Eliminar huésped">×</button>
   `;
   d.querySelector(".btn-remove").addEventListener("click", function(){
     d.remove();
@@ -1556,11 +1891,26 @@ const seccionContactoHuesped = document.getElementById("section_contacto_huesped
 const campoRazonSocial = document.getElementById("field_razon_social");
 const campoRegimenFiscal = document.getElementById("field_regimen_fiscal");
 
-function seleccionarTipoRegistro(tipo){
-  tipoRegistroInput.value = tipo;
+// Inicializar siempre como registro nuevo
+tipoRegistroInput.value = "nuevo";
+if (formularioPrincipal) formularioPrincipal.classList.add("visible");
+if (seccionIdentificacionEstancia) seccionIdentificacionEstancia.classList.remove("hidden");
+if (campoIdentificacion) campoIdentificacion.classList.remove("hidden");
+if (campoMotivo) campoMotivo.classList.remove("hidden");
+if (campoPropiedadDepartamento) campoPropiedadDepartamento.classList.remove("hidden");
+if (campoNumHuespedes) campoNumHuespedes.classList.remove("hidden");
+if (campoHuespedesNombres) campoHuespedesNombres.classList.remove("hidden");
+if (seccionContactoHuesped) seccionContactoHuesped.classList.remove("hidden");
+
+function seleccionarTipoRegistro(tipo, options = {}){
+  const silent = !!options.silent;
+  tipoRegistroInput.value = tipo || "nuevo";
   formularioPrincipal.classList.add("visible");
-  document.getElementById("choice_nuevo").classList.toggle("active", tipo === "nuevo");
-  document.getElementById("choice_registrado").classList.toggle("active", tipo === "registrado");
+
+  const choiceNuevo = document.getElementById("choice_nuevo");
+  const choiceRegistrado = document.getElementById("choice_registrado");
+  if (choiceNuevo) choiceNuevo.classList.toggle("active", tipo === "nuevo");
+  if (choiceRegistrado) choiceRegistrado.classList.toggle("active", tipo === "registrado");
 
   const esRegistrado = tipo === "registrado";
   seccionIdentificacionEstancia.classList.toggle("hidden", esRegistrado);
@@ -1579,26 +1929,12 @@ function seleccionarTipoRegistro(tipo){
     campoRegimenFiscal.classList.add("hidden");
   }
 
-  if (esRegistrado) {
+  if (esRegistrado && !silent) {
     identificacionTipo.value = "";
     identificacionOtro.value = "";
     toggleIdentificacion();
     motivo.value = "";
     motivo_otro.value = "";
-    numHuespedes.value = "";
-    const container = document.getElementById("huespedes-container");
-    container.innerHTML = `<div class="huesped-row">
-      <div style="flex:1;">
-        <input type="text" name="huesped[]" placeholder="Huésped 1">
-        <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
-          <input type="checkbox" class="copiar-reservante" style="width:auto;" onchange="toggleCopiarReservante(this)">
-          Es la misma persona que realizó la reservación
-        </label>
-      </div>
-    </div>`;
-    renumerarHuespedes();
-    document.getElementById("lada1").value = "52";
-    document.querySelector('input[name="cel"]').value = "";
   } else {
     campoRazonSocial.classList.toggle("hidden", factura.value !== "si");
     campoRegimenFiscal.classList.toggle("hidden", factura.value !== "si");
@@ -1620,6 +1956,8 @@ function actualizarCamposPorTipoRegistro(){
   campoRazonSocial.classList.toggle("hidden", factura.value !== "si" || esRegistrado);
   campoRegimenFiscal.classList.toggle("hidden", factura.value !== "si");
 }
+
+seleccionarTipoRegistro("nuevo", { silent: true });
 
 document.querySelector('input[name="nombre"]').addEventListener("input", () => {
   const firstRow = document.querySelector('#huespedes-container .huesped-row');
@@ -1667,13 +2005,14 @@ function toggleRegimenOtro(){
 }
 regimen.addEventListener("change", toggleRegimenOtro);
 
-factura.addEventListener("change", () => {
-  const show = factura.value === "si";
-  facturaFields.classList.toggle("hidden", !show);
-  facturaNotas.classList.toggle("hidden", !show);
+function syncFacturaVisibility(){
+  const facturaValor = String(factura?.value || "").trim().toLowerCase();
+  const show = facturaValor === "si" || facturaValor === "sí" || facturaValor === "yes";
+  if (facturaFields) facturaFields.classList.toggle("hidden", !show);
+  if (facturaNotas) facturaNotas.classList.toggle("hidden", !show);
   const esRegistrado = tipoRegistroInput.value === "registrado";
-  campoRazonSocial.classList.toggle("hidden", !show || esRegistrado);
-  campoRegimenFiscal.classList.toggle("hidden", !show);
+  if (campoRazonSocial) campoRazonSocial.classList.toggle("hidden", !show || esRegistrado);
+  if (campoRegimenFiscal) campoRegimenFiscal.classList.toggle("hidden", !show);
 
   if (!show) {
     nota_airbnb.classList.add("hidden");
@@ -1686,7 +2025,13 @@ factura.addEventListener("change", () => {
     nota_airbnb.classList.toggle("hidden", medio_pago.value !== "Airbnb");
     toggleComprobanteTransferencia();
   }
-});
+}
+
+if (factura) {
+  factura.addEventListener("change", syncFacturaVisibility);
+  factura.addEventListener("input", syncFacturaVisibility);
+  factura.setAttribute("onchange", "syncFacturaVisibility()");
+}
 
 function toggleComprobanteTransferencia(){
   const show = medio_pago.value === "Transferencia directa a la cuenta del anfitrión";
@@ -1697,6 +2042,22 @@ function toggleComprobanteTransferencia(){
     document.getElementById("comprobante_transferencia_preview").classList.add("hidden");
     document.getElementById("comprobante_transferencia_preview").src = "";
   }
+}
+
+
+const medio_reservacion = document.querySelector('select[name="medio"]');
+
+function syncMedioPagoConReservacion(){
+  if (!medio_reservacion || !medio_pago) return;
+
+  if ((medio_reservacion.value || "").trim() === "Airbnb") {
+    medio_pago.value = "Airbnb";
+    medio_pago.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+}
+
+if (medio_reservacion) {
+  medio_reservacion.addEventListener("change", syncMedioPagoConReservacion);
 }
 
 medio_pago.addEventListener("change", () => {
@@ -1723,6 +2084,7 @@ monto_pagado.addEventListener("input", formatCurrencyPreview);
 divisa_monto.addEventListener("change", formatCurrencyPreview);
 formatCurrencyPreview();
 toggleComprobanteTransferencia();
+syncFacturaVisibility();
 
 function updateFileName(inputId, outputId, previewId){
   const input = document.getElementById(inputId);
@@ -2002,11 +2364,6 @@ document.getElementById("form").addEventListener("submit", async function(e){
   status.style.display = "none";
   status.textContent = "";
 
-  if (!tipoRegistroInput.value) {
-    status.textContent = window.currentLang === "en" ? "Select a registration type before continuing." : "Selecciona primero el tipo de registro.";
-    status.classList.add("error");
-    return;
-  }
 
   if (!WEB_APP_URL || WEB_APP_URL.includes("PEGA_AQUI")) {
     status.textContent = "Falta pegar la URL del Web App de Apps Script.";
@@ -2112,10 +2469,6 @@ document.getElementById("form").addEventListener("submit", async function(e){
       this.reset();
 
       facturaFields.classList.add("hidden");
-      formularioPrincipal.classList.remove("visible");
-      tipoRegistroInput.value = "";
-      document.getElementById("choice_nuevo").classList.remove("active");
-      document.getElementById("choice_registrado").classList.remove("active");
       seccionIdentificacionEstancia.classList.remove("hidden");
       campoIdentificacion.classList.remove("hidden");
       campoMotivo.classList.remove("hidden");
@@ -2126,6 +2479,7 @@ document.getElementById("form").addEventListener("submit", async function(e){
       campoRegimenFiscal.classList.add("hidden");
       facturaNotas.classList.add("hidden");
       nota_airbnb.classList.add("hidden");
+      syncFacturaVisibility();
       comprobanteTransferenciaWrap.classList.add("hidden");
       regimen_otro.classList.add("hidden");
       identificacionOtro.classList.add("hidden");
@@ -2135,7 +2489,7 @@ document.getElementById("form").addEventListener("submit", async function(e){
       vehiculoMarcaOtro.classList.add("hidden");
 
       const container = document.getElementById("huespedes-container");
-      container.innerHTML = `<div class="huesped-row">
+      container.innerHTML = `<div class="huesped-row" style="position:relative;">
         <div style="flex:1;">
           <input type="text" name="huesped[]" placeholder="Huésped 1">
           <label class="copiar-reservante-wrap" style="font-weight:normal; margin-top:8px; display:flex; align-items:center; gap:8px;">
@@ -2165,6 +2519,11 @@ document.getElementById("form").addEventListener("submit", async function(e){
       formatCurrencyPreview();
       loadLadas("lada1");
       loadLadas("lada2");
+      guestLookupLastMatchedPhone = "";
+      setGuestAutofillMessage("", "");
+
+      tipoRegistroInput.value = "nuevo";
+      if (formularioPrincipal) formularioPrincipal.classList.add("visible");
 
     } else {
       cerrarVentanaEnvio();
@@ -2188,6 +2547,9 @@ document.getElementById("form").addEventListener("submit", async function(e){
 const I18N = {
   es: {
     title: "Registro de huéspedes",
+    phoneLookupTitle: "Número de celular",
+    phoneLookupSub: "Escribe tu número para buscar si ya existe un registro previo y completar automáticamente algunos datos.",
+    guestPhoneNumber: "Número de celular",
     sec1Title: "Datos de la reservación",
     sec1Sub: "",
     sec2Title: "Identificación y estancia",
@@ -2280,6 +2642,9 @@ const I18N = {
   },
   en: {
     title: "Guest registration",
+    phoneLookupTitle: "Mobile number",
+    phoneLookupSub: "Enter your number to check whether a previous guest record exists and auto-fill some fields.",
+    guestPhoneNumber: "Mobile number",
     sec1Title: "Reservation details",
     sec1Sub: "Información general de la estancia y de la persona que realizó la reservación.",
     sec2Title: "Identification and stay",
@@ -2522,6 +2887,10 @@ function applyTranslations(lang){
   if (langNote) langNote.textContent = t.chooseLanguage;
 document.documentElement.lang = lang;
   window.currentLang = lang;
+  if (typeof actualizarNotasFacturaPorIdioma === "function") actualizarNotasFacturaPorIdioma(lang);
+  if (guestAutofillStatus && !guestAutofillStatus.classList.contains("hidden")) {
+    detectExistingGuestByPhone();
+  }
 }
 
 applyTranslations(window.currentLang || "es");
@@ -2537,6 +2906,9 @@ const SIMPLE_I18N = {
     optionRegisteredTitle:"Huésped ya registrado",
     optionRegisteredText:"Si ya subiste tu identificación personal",
     title:"Registro de huéspedes",
+    phoneLookupTitle:"Número de celular",
+    phoneLookupSub:"Escribe tu número para buscar si ya existe un registro previo y completar automáticamente algunos datos.",
+    guestPhoneNumber:"Número de celular",
     sec1Title:"Datos de la reservación",
     sec1Sub:"",
     sec2Title:"Identificación y estancia",
@@ -2596,6 +2968,9 @@ const SIMPLE_I18N = {
     optionRegisteredTitle:"Already registered guest",
     optionRegisteredText:"If you have already uploaded your personal ID",
     title:"Guest registration",
+    phoneLookupTitle:"Mobile number",
+    phoneLookupSub:"Enter your number to check whether a previous guest record exists and auto-fill some fields.",
+    guestPhoneNumber:"Mobile number",
     sec1Title:"Reservation details",
     sec1Sub:"",
     sec2Title:"Identification and stay",
@@ -3405,6 +3780,12 @@ function hidePasswordModal(){
 }
 
 function openDashboardAfterUnlock(){
+  const dashboardBtn = document.getElementById("menuControlBtn");
+  if (dashboardBtn) {
+    dashboardBtn.click();
+    return;
+  }
+
   if (typeof activarVista === "function") {
     activarVista("dashboard");
   }
